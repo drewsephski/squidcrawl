@@ -17,6 +17,7 @@ import { anthropic } from '@ai-sdk/anthropic';
 import { google } from '@ai-sdk/google';
 import { perplexity } from '@ai-sdk/perplexity';
 import { LanguageModelV1 } from 'ai';
+import { OPENROUTER_CONFIG } from './openrouter-provider';
 
 export interface ProviderModel {
   id: string;
@@ -54,10 +55,11 @@ export interface ProviderConfig {
  * Even if enabled, the provider must have a valid API key to be used
  */
 export const PROVIDER_ENABLED_CONFIG: Record<string, boolean> = {
-  openai: true,      // OpenAI is enabled
-  anthropic: true,   // Anthropic is enabled
+  openrouter: true,  // OpenRouter is enabled (provides 300+ models via elephant-alpha)
+  openai: false,     // Disabled - using OpenRouter instead
+  anthropic: false,  // Disabled - using OpenRouter instead
   google: false,     // Google is disabled
-  perplexity: true,  // Perplexity is enabled
+  perplexity: false, // Disabled - using OpenRouter instead
 };
 
 /**
@@ -135,8 +137,8 @@ export const PROVIDER_CONFIGS: Record<string, ProviderConfig> = {
         supportsWebSearch: false,
       },
       {
-        id: 'claude-3-5-sonnet-20241022',
-        name: 'Claude 3.5 Sonnet',
+        id: 'claude-3-7-sonnet-20250219',
+        name: 'Claude 3.7 Sonnet',
         maxTokens: 200000,
         supportsFunctionCalling: true,
         supportsStructuredOutput: true,
@@ -253,6 +255,8 @@ export const PROVIDER_CONFIGS: Record<string, ProviderConfig> = {
     },
     isConfigured: () => !!process.env.PERPLEXITY_API_KEY,
   },
+  // OpenRouter provides unified access to 300+ models
+  openrouter: OPENROUTER_CONFIG,
 };
 
 /**

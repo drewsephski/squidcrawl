@@ -1,8 +1,7 @@
 import { generateText, generateObject } from 'ai';
 import { z } from 'zod';
-import { Company, BrandPrompt, AIResponse, CompanyRanking, CompetitorRanking, ProviderSpecificRanking, ProviderComparisonData, ProgressCallback, CompetitorFoundData } from './types';
-import { getProviderModel, normalizeProviderName, isProviderConfigured, getProviderConfig, PROVIDER_CONFIGS } from './provider-config';
-import { analyzeWithAnthropicWebSearch } from './anthropic-web-search';
+import { AIResponse } from './types';
+import { getProviderModel, normalizeProviderName, getProviderConfig } from './provider-config';
 
 const RankingSchema = z.object({
   rankings: z.array(z.object({
@@ -47,9 +46,9 @@ export async function analyzePromptWithProviderEnhanced(
   const generateConfig: any = {};
   
   // Handle provider-specific web search configurations
-  if (normalizedProvider === 'openai' && useWebSearch) {
-    // Use OpenAI's web search via responses API
-    model = getProviderModel('openai', 'gpt-4o-mini', { useWebSearch: true });
+  if (normalizedProvider === 'openrouter' && useWebSearch) {
+    // Use OpenRouter's web search
+    model = getProviderModel('openrouter', 'openrouter/free', { useWebSearch: true });
     // Note: Web search tools configuration would need to be handled by the provider's getModel implementation
   } else {
     // Get model with web search options if supported
@@ -105,7 +104,7 @@ Be very thorough in detecting company names - they might appear in different con
     let object;
     try {
       // Use a fast model for structured output
-      const analysisModel = getProviderModel('openai', 'gpt-4o-mini');
+      const analysisModel = getProviderModel('openrouter', 'openrouter/free');
       if (!analysisModel) {
         throw new Error('Analysis model not available');
       }

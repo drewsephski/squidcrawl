@@ -96,9 +96,9 @@ export function ProviderComparisonMatrix({ data, brandName, competitors }: Provi
   
   if (!data || data.length === 0) {
     return (
-      <div className="text-center py-12 bg-gray-50 rounded-lg">
-        <p className="text-gray-600 text-lg mb-2">No comparison data available</p>
-        <p className="text-gray-500 text-sm">The analysis may still be processing or no providers returned data.</p>
+      <div className="text-center py-16 bg-gradient-to-b from-gray-100 to-gray-50 rounded-xl border-2 border-gray-200">
+        <p className="text-gray-800 text-xl font-bold mb-3">No comparison data available</p>
+        <p className="text-gray-600 text-base">The analysis may still be processing or no providers returned data.</p>
       </div>
     );
   }
@@ -127,12 +127,13 @@ export function ProviderComparisonMatrix({ data, brandName, competitors }: Provi
   //   });
   // });
   
-  // Get background style based on score
+  // Get background style based on score - BOLDER with stronger colors
   const getBackgroundStyle = (score: number) => {
-    const opacity = Math.pow(score / 100, 0.5);
+    // More aggressive opacity curve for dramatic effect
+    const opacity = score > 0 ? 0.15 + (score / 100) * 0.55 : 0;
     return {
       backgroundColor: `rgba(251, 146, 60, ${opacity})`,
-      border: score > 0 ? '1px solid rgb(251, 146, 60)' : undefined
+      border: score > 0 ? '2px solid rgb(251, 146, 60)' : '1px solid rgba(251, 146, 60, 0.2)'
     };
   };
 
@@ -178,14 +179,14 @@ export function ProviderComparisonMatrix({ data, brandName, competitors }: Provi
   if (providers.length === 0) return null;
   
   return (
-    <div className="overflow-x-auto rounded-lg border border-gray-200">
-      <table className="w-full border-collapse">
+    <div className="overflow-x-auto rounded-xl border-2 border-gray-200 shadow-lg shadow-black/5">
+      <table className="w-full border-collapse bg-white">
         <thead>
           <tr>
-            <th className="bg-gray-50 border-b border-r border-gray-200 w-[180px]">
+            <th className="bg-gradient-to-b from-gray-100 to-gray-50 border-b-2 border-r border-gray-200 w-[200px]">
               <button 
                 onClick={() => handleSort('competitor')} 
-                className="w-full p-3 font-medium text-gray-900 flex items-center justify-between hover:bg-gray-100 transition-colors text-left"
+                className="w-full p-4 font-bold text-gray-900 text-base flex items-center justify-between hover:bg-gray-200/50 transition-colors text-left"
               >
                 Competitors
                 {getSortIcon('competitor')}
@@ -194,15 +195,15 @@ export function ProviderComparisonMatrix({ data, brandName, competitors }: Provi
             {providers.map((provider, index) => (
               <th 
                 key={provider}
-                className={`bg-gray-50 border-b ${
+                className={`bg-gradient-to-b from-gray-100 to-gray-50 border-b-2 ${
                   index < providers.length - 1 ? 'border-r' : ''
                 } border-gray-200`}
               >
                 <button
                   onClick={() => handleSort(provider)}
-                  className="w-full p-3 font-medium text-gray-900 flex items-center justify-center hover:bg-gray-100 transition-colors"
+                  className="w-full p-4 font-bold text-gray-900 flex items-center justify-center hover:bg-gray-200/50 transition-colors"
                 >
-                  <div className="flex items-center justify-center gap-2">
+                  <div className="flex items-center justify-center gap-3">
                     {getProviderIcon(provider)}
                     {getSortIcon(provider)}
                   </div>
@@ -223,7 +224,7 @@ export function ProviderComparisonMatrix({ data, brandName, competitors }: Provi
             
             return (
               <tr key={competitor.competitor} className={rowIndex > 0 ? 'border-t border-gray-200' : ''}>
-                <td className="border-r border-gray-200 bg-white">
+                <td className="border-r-2 border-gray-200 bg-white hover:bg-gray-50/50 transition-colors">
                   <CompetitorCell 
                     name={competitor.competitor}
                     isOwn={competitor.isOwn}
@@ -239,11 +240,11 @@ export function ProviderComparisonMatrix({ data, brandName, competitors }: Provi
                     <td 
                       key={provider} 
                       className={`text-center p-3 ${
-                        index < providers.length - 1 ? 'border-r border-gray-200' : ''
+                        index < providers.length - 1 ? 'border-r-2 border-gray-200' : ''
                       }`}
                       style={getBackgroundStyle(score)}
                     >
-                      <span className="text-orange-900 font-medium text-xs">
+                      <span className={`font-bold ${score >= 50 ? 'text-orange-950' : score > 0 ? 'text-orange-800' : 'text-gray-400'} text-lg tracking-tight`}>
                         {score}%
                       </span>
                     </td>

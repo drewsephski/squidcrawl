@@ -1,63 +1,131 @@
-import React from 'react';
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Sparkles, Type, Loader2, Lightbulb } from 'lucide-react';
 
 interface AddPromptModalProps {
   isOpen: boolean;
   promptText: string;
-  onPromptTextChange: (text: string) => void;
+  onPromptChange: (text: string) => void;
   onAdd: () => void;
   onClose: () => void;
+  isAnalyzing?: boolean;
 }
 
 export function AddPromptModal({
   isOpen,
   promptText,
-  onPromptTextChange,
+  onPromptChange,
   onAdd,
-  onClose
+  onClose,
+  isAnalyzing = false,
 }: AddPromptModalProps) {
-  if (!isOpen) return null;
-  
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey && promptText.trim()) {
+    if (e.key === 'Enter' && !e.shiftKey && promptText.trim() && !isAnalyzing) {
       e.preventDefault();
       onAdd();
     }
   };
-  
+
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 animate-fade-in">
-      <div className="bg-white rounded-xl shadow-xl max-w-lg w-full mx-4 animate-fade-in">
-        <div className="p-6">
-          <h3 className="text-lg font-semibold mb-4">Add Custom Prompt</h3>
-          <p className="text-sm text-gray-600 mb-4">
-            Enter a prompt that AI models will answer about your industry.
-          </p>
-          <textarea
-            value={promptText}
-            onChange={(e) => onPromptTextChange(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Example: What is the best AI scraper?"
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-none"
-            rows={3}
-            autoFocus
-          />
-          <div className="flex gap-3 mt-6">
-            <button
-              onClick={onAdd}
-              disabled={!promptText.trim()}
-              className="flex-1 h-10 px-4 rounded-[10px] text-sm font-medium transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50 bg-orange-500 text-white hover:bg-orange-300 dark:bg-orange-500 dark:hover:bg-orange-300 dark:text-white [box-shadow:inset_0px_-2.108433723449707px_0px_0px_#c2410c,_0px_1.2048193216323853px_6.325301647186279px_0px_rgba(234,_88,_12,_58%)] hover:translate-y-[1px] hover:scale-[0.98] hover:[box-shadow:inset_0px_-1px_0px_0px_#c2410c,_0px_1px_3px_0px_rgba(234,_88,_12,_40%)] active:translate-y-[2px] active:scale-[0.97] active:[box-shadow:inset_0px_1px_1px_0px_#c2410c,_0px_1px_2px_0px_rgba(234,_88,_12,_30%)] disabled:shadow-none disabled:hover:translate-y-0 disabled:hover:scale-100"
-            >
-              Add Prompt
-            </button>
-            <button
-              onClick={onClose}
-              className="px-4 h-10 rounded-[10px] text-sm font-medium transition-all duration-200 bg-[#36322F] text-[#fff] hover:bg-[#4a4542] [box-shadow:inset_0px_-2.108433723449707px_0px_0px_#171310,_0px_1.2048193216323853px_6.325301647186279px_0px_rgba(58,_33,_8,_58%)] hover:translate-y-[1px] hover:scale-[0.98] hover:[box-shadow:inset_0px_-1px_0px_0px_#171310,_0px_1px_3px_0px_rgba(58,_33,_8,_40%)] active:translate-y-[2px] active:scale-[0.97] active:[box-shadow:inset_0px_1px_1px_0px_#171310,_0px_1px_2px_0px_rgba(58,_33,_8,_30%)]"
-            >
-              Cancel
-            </button>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className={`bg-[#12121a] border-[#2a2a3a] text-[#fafafa] sm:max-w-lg overflow-hidden shadow-2xl shadow-black/50 transition-all duration-500 ${
+        mounted ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
+      }`}>
+        {/* Top accent line with animation */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#22d3ee] via-[#6366f1] to-[#22d3ee]" />
+
+        {/* Background glow */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-[#6366f1]/10 blur-3xl rounded-full -translate-y-1/2 translate-x-1/2" />
+
+        <DialogHeader className="pb-4 relative">
+          <div className="flex items-center gap-4">
+            <div className="relative">
+              <div className="absolute inset-0 bg-[#22d3ee]/30 blur-xl rounded-xl" />
+              <div className="relative w-12 h-12 rounded-xl bg-gradient-to-br from-[#22d3ee] to-[#6366f1] flex items-center justify-center shadow-lg shadow-[#22d3ee]/30">
+                <Lightbulb className="w-6 h-6 text-white" />
+              </div>
+            </div>
+            <div>
+              <DialogTitle className="text-xl font-bold text-[#fafafa]">
+                Add Custom Prompt
+              </DialogTitle>
+              <DialogDescription className="text-sm text-[#a1a1aa] mt-1">
+                Enter a custom prompt to analyze how AI models respond
+              </DialogDescription>
+            </div>
+          </div>
+        </DialogHeader>
+
+        <div className="py-4 relative">
+          {/* Prompt input */}
+          <div className="relative group">
+            <div className={`absolute -inset-0.5 bg-gradient-to-r from-[#6366f1] to-[#22d3ee] rounded-xl opacity-0 blur transition-opacity duration-300 ${promptText ? 'opacity-30' : 'group-hover:opacity-20'}`} />
+            <div className="relative">
+              <div className="absolute left-3 top-3">
+                <Type className="w-5 h-5 text-[#6366f1]" />
+              </div>
+              <textarea
+                value={promptText}
+                onChange={(e) => onPromptChange(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="e.g., What are the best tools for...?"
+                className="w-full pl-11 pr-4 py-3 bg-[#0a0a0f] border border-[#2a2a3a] rounded-xl text-[#fafafa] placeholder:text-[#52525b] focus:outline-none focus:ring-2 focus:ring-[#6366f1]/50 focus:border-[#6366f1] transition-all min-h-[120px] resize-none"
+                autoFocus
+              />
+            </div>
+          </div>
+          <div className="flex items-center gap-2 mt-3">
+            <div className="w-1.5 h-1.5 rounded-full bg-[#22d3ee]" />
+            <p className="text-xs text-[#71717a]">
+              Press <kbd className="px-1.5 py-0.5 rounded bg-[#2a2a3a] text-[#a1a1aa] font-mono">Enter</kbd> to add, <kbd className="px-1.5 py-0.5 rounded bg-[#2a2a3a] text-[#a1a1aa] font-mono">Shift+Enter</kbd> for new line
+            </p>
           </div>
         </div>
-      </div>
-    </div>
+
+        <DialogFooter className="flex flex-col-reverse sm:flex-row gap-3 pt-4 border-t border-[#2a2a3a] relative">
+          <Button
+            variant="outline"
+            onClick={onClose}
+            disabled={isAnalyzing}
+            className="h-11 bg-transparent border-[#2a2a3a] text-[#a1a1aa] hover:bg-[#1a1a25] hover:text-[#fafafa] hover:border-[#3f3f46] transition-all duration-300"
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={onAdd}
+            disabled={!promptText.trim() || isAnalyzing}
+            className="group h-11 bg-gradient-to-r from-[#6366f1] via-[#4f46e5] to-[#6366f1] bg-[length:200%_100%] text-white shadow-[0_0_20px_rgba(99,102,241,0.3)] hover:shadow-[0_0_30px_rgba(99,102,241,0.5)] hover:bg-[position:100%_0] disabled:opacity-50 transition-all duration-500"
+          >
+            {isAnalyzing ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Adding...
+              </>
+            ) : (
+              <>
+                <Sparkles className="w-4 h-4 mr-2 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12" />
+                Add Prompt
+              </>
+            )}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

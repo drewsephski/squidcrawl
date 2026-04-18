@@ -49,6 +49,32 @@ export interface BrandVisibilityReport {
   analyzedAt: Date;
 }
 
+export interface ScrapedCompetitor {
+  name: string;
+  url?: string | null;
+  evidence?: string | null;
+  metadata?: {
+    ogImage?: string;
+    favicon?: string;
+    description?: string;
+  };
+}
+
+export interface RankedBrand {
+  rank: number;
+  name: string;
+  marketPosition?: string;
+  strengths?: string[];
+  estimatedMarketShare?: string;
+}
+
+export interface MarketLandscape {
+  totalAddressableMarket?: string;
+  keyTrends?: string[];
+  marketMaturity?: 'emerging' | 'growing' | 'mature' | 'consolidated';
+  competitiveIntensity?: 'high' | 'medium' | 'low';
+}
+
 export interface Company {
   id: string;
   name: string;
@@ -64,9 +90,26 @@ export interface Company {
     keywords: string[];
     mainContent: string;
     mainProducts?: string[];
-    competitors?: string[];
+    competitors?: string[] | ScrapedCompetitor[];
+    rankedBrandsInNiche?: RankedBrand[];
+    marketLandscape?: MarketLandscape | null;
     ogImage?: string;
     favicon?: string;
+    screenshot?: string;
+    socialLinks?: {
+      twitter?: string | null;
+      linkedin?: string | null;
+      github?: string | null;
+      facebook?: string | null;
+      instagram?: string | null;
+    } | null;
+    founded?: string | null;
+    headquarters?: string | null;
+    employees?: string | null;
+    pricing?: string | Record<string, unknown> | null;
+    useCases?: string[];
+    targetAudience?: string | null;
+    differentiators?: string[];
   };
 }
 

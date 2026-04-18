@@ -1,11 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { useSession, signOut } from '@/lib/auth-client';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useCustomer } from '@/hooks/useAutumnCustomer';
+import { Zap } from 'lucide-react';
+import { TentacleLogo } from '@/components/tentacle-logo';
+import { Button } from './ui/button';
 
 // Separate component that only renders when Autumn is available
 function UserCredits() {
@@ -14,9 +16,10 @@ function UserCredits() {
   const remainingMessages = messageUsage ? (messageUsage.balance || 0) : 0;
   
   return (
-    <div className="flex items-center text-sm font-medium text-gray-700">
-      <span>{remainingMessages}</span>
-      <span className="ml-1">credits</span>
+    <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#12121a] border border-[#2a2a3a]">
+      <div className="w-1.5 h-1.5 rounded-full bg-[#22d3ee] animate-pulse" />
+      <span className="text-sm font-mono text-[#a1a1aa]">{remainingMessages}</span>
+      <span className="text-xs text-[#71717a]">credits</span>
     </div>
   );
 }
@@ -30,7 +33,6 @@ export function Navbar() {
     setIsLoggingOut(true);
     try {
       await signOut();
-      // Small delay to ensure the session is cleared
       setTimeout(() => {
         router.refresh();
         setIsLoggingOut(false);
@@ -42,84 +44,79 @@ export function Navbar() {
   };
 
   return (
-    <nav className="bg-white shadow-sm border-b">
+    <nav className="sticky top-0 z-50 bg-[#0a0a0f]/90 backdrop-blur-xl border-b border-[#2a2a3a]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
+        <div className="flex justify-between h-16 items-center">
+          {/* Logo */}
           <div className="flex items-center">
-            <Link href="/" className="flex items-center">
-              <Image
-                src="/firecrawl-logo-with-fire.webp"
-                alt="Firecrawl"
-                width={120}
-                height={25}
-                priority
-              />
+            <Link href="/" className="flex items-center gap-3 group">
+              <div className="relative w-8 h-8 flex items-center justify-center">
+                <TentacleLogo className="w-7 h-7 text-[#22d3ee] transition-all duration-300 group-hover:text-[#67e8f9]" />
+                <div className="absolute inset-0 bg-[#22d3ee]/10 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xl font-semibold tracking-tight text-[#fafafa] font-sans">
+                  Squid<span className="text-[#22d3ee]">Crawl</span>
+                </span>
+                <span className="text-[10px] text-[#71717a] -mt-0.5 tracking-widest uppercase font-medium">AI Web Intelligence</span>
+              </div>
             </Link>
           </div>
 
-          <div className="flex items-center space-x-4">
+          {/* Navigation */}
+          <div className="flex items-center gap-1">
             {session && (
               <>
-                <Link
-                  href="/chat"
-                  className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
-                >
-                  Basic Chat
-                </Link>
-                <Link
-                  href="/brand-monitor"
-                  className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
-                >
-                  Brand Monitor
-                </Link>
+                <NavLink href="/chat">Chat</NavLink>
+                <NavLink href="/brand-monitor">Monitor</NavLink>
               </>
             )}
-            <Link
-              href="/plans"
-              className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
-            >
-              Plans
-            </Link>
-            {session && (
-              <UserCredits />
-            )}
+            <NavLink href="/plans">Pricing</NavLink>
+            
+            {session && <div className="mx-3"><UserCredits /></div>}
+            
+            <div className="h-5 w-px bg-[#2a2a3a] mx-2" />
+            
             {isPending ? (
-              <div className="text-sm text-gray-400">Loading...</div>
+              <div className="w-20 h-9 rounded-lg bg-[#1a1a25] animate-pulse" />
             ) : session ? (
-              <>
-                <Link
-                  href="/dashboard"
-                  className="btn-firecrawl-orange inline-flex items-center justify-center whitespace-nowrap rounded-[10px] text-sm font-medium transition-all duration-200 h-8 px-3"
-                >
-                  Dashboard
-                </Link>
+              <div className="flex items-center gap-2">
+                <Button variant="indigo" size="sm" asChild>
+                  <Link href="/dashboard">Dashboard</Link>
+                </Button>
                 <button
                   onClick={handleLogout}
                   disabled={isLoggingOut}
-                  className="btn-firecrawl-default inline-flex items-center justify-center whitespace-nowrap rounded-[10px] text-sm font-medium transition-all duration-200 disabled:pointer-events-none disabled:opacity-50 h-8 px-3"
+                  className="px-4 py-2 text-sm font-medium text-[#a1a1aa] hover:text-[#fafafa] hover:bg-[#1a1a25] rounded-lg transition-all duration-200 disabled:opacity-50"
                 >
-                  {isLoggingOut ? 'Logging out...' : 'Logout'}
+                  {isLoggingOut ? '...' : 'Logout'}
                 </button>
-              </>
+              </div>
             ) : (
-              <>
-                <Link 
-                  href="/login"
-                  className="bg-black text-white hover:bg-gray-800 inline-flex items-center justify-center whitespace-nowrap rounded-[10px] text-sm font-medium transition-all duration-200 h-8 px-3 shadow-sm hover:shadow-md"
-                >
-                  Login
-                </Link>
-                <Link 
-                  href="/register"
-                  className="btn-firecrawl-orange inline-flex items-center justify-center whitespace-nowrap rounded-[10px] text-sm font-medium transition-all duration-200 h-8 px-3"
-                >
-                  Register
-                </Link>
-              </>
+              <div className="flex items-center gap-2">
+                <Button variant="ghost" size="sm" asChild>
+                  <Link href="/login">Sign In</Link>
+                </Button>
+                <Button variant="indigo" size="sm" asChild>
+                  <Link href="/register">Get Started</Link>
+                </Button>
+              </div>
             )}
           </div>
         </div>
       </div>
+
     </nav>
+  );
+}
+
+function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <Link
+      href={href}
+      className="px-3 py-2 text-sm font-medium text-[#71717a] hover:text-[#fafafa] rounded-lg hover:bg-[#1a1a25] transition-all duration-200"
+    >
+      {children}
+    </Link>
   );
 }

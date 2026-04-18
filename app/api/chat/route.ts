@@ -20,9 +20,11 @@ import {
   ROLE_ASSISTANT,
   UI_LIMITS
 } from '@/config/constants';
+import { getOpenRouterClient } from '@/lib/openrouter-provider';
+import * as errors from '@openrouter/sdk/models/errors';
 
 const autumn = new Autumn({
-  apiKey: process.env.AUTUMN_SECRET_KEY!,
+  secretKey: process.env.AUTUMN_SECRET_KEY!,
 });
 
 export async function POST(request: NextRequest) {
@@ -82,7 +84,7 @@ export async function POST(request: NextRequest) {
       await autumn.track({
         customer_id: sessionResponse.user.id,
         feature_id: FEATURE_ID_MESSAGES,
-        count: CREDITS_PER_MESSAGE,
+        value: CREDITS_PER_MESSAGE,
       });
     } catch (err) {
       console.error('Failed to track usage:', err);
@@ -136,16 +138,67 @@ export async function POST(request: NextRequest) {
       })
       .returning();
 
-    // Simple mock AI response
-    const responses = [
-      "I understand you're asking about " + message.substring(0, 20) + ". Here's what I think...",
-      "That's an interesting question! Let me help you with that.",
-      "Based on what you're saying, I can suggest the following approach...",
-      "Thanks for your message! Here's my response to your query.",
-      "I'm here to help! Regarding your question about " + message.substring(0, 15) + "...",
-    ];
-
-    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+    // Generate AI response using OpenRouter
+    let aiResponse: string;
+    
+    try {
+      const client = getOpenRouterClient();
+      
+      if (!client) {
+        throw new ExternalServiceError('AI service not configured. Please contact support.', 'openrouter');
+      }
+      
+      // Get conversation history for context (last 10 messages)
+      const conversationHistory = await db.query.messages.findMany({
+        where: eq(messages.conversationId, currentConversation.id),
+        orderBy: [messages.createdAt],
+        limit: 10,
+      });
+      
+      // Build messages array with history
+      const chatMessages = [
+        { 
+          role: 'system', 
+          content: 'You are a helpful AI assistant for FireGeo, a brand monitoring and competitive analysis platform. Be concise, professional, and helpful.' 
+        },
+        ...conversationHistory.map(msg => ({
+          role: msg.role as 'user' | 'assistant',
+          content: msg.content,
+        })),
+        { role: 'user', content: message },
+      ];
+      
+      // Call OpenRouter API
+      const response = await client.chat.send({
+        chatRequest: {
+          model: 'openrouter/elephant-alpha',
+          messages: chatMessages as any,
+          temperature: 0.7,
+          maxTokens: 1000,
+        }
+      });
+      
+      aiResponse = response.choices?.[0]?.message?.content || 
+        'I apologize, but I was unable to generate a response. Please try again.';
+      
+    } catch (err) {
+      console.error('OpenRouter API error:', err);
+      
+      // Handle specific OpenRouter errors
+      if (err instanceof errors.BadRequestResponseError) {
+        throw new ExternalServiceError('Invalid request to AI service', 'openrouter');
+      } else if (err instanceof errors.UnauthorizedResponseError) {
+        throw new ExternalServiceError('AI service authentication failed', 'openrouter');
+      } else if (err instanceof errors.TooManyRequestsResponseError) {
+        throw new ExternalServiceError('AI service is currently busy. Please try again shortly.', 'openrouter');
+      } else if (err instanceof errors.InternalServerResponseError) {
+        throw new ExternalServiceError('AI service is experiencing issues. Please try again.', 'openrouter');
+      } else if (err instanceof ExternalServiceError) {
+        throw err;
+      }
+      
+      throw new ExternalServiceError('Failed to generate AI response. Please try again.', 'openrouter');
+    }
 
     // Store AI response
     const [aiMessage] = await db
@@ -154,8 +207,8 @@ export async function POST(request: NextRequest) {
         conversationId: currentConversation.id,
         userId: sessionResponse.user.id,
         role: ROLE_ASSISTANT,
-        content: randomResponse,
-        tokenCount: randomResponse.length, // Simple token count estimate
+        content: aiResponse,
+        tokenCount: aiResponse.length, // Simple token count estimate
       })
       .returning();
 
@@ -172,7 +225,7 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({
-      response: randomResponse,
+      response: aiResponse,
       remainingCredits,
       creditsUsed: CREDITS_PER_MESSAGE,
       conversationId: currentConversation.id,

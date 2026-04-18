@@ -32,9 +32,21 @@ export default function PricingTable({
     return <div> Something went wrong...</div>;
   }
 
+  // Map new Autumn v1.2.9 structure to expected format
+  const mappedProducts = products?.map((p: any) => ({
+    ...p,
+    properties: {
+      interval_group: p.price?.interval === 'year' ? 'year' : 'month',
+      is_free: !p.price || p.price.amount === 0,
+      ...p.properties,
+    },
+    scenario: p.customerEligibility?.status === 'active' ? 'active' : 
+              p.customerEligibility?.status === 'scheduled' ? 'scheduled' : 'available',
+  }));
+
   const intervals = Array.from(
     new Set(
-      products?.map((p) => p.properties?.interval_group).filter((i) => !!i)
+      mappedProducts?.map((p) => p.properties?.interval_group).filter((i) => !!i)
     )
   );
 
@@ -58,14 +70,14 @@ export default function PricingTable({
 
   return (
     <div className={cn("root")}>
-      {products && (
+      {mappedProducts && (
         <PricingTableContainer
-          products={products as any}
+          products={mappedProducts as any}
           isAnnualToggle={isAnnual}
           setIsAnnualToggle={setIsAnnual}
           multiInterval={multiInterval}
         >
-          {products.filter(intervalFilter).map((product, index) => (
+          {mappedProducts.filter(intervalFilter).map((product, index) => (
             <PricingCard
               key={index}
               productId={product.id}

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ChevronDown, ChevronsDown, ChevronsUp } from 'lucide-react';
+import { ChevronDown, ChevronsDown, ChevronsUp, Search, X, Sparkles, AlertCircle, CheckCircle2 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { BrandPrompt, AIResponse } from '@/lib/types';
 import { HighlightedResponse } from './highlighted-response';
@@ -13,6 +13,11 @@ interface PromptsResponsesTabProps {
   onToggleExpand: (index: number | null) => void;
   brandName: string;
   competitors: string[];
+}
+
+// Normalize prompt string for consistent matching
+function normalizePrompt(prompt: string): string {
+  return prompt.toLowerCase().trim().replace(/\s+/g, ' ');
 }
 
 // Provider icon mapping
@@ -68,6 +73,11 @@ export function PromptsResponsesTab({
 }: PromptsResponsesTabProps) {
   const [allExpanded, setAllExpanded] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   
   const handleExpandAll = () => {
     if (allExpanded) {
@@ -88,9 +98,10 @@ export function PromptsResponsesTab({
       
       const promptMatches = prompt.prompt.toLowerCase().includes(searchQuery.toLowerCase());
       
-      // Check if any response contains the search query
+      // Check if any response contains the search query (using normalized prompt matching)
+      const normalizedPromptStr = normalizePrompt(prompt.prompt);
       const promptResponses = responses?.filter(response => 
-        response.prompt === prompt.prompt
+        normalizePrompt(response.prompt) === normalizedPromptStr
       ) || [];
       
       const responseMatches = promptResponses.some(response => 
@@ -103,52 +114,50 @@ export function PromptsResponsesTab({
     .filter(idx => idx !== null);
   
   return (
-    <div className="space-y-2">
+    <div className={`space-y-4 transition-all duration-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
       {/* Search and Controls */}
       {prompts.length > 0 && (
-        <div className="flex items-center gap-4 mb-4">
+        <div className="flex items-center gap-4 mb-6">
           {/* Search Input */}
-          <div className="flex-1 relative">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search prompts and responses..."
-              className="w-full px-4 py-2 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm"
-            />
-            <svg 
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400"
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            )}
+          <div className="flex-1 relative group">
+            <div className={`absolute -inset-0.5 bg-gradient-to-r from-[#6366f1] to-[#22d3ee] rounded-xl opacity-0 blur transition-opacity duration-300 ${searchQuery ? 'opacity-30' : 'group-hover:opacity-20'}`} />
+            <div className="relative">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search prompts and responses..."
+                className="w-full px-4 py-3 pl-11 bg-[#12121a] border border-[#2a2a3a] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6366f1]/50 focus:border-[#6366f1] text-[#fafafa] placeholder-[#52525b] transition-all duration-300"
+              />
+              <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 w-5 h-5 text-[#6366f1]" />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 w-6 h-6 flex items-center justify-center rounded-full bg-[#2a2a3a] text-[#a1a1aa] hover:text-[#fafafa] hover:bg-[#3f3f46] transition-all duration-200"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
           </div>
-          
+
           {/* Expand/Collapse All Button */}
           <button
             onClick={handleExpandAll}
-            className="h-9 px-4 py-2 rounded-[10px] text-sm font-medium flex items-center gap-2 transition-all duration-200 bg-orange-500 text-white hover:bg-orange-600 [box-shadow:inset_0px_-2.108433723449707px_0px_0px_#c2410c,_0px_1.2048193216323853px_6.325301647186279px_0px_rgba(234,_88,_12,_58%)] hover:translate-y-[1px] hover:scale-[0.98] hover:[box-shadow:inset_0px_-1px_0px_0px_#c2410c,_0px_1px_3px_0px_rgba(234,_88,_12,_40%)] active:translate-y-[2px] active:scale-[0.97] active:[box-shadow:inset_0px_1px_1px_0px_#c2410c,_0px_1px_2px_0px_rgba(234,_88,_12,_30%)]"
+            className={`group h-11 px-5 rounded-xl text-sm font-semibold flex items-center gap-2 transition-all duration-300 ${
+              allExpanded
+                ? 'bg-gradient-to-r from-[#f59e0b] to-[#d97706] text-white shadow-lg shadow-[#f59e0b]/30 hover:shadow-[#f59e0b]/50'
+                : 'bg-gradient-to-r from-[#6366f1] to-[#4f46e5] text-white shadow-lg shadow-[#6366f1]/30 hover:shadow-[#6366f1]/50'
+            } hover:scale-[1.02]`}
           >
             {allExpanded ? (
               <>
-                <ChevronsUp className="h-4 w-4" />
+                <ChevronsUp className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5" />
                 Collapse All
               </>
             ) : (
               <>
-                <ChevronsDown className="h-4 w-4" />
+                <ChevronsDown className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" />
                 Expand All
               </>
             )}
@@ -160,9 +169,10 @@ export function PromptsResponsesTab({
         // Skip if filtered out
         if (!filteredPromptIndices.includes(idx)) return null;
         
-        // Find responses for this prompt
+        // Find responses for this prompt using normalized matching
+        const normalizedPromptStr = normalizePrompt(promptData.prompt);
         const promptResponses = responses?.filter(response => 
-          response.prompt === promptData.prompt
+          normalizePrompt(response.prompt) === normalizedPromptStr
         ) || [];
         
         // Check if any provider mentioned the brand
@@ -177,66 +187,87 @@ export function PromptsResponsesTab({
           <div
             key={idx}
             className={`
-              relative border rounded-lg transition-all duration-300
-              ${isExpanded 
-                ? 'border-orange-200 bg-white shadow-md' 
-                : 'border-gray-200 bg-white hover:border-orange-100 hover:shadow-sm'
+              group relative rounded-2xl border-2 transition-all duration-500 overflow-hidden
+              ${isExpanded
+                ? 'border-[#6366f1]/60 bg-[#12121a] shadow-[0_0_40px_rgba(99,102,241,0.15)]'
+                : 'border-[#2a2a3a] bg-[#12121a]/80 hover:border-[#6366f1]/40 hover:shadow-[0_0_30px_rgba(99,102,241,0.1)]'
               }
             `}
           >
+            {/* Top accent line */}
+            <div className={`absolute top-0 left-0 right-0 h-1 transition-all duration-500 ${
+              hasBrandMention
+                ? 'bg-gradient-to-r from-[#10b981] to-[#22d3ee]'
+                : 'bg-gradient-to-r from-[#6366f1] to-[#22d3ee]'
+            } ${isExpanded ? 'opacity-100' : 'opacity-60'}`} />
+
             {/* Tile Header - Compact single line */}
-            <div 
-              className="px-3 py-4 cursor-pointer select-none"
+            <div
+              className="relative px-6 py-5 cursor-pointer select-none"
               onClick={() => {
                 if (expandedPromptIndex === -1) {
-                  // If all are expanded, clicking one should collapse all and keep this one expanded
                   setAllExpanded(false);
                   onToggleExpand(idx);
                 } else {
-                  // Normal toggle behavior
                   onToggleExpand(isExpanded ? null : idx);
                 }
               }}
             >
-              <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center gap-2 flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 truncate">{promptData.prompt}</p>
+              {/* Background glow on hover */}
+              <div className={`absolute inset-0 bg-gradient-to-r from-[#6366f1]/5 to-transparent transition-opacity duration-500 ${isExpanded ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`} />
+
+              <div className="relative flex items-center justify-between gap-4">
+                <div className="flex items-center gap-4 flex-1 min-w-0">
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
+                    hasBrandMention
+                      ? 'bg-gradient-to-br from-[#10b981]/20 to-[#059669]/20 border border-[#10b981]/30'
+                      : 'bg-gradient-to-br from-[#6366f1]/20 to-[#4f46e5]/20 border border-[#6366f1]/30'
+                  }`}>
+                    <Sparkles className={`w-5 h-5 ${hasBrandMention ? 'text-[#10b981]' : 'text-[#6366f1]'}`} />
+                  </div>
+                  <p className="text-base font-bold text-[#fafafa] truncate">{promptData.prompt}</p>
                   {hasBrandMention && (
-                    <Badge variant="default" className="text-xs bg-green-100 text-green-800 shrink-0">
-                      Brand Mentioned
+                    <Badge className="text-xs border-0 bg-gradient-to-r from-[#10b981] to-[#22d3ee] text-white shrink-0 font-semibold shadow-lg shadow-[#10b981]/30">
+                      <CheckCircle2 className="w-3 h-3 mr-1" />
+                      Mentioned
                     </Badge>
                   )}
                 </div>
-                
-                {/* Provider icons preview - deduplicated and ordered */}
+
+                {/* Provider icons preview */}
                 <div className="flex items-center gap-2 shrink-0">
                   {['OpenAI', 'Anthropic', 'Google', 'Perplexity'].map((providerName) => {
                     const providerResponse = promptResponses.find(r => r.provider === providerName);
                     if (!providerResponse) return null;
-                    
-                    // Check if response failed (empty response text)
+
                     const isFailed = !providerResponse.response || providerResponse.response.trim().length === 0;
-                    
+
                     return (
                       <div key={providerName} className="relative flex items-center">
-                        <div className="w-6 h-6 flex items-center justify-center">
+                        <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-[#0a0a0f] border border-[#2a2a3a]">
                           {getProviderIcon(providerName)}
                         </div>
                         {isFailed ? (
-                          <div className="absolute -top-0.5 -right-0.5 w-3 h-3 flex items-center justify-center bg-red-500 rounded-full border border-white">
-                            <span className="text-white text-xs font-bold leading-none">×</span>
+                          <div className="absolute -top-0.5 -right-0.5 w-4 h-4 flex items-center justify-center bg-[#ef4444] rounded-full border-2 border-[#12121a]">
+                            <AlertCircle className="w-2.5 h-2.5 text-white" />
                           </div>
                         ) : providerResponse.brandMentioned ? (
-                          <div className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 bg-green-500 rounded-full border border-white" />
+                          <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-[#10b981] rounded-full border-2 border-[#12121a] shadow-lg shadow-[#10b981]/50" />
                         ) : null}
                       </div>
                     );
                   })}
                 </div>
-                
+
                 {/* Expand/Collapse indicator */}
-                <div className={`transition-transform duration-300 shrink-0 ${isExpanded ? 'rotate-180' : ''}`}>
-                  <ChevronDown className="h-4 w-4 text-gray-400" />
+                <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 ${
+                  isExpanded
+                    ? 'bg-[#6366f1]/20 rotate-180'
+                    : 'bg-[#2a2a3a] group-hover:bg-[#3f3f46]'
+                }`}>
+                  <ChevronDown className={`h-5 w-5 transition-colors duration-300 ${
+                    isExpanded ? 'text-[#6366f1]' : 'text-[#71717a] group-hover:text-[#a1a1aa]'
+                  }`} />
                 </div>
               </div>
             </div>
@@ -244,47 +275,63 @@ export function PromptsResponsesTab({
             {/* Expandable content */}
             <div
               className={`
-                overflow-hidden transition-all duration-300
+                overflow-hidden transition-all duration-500 ease-out
                 ${isExpanded ? 'max-h-[4000px] opacity-100' : 'max-h-0 opacity-0'}
               `}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="border-t border-gray-100 px-3 py-3">
+              <div className="border-t border-[#2a2a3a] px-6 py-5 bg-[#0a0a0f]/50">
                 {promptResponses.length > 0 ? (
-                  <div className="space-y-4">
-                    {['OpenAI', 'Anthropic', 'Google', 'Perplexity'].map((providerName) => {
+                  <div className="space-y-5">
+                    {['OpenAI', 'Anthropic', 'Google', 'Perplexity'].map((providerName, providerIdx) => {
                       const response = promptResponses.find(r => r.provider === providerName);
                       if (!response) return null;
-                      
-                      // Check if response failed (empty response text)
+
                       const isFailed = !response.response || response.response.trim().length === 0;
-                      
+
                       return (
-                      <div key={providerName} className="space-y-1">
-                        <div className="flex items-center gap-2">
-                          <div className="flex items-center gap-1">
+                      <div
+                        key={providerName}
+                        className="group/response space-y-3 animate-fade-in-up"
+                        style={{ animationDelay: `${providerIdx * 100}ms` }}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 ${
+                            isFailed
+                              ? 'bg-[#ef4444]/20 border border-[#ef4444]/30'
+                              : response.brandMentioned
+                              ? 'bg-[#10b981]/20 border border-[#10b981]/30'
+                              : 'bg-[#6366f1]/20 border border-[#6366f1]/30'
+                          }`}>
                             {getProviderIcon(response.provider)}
-                            <span className="font-medium text-sm text-gray-900">{response.provider}</span>
                           </div>
+                          <span className="font-bold text-base text-[#fafafa]">{response.provider}</span>
                           {isFailed ? (
-                            <Badge variant="destructive" className="text-xs bg-red-100 text-red-800">
-                              Failed ×
+                            <Badge className="text-xs border-0 bg-[#ef4444]/20 text-[#ef4444] font-semibold">
+                              <AlertCircle className="w-3 h-3 mr-1" />
+                              Failed
                             </Badge>
                           ) : response.brandMentioned ? (
-                            <Badge variant="default" className="text-xs bg-green-100 text-green-800">
-                              Brand Mentioned
+                            <Badge className="text-xs border-0 bg-gradient-to-r from-[#10b981] to-[#22d3ee] text-white font-semibold shadow-lg shadow-[#10b981]/30">
+                              <CheckCircle2 className="w-3 h-3 mr-1" />
+                              Mentioned
                             </Badge>
                           ) : null}
                           {response.brandPosition && response.brandPosition > 0 && (
-                            <Badge variant="outline" className="text-xs">
+                            <Badge variant="outline" className="text-xs border-[#6366f1]/40 text-[#6366f1] bg-[#6366f1]/10 font-semibold">
                               Position #{response.brandPosition}
                             </Badge>
                           )}
                         </div>
-                        <div className="bg-gray-50 rounded-md p-3 text-sm text-gray-700 select-text cursor-text">
+                        <div className={`relative rounded-xl p-4 text-sm select-text cursor-text transition-all duration-300 ${
+                          isFailed
+                            ? 'bg-[#ef4444]/10 border border-[#ef4444]/20'
+                            : 'bg-[#12121a] border border-[#2a2a3a] group-hover/response:border-[#3f3f46] group-hover/response:shadow-[0_0_20px_rgba(99,102,241,0.1)]'
+                        }`}>
                           {isFailed ? (
-                            <div className="text-red-600 italic">
-                              Response failed or returned empty content
+                            <div className="flex items-center gap-2 text-[#ef4444]">
+                              <AlertCircle className="w-4 h-4" />
+                              <span className="italic">Response failed or returned empty content</span>
                             </div>
                           ) : (
                             <HighlightedResponse
@@ -292,7 +339,7 @@ export function PromptsResponsesTab({
                               brandName={brandName}
                               competitors={competitors}
                               showHighlighting={true}
-                              highlightClassName="bg-green-100 text-green-900 px-0.5 rounded font-medium"
+                              highlightClassName="bg-[#6366f1]/30 text-[#fafafa] px-1.5 py-0.5 rounded font-semibold"
                               renderMarkdown={true}
                             />
                           )}
@@ -302,7 +349,12 @@ export function PromptsResponsesTab({
                     })}
                   </div>
                 ) : (
-                  <div className="text-gray-500 text-sm text-center py-4">No responses available for this prompt</div>
+                  <div className="flex flex-col items-center gap-3 py-8 text-[#71717a]">
+                    <div className="w-12 h-12 rounded-xl bg-[#2a2a3a] flex items-center justify-center">
+                      <Sparkles className="w-6 h-6 text-[#52525b]" />
+                    </div>
+                    <p className="text-sm font-medium">No responses available for this prompt</p>
+                  </div>
                 )}
               </div>
             </div>
@@ -312,9 +364,23 @@ export function PromptsResponsesTab({
       
       {/* No results message */}
       {searchQuery && filteredPromptIndices.length === 0 && (
-        <div className="text-center py-8 bg-gray-50 rounded-lg">
-          <p className="text-gray-600 mb-2">No results found for "{searchQuery}"</p>
-          <p className="text-gray-500 text-sm">Try searching for different keywords</p>
+        <div className="flex flex-col items-center gap-4 py-16 px-8 bg-[#12121a] rounded-2xl border-2 border-[#2a2a3a]">
+          <div className="relative">
+            <div className="absolute inset-0 bg-[#6366f1]/20 blur-xl rounded-full" />
+            <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-[#6366f1]/20 to-[#4f46e5]/20 border border-[#6366f1]/30 flex items-center justify-center">
+              <Search className="w-8 h-8 text-[#6366f1]" />
+            </div>
+          </div>
+          <div className="text-center">
+            <p className="text-[#fafafa] text-xl font-bold mb-2">No results found</p>
+            <p className="text-[#71717a]">Try searching for different keywords</p>
+          </div>
+          <button
+            onClick={() => setSearchQuery('')}
+            className="mt-2 px-5 py-2.5 rounded-xl bg-[#2a2a3a] text-[#a1a1aa] font-medium hover:bg-[#3f3f46] hover:text-[#fafafa] transition-all duration-300"
+          >
+            Clear search
+          </button>
         </div>
       )}
     </div>

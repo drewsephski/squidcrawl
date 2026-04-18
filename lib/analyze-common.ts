@@ -1,6 +1,7 @@
 import { AIResponse, AnalysisProgressData, Company, PartialResultData, ProgressData, PromptGeneratedData, ScoringProgressData, SSEEvent } from './types';
-import { generatePromptsForCompany, analyzePromptWithProvider, calculateBrandScores, analyzeCompetitors, identifyCompetitors, analyzeCompetitorsByProvider } from './ai-utils';
+import { generatePromptsForCompany, calculateBrandScores, analyzeCompetitors, identifyCompetitors, analyzeCompetitorsByProvider } from './ai-utils';
 import { analyzePromptWithProvider as analyzePromptWithProviderEnhanced } from './ai-utils-enhanced';
+import { analyzePromptAcrossProviders, analyzePromptWithOpenRouter, isOpenRouterConfigured } from './ai-utils-openrouter';
 import { getConfiguredProviders } from './provider-config';
 
 export interface AnalysisConfig {
@@ -190,29 +191,46 @@ export async function performAnalysis({
 
         try {
           // Debug log for each provider attempt
-          console.log(`Attempting analysis with provider: ${provider.name} for prompt: "${prompt.prompt.substring(0, 50)}..."`);
+          console.log(`Attempting analysis with provider: ${provider.name} (id: ${provider.id}) for prompt: "${prompt.prompt.substring(0, 50)}..."`);
           
-          // Choose the appropriate analysis function based on useWebSearch
-          const analyzeFunction = useWebSearch ? analyzePromptWithProviderEnhanced : analyzePromptWithProvider;
+          let batchResponses: AIResponse[] = [];
           
-          const response = await analyzeFunction(
-            prompt.prompt, 
-            provider.name, 
-            company.name, 
-            competitors,
-            useMockMode,
-            ...(useWebSearch ? [true] : []) // Pass web search flag only for enhanced version
-          );
+          // Use OpenRouter SDK when OpenRouter is the provider
+          if (provider.id === 'openrouter' || provider.name === 'OpenRouter') {
+            console.log(`[Analysis] Using OpenRouter multi-provider analysis`);
+            // Get responses from multiple provider models through OpenRouter
+            batchResponses = await analyzePromptAcrossProviders(
+              prompt.prompt,
+              company.name,
+              competitors,
+              useMockMode,
+              useWebSearch
+            );
+          } else {
+            // Use legacy AI SDK for other providers (fallback)
+            const singleResponse = await analyzePromptWithOpenRouter(
+              prompt.prompt, 
+              company.name, 
+              competitors,
+              useMockMode,
+              useWebSearch,
+              provider.name
+            );
+            
+            if (singleResponse) {
+              batchResponses = [singleResponse];
+            }
+          }
           
           console.log(`Analysis completed for ${provider.name}:`, {
-            hasResponse: !!response,
-            provider: response?.provider,
-            brandMentioned: response?.brandMentioned
+            responseCount: batchResponses.length,
+            providers: batchResponses.map(r => r.provider),
+            brandMentioned: batchResponses.some(r => r.brandMentioned)
           });
           
-          // Skip if provider returned null (not configured)
-          if (response === null) {
-            console.log(`Skipping ${provider.name} - not configured`);
+          // Skip if no responses returned
+          if (batchResponses.length === 0) {
+            console.log(`Skipping ${provider.name} - no responses returned`);
             
             // Send analysis complete event with skipped status
             await sendEvent({
@@ -238,41 +256,44 @@ export async function performAnalysis({
             await new Promise(resolve => setTimeout(resolve, Math.random() * 1000 + 500));
           }
           
-          responses.push(response);
-
-          // Send partial result
-          await sendEvent({
-            type: 'partial-result',
-            stage: 'analyzing-prompts',
-            data: {
-              provider: provider.name,
-              prompt: prompt.prompt,
-              response: {
+          // Add all responses from different provider models
+          responses.push(...batchResponses);
+          
+          // Send individual events for each provider that responded
+          for (const response of batchResponses) {
+            // Send partial result
+            await sendEvent({
+              type: 'partial-result',
+              stage: 'analyzing-prompts',
+              data: {
                 provider: response.provider,
-                brandMentioned: response.brandMentioned,
-                brandPosition: response.brandPosition,
-                sentiment: response.sentiment
-              }
-            } as PartialResultData,
-            timestamp: new Date()
-          });
+                prompt: prompt.prompt,
+                response: {
+                  provider: response.provider,
+                  brandMentioned: response.brandMentioned,
+                  brandPosition: response.brandPosition,
+                  sentiment: response.sentiment
+                }
+              } as PartialResultData,
+              timestamp: new Date()
+            });
 
-          // Send analysis complete event
-          await sendEvent({
-            type: 'analysis-complete',
-            stage: 'analyzing-prompts',
-            data: {
-              provider: provider.name,
-              prompt: prompt.prompt,
-              promptIndex: promptIndex + 1,
-              totalPrompts: analysisPrompts.length,
-              providerIndex: 0,
-              totalProviders: availableProviders.length,
-              status: 'completed'
-            } as AnalysisProgressData,
-            timestamp: new Date()
-          });
-
+            // Send analysis complete event
+            await sendEvent({
+              type: 'analysis-complete',
+              stage: 'analyzing-prompts',
+              data: {
+                provider: response.provider,
+                prompt: prompt.prompt,
+                promptIndex: promptIndex + 1,
+                totalPrompts: analysisPrompts.length,
+                providerIndex: 0,
+                totalProviders: availableProviders.length,
+                status: 'completed'
+              } as AnalysisProgressData,
+              timestamp: new Date()
+            });
+          }
         } catch (error) {
           console.error(`Error with ${provider.name} for prompt "${prompt.prompt}":`, error);
           errors.push(`${provider.name}: ${error instanceof Error ? error.message : 'Unknown error'}`);
@@ -393,14 +414,26 @@ export async function performAnalysis({
 
 /**
  * Get available providers based on configured API keys
+ * Prioritizes OpenRouter when available since it provides access to 300+ models
  */
 export function getAvailableProviders() {
   const configuredProviders = getConfiguredProviders();
+  
+  // Sort providers to prioritize OpenRouter (unified API for 300+ models)
+  const sortedProviders = [...configuredProviders].sort((a, b) => {
+    if (a.id === 'openrouter') return -1;
+    if (b.id === 'openrouter') return 1;
+    return 0;
+  });
+  
+  console.log('[getAvailableProviders] Configured providers:', sortedProviders.map(p => p.id));
+  
   // Map to the format expected by the rest of the code
-  return configuredProviders.map(provider => ({
+  return sortedProviders.map(provider => ({
     name: provider.name,
     model: provider.defaultModel,
     icon: provider.icon,
+    id: provider.id,
   }));
 }
 

@@ -158,10 +158,12 @@ async function main() {
     await checkPrerequisites();
     await testDatabase();
     
-    // Install dependencies
-    process.stdout.write('Installing dependencies... ');
-    await exec('npm', ['install', '--quiet']);
-    console.log('✓');
+    // Install dependencies (skip if already installed)
+    if (!fs.existsSync('node_modules')) {
+      process.stdout.write('Installing dependencies... ');
+      await exec('npm', ['install', '--quiet']);
+      console.log('✓');
+    }
     
     // Database setup
     log.header('Database');

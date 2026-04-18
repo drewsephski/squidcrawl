@@ -18,7 +18,7 @@ import {
 } from '@/config/constants';
 
 const autumn = new Autumn({
-  apiKey: process.env.AUTUMN_SECRET_KEY!,
+  secretKey: process.env.AUTUMN_SECRET_KEY!,
 });
 
 export const runtime = 'nodejs'; // Use Node.js runtime for streaming
@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
       const trackResult = await autumn.track({
         customer_id: sessionResponse.user.id,
         feature_id: FEATURE_ID_MESSAGES,
-        count: CREDITS_PER_BRAND_ANALYSIS,
+        value: CREDITS_PER_BRAND_ANALYSIS,
       });
       console.log('[Brand Monitor] Track result:', JSON.stringify(trackResult, null, 2));
     } catch (err) {
@@ -81,7 +81,10 @@ export async function POST(request: NextRequest) {
 
     const { company, prompts: customPrompts, competitors: userSelectedCompetitors, useWebSearch = false } = await request.json();
 
+    console.log('[Brand Monitor] Received company data:', JSON.stringify(company, null, 2));
+
     if (!company || !company.name) {
+      console.error('[Brand Monitor] Invalid company data:', { company, hasCompany: !!company, hasName: company?.name });
       throw new ValidationError(ERROR_MESSAGES.COMPANY_INFO_REQUIRED, {
         company: 'Company name is required'
       });
@@ -93,7 +96,7 @@ export async function POST(request: NextRequest) {
       await autumn.track({
         customer_id: sessionResponse.user.id,
         feature_id: FEATURE_ID_MESSAGES,
-        count: CREDITS_PER_BRAND_ANALYSIS,
+        value: CREDITS_PER_BRAND_ANALYSIS,
       });
       console.log('[Brand Monitor] Usage recorded successfully');
     } catch (err) {
@@ -128,8 +131,8 @@ export async function POST(request: NextRequest) {
       try {
         // Send initial credit info
         await sendEvent({
-          type: 'credits',
-          stage: 'credits',
+          type: 'progress',
+          stage: 'initializing',
           data: {
             remainingCredits,
             creditsUsed: CREDITS_PER_BRAND_ANALYSIS
@@ -159,7 +162,7 @@ export async function POST(request: NextRequest) {
         console.error('Analysis error:', error);
         await sendEvent({
           type: 'error',
-          stage: 'error',
+          stage: 'finalizing',
           data: {
             message: error instanceof Error ? error.message : 'Analysis failed'
           },

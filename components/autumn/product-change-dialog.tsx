@@ -81,12 +81,14 @@ const ProductChangeDialog = ({ open, setOpen, preview }: ProductChangeDialogProp
             variant="outline"
             onClick={() => setOpen(false)}
             disabled={isLoading}
+            className='text-white hover:text-slate-600'
           >
             Cancel
           </Button>
           <Button
             onClick={handleConfirm}
             disabled={isLoading}
+            className='bg-slate-700 hover:bg-slate-600'
           >
             {isLoading ? (
               <>

@@ -1,11 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import React, { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { ProviderSpecificRanking } from '@/lib/types';
-import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { TrendingUp, TrendingDown, Minus, Trophy, BarChart3, Crown } from 'lucide-react';
 import Image from 'next/image';
 import { getConfiguredProviders } from '@/lib/provider-config';
 
@@ -96,8 +95,8 @@ const CompanyCell = ({
           </div>
         )}
       </div>
-      <span className={`text-sm ${
-        isOwn ? 'font-semibold text-black' : 'text-black'
+      <span className={`text-base ${
+        isOwn ? 'font-bold text-gray-900' : 'font-semibold text-gray-800'
       }`}>
         {name}
       </span>
@@ -130,17 +129,22 @@ export function ProviderRankingsTabs({
   const [selectedProvider, setSelectedProvider] = useState(
     providerRankings?.[0]?.provider || 'OpenAI'
   );
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   if (!providerRankings || providerRankings.length === 0) return null;
 
   const getSentimentBadge = (sentiment: string) => {
     switch (sentiment) {
       case 'positive':
-        return <Badge variant="secondary" className="bg-green-50 text-black text-xs">Positive</Badge>;
+        return <Badge variant="secondary" className="text-sm font-bold bg-green-100 text-green-800 border border-green-300 px-3 py-1">Positive</Badge>;
       case 'negative':
-        return <Badge variant="secondary" className="bg-red-50 text-black text-xs">Negative</Badge>;
+        return <Badge variant="secondary" className="text-sm font-bold bg-red-100 text-red-800 border border-red-300 px-3 py-1">Negative</Badge>;
       default:
-        return <Badge variant="secondary" className="bg-gray-50 text-black text-xs">Neutral</Badge>;
+        return <Badge variant="secondary" className="text-sm font-bold bg-gray-100 text-gray-700 border border-gray-300 px-3 py-1">Neutral</Badge>;
     }
   };
 
@@ -157,22 +161,47 @@ export function ProviderRankingsTabs({
   const brandVisibility = competitors.find(c => c.isOwn)?.visibilityScore || 0;
 
   return (
-    <Card className="p-2 bg-card text-card-foreground gap-6 rounded-xl border py-6 shadow-sm border-gray-200 h-full flex flex-col">
-      <CardHeader className="border-b">
-        <div className="flex justify-between items-center">
-          <div>
-            <CardTitle className="text-xl font-semibold">Provider Rankings</CardTitle>
-            <CardDescription className="text-sm text-gray-600 mt-1">
-              Your brand performance by AI provider
-            </CardDescription>
+    <div className={`relative bg-[#12121a] text-[#fafafa] rounded-2xl border border-[#2a2a3a] overflow-hidden shadow-2xl shadow-black/50 h-full flex flex-col transition-all duration-700 ${
+      mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+    }`}>
+      {/* Top accent line */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#6366f1] via-[#22d3ee] to-[#ec4899]" />
+      
+      {/* Background pattern */}
+      <div className="absolute inset-0 bg-grid-intelligence opacity-[0.02]" />
+      
+      <div className="relative p-8 border-b border-[#2a2a3a]">
+        <div className="flex justify-between items-start">
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <div className="absolute inset-0 bg-[#6366f1]/20 blur-lg rounded-lg" />
+              <div className="relative w-12 h-12 rounded-xl bg-gradient-to-br from-[#6366f1] to-[#4f46e5] flex items-center justify-center shadow-lg shadow-[#6366f1]/30">
+                <BarChart3 className="w-6 h-6 text-white" />
+              </div>
+            </div>
+            <div>
+              <h2 className="text-xl font-bold text-[#fafafa]">Provider Rankings</h2>
+              <p className="text-sm text-[#71717a]">
+                Your brand performance by AI provider
+              </p>
+            </div>
           </div>
           <div className="text-right">
-            <p className="text-2xl font-bold text-orange-600">#{brandRank}</p>
-            <p className="text-xs text-gray-500 mt-1">Average Rank</p>
+            <div className="relative inline-flex items-center justify-center">
+              <div className="absolute inset-0 bg-[#6366f1]/10 blur-xl rounded-full" />
+              <div className="relative px-6 py-3 rounded-2xl bg-[#0a0a0f] border border-[#6366f1]/30">
+                <div className="flex items-center gap-2">
+                  <Trophy className="w-5 h-5 text-[#f59e0b]" />
+                  <span className="text-3xl font-bold text-[#fafafa]">#{brandRank}</span>
+                </div>
+                <p className="text-xs text-[#71717a] mt-1">Average Rank</p>
+              </div>
+            </div>
           </div>
         </div>
-      </CardHeader>
-      <CardContent className="pt-6 pb-2 flex-1 flex flex-col">
+      </div>
+      
+      <div className="relative flex-1 p-8 flex flex-col">
         <Tabs value={selectedProvider} onValueChange={setSelectedProvider} className="flex-1 flex flex-col">
           <TabsList className={`grid w-full mb-2 h-14 ${providerRankings.length === 2 ? 'grid-cols-2' : providerRankings.length === 3 ? 'grid-cols-3' : 'grid-cols-4'}`}>
             {providerRankings.map(({ provider }) => {
@@ -192,15 +221,15 @@ export function ProviderRankingsTabs({
 
           {providerRankings.map(({ provider, competitors }) => (
             <TabsContent key={provider} value={provider} className="mt-0">
-              <div className="overflow-x-auto rounded-lg border border-gray-200">
-                <table className="w-full border-collapse">
+              <div className="overflow-x-auto rounded-xl border-2 border-gray-200 shadow-lg shadow-black/5">
+                <table className="w-full border-collapse bg-white">
                   <thead>
                     <tr>
-                      <th className="bg-gray-50 border-b border-r border-gray-200 text-left p-3 text-xs font-medium text-gray-900 w-8">#</th>
-                      <th className="bg-gray-50 border-b border-r border-gray-200 text-left p-3 text-xs font-medium text-gray-900 w-[200px]">Company</th>
-                      <th className="bg-gray-50 border-b border-r border-gray-200 text-right p-3 text-xs font-medium text-gray-900">Visibility</th>
-                      <th className="bg-gray-50 border-b border-r border-gray-200 text-right p-3 text-xs font-medium text-gray-900">Share of Voice</th>
-                      <th className="bg-gray-50 border-b border-gray-200 text-right p-3 text-xs font-medium text-gray-900">Sentiment</th>
+                      <th className="bg-gradient-to-b from-gray-100 to-gray-50 border-b-2 border-r border-gray-200 text-left p-4 text-sm font-bold text-gray-900 w-10">#</th>
+                      <th className="bg-gradient-to-b from-gray-100 to-gray-50 border-b-2 border-r border-gray-200 text-left p-4 text-sm font-bold text-gray-900 w-[220px]">Company</th>
+                      <th className="bg-gradient-to-b from-gray-100 to-gray-50 border-b-2 border-r border-gray-200 text-right p-4 text-sm font-bold text-gray-900">Visibility</th>
+                      <th className="bg-gradient-to-b from-gray-100 to-gray-50 border-b-2 border-r border-gray-200 text-right p-4 text-sm font-bold text-gray-900">Share of Voice</th>
+                      <th className="bg-gradient-to-b from-gray-100 to-gray-50 border-b-2 border-gray-200 text-right p-4 text-sm font-bold text-gray-900">Sentiment</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -211,26 +240,26 @@ export function ProviderRankingsTabs({
                         <tr 
                           key={idx} 
                           className={`
-                            ${idx > 0 ? 'border-t border-gray-200' : ''}
+                            ${idx > 0 ? 'border-t-2 border-gray-200' : ''}
                             ${competitor.isOwn 
-                              ? 'bg-orange-50' 
-                              : 'hover:bg-gray-50 transition-colors'
+                              ? 'bg-gradient-to-r from-orange-50 to-amber-50/50 border-l-4 border-l-orange-400' 
+                              : 'hover:bg-gray-50/80 transition-colors'
                             }
                           `}
                         >
-                          <td className="border-r border-gray-200 p-3 text-xs text-black">
+                          <td className="border-r-2 border-gray-200 p-4 text-sm font-bold text-gray-900">
                             {idx + 1}
                           </td>
-                          <td className="border-r border-gray-200 p-3">
+                          <td className="border-r-2 border-gray-200 p-4">
                             <CompanyCell 
                               name={competitor.name}
                               isOwn={competitor.isOwn}
                               url={competitorUrl}
                             />
                           </td>
-                          <td className="border-r border-gray-200 p-3 text-right">
-                            <div className="flex items-center justify-end gap-1">
-                              <span className="text-sm font-medium text-black">
+                          <td className="border-r-2 border-gray-200 p-4 text-right">
+                            <div className="flex items-center justify-end gap-2">
+                              <span className={`text-base font-bold ${competitor.isOwn ? 'text-orange-700' : 'text-gray-900'}`}>
                                 {competitor.visibilityScore}%
                               </span>
                               {competitor.weeklyChange !== undefined && competitor.weeklyChange !== 0 && (
@@ -238,12 +267,12 @@ export function ProviderRankingsTabs({
                               )}
                             </div>
                           </td>
-                          <td className="border-r border-gray-200 p-3 text-right">
-                            <span className="text-sm text-black">
+                          <td className="border-r-2 border-gray-200 p-4 text-right">
+                            <span className={`text-base font-semibold ${competitor.isOwn ? 'text-orange-700' : 'text-gray-900'}`}>
                               {competitor.shareOfVoice}%
                             </span>
                           </td>
-                          <td className="p-3 text-right">
+                          <td className="p-4 text-right">
                             {getSentimentBadge(competitor.sentiment)}
                           </td>
                         </tr>
@@ -258,36 +287,36 @@ export function ProviderRankingsTabs({
         
         {/* Metrics Row at Bottom */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mt-6 pt-6 border-t">
-          <div className="bg-gray-50 rounded-lg p-4 text-center">
-            <p className="text-xs text-gray-500 mb-1">Competitors</p>
-            <p className="text-lg font-semibold text-black">{competitors.length}</p>
+          <div className="bg-[#0a0a0f] rounded-xl p-4 text-center border border-[#2a2a3a]">
+            <p className="text-xs text-[#52525b] mb-1">Competitors</p>
+            <p className="text-lg font-bold text-[#fafafa]">{competitors.length}</p>
           </div>
-          <div className="bg-orange-50 rounded-lg p-4 text-center">
-            <p className="text-xs text-gray-500 mb-1">{brandName} Rank</p>
-            <p className="text-lg font-semibold text-black">
+          <div className="bg-[#6366f1]/10 rounded-xl p-4 text-center border border-[#6366f1]/30">
+            <p className="text-xs text-[#6366f1] mb-1">{brandName} Rank</p>
+            <p className="text-lg font-bold text-[#6366f1]">
               #{brandRank}
             </p>
           </div>
-          <div className="bg-gray-50 rounded-lg p-4 text-center">
-            <p className="text-xs text-gray-500 mb-1">{brandName} Visibility</p>
-            <p className="text-lg font-semibold text-black">
+          <div className="bg-[#0a0a0f] rounded-xl p-4 text-center border border-[#2a2a3a]">
+            <p className="text-xs text-[#52525b] mb-1">{brandName} Visibility</p>
+            <p className="text-lg font-bold text-[#f59e0b]">
               {brandVisibility}%
             </p>
           </div>
-          <div className="bg-gray-50 rounded-lg p-4 text-center">
-            <p className="text-xs text-gray-500 mb-1">Share of Voice</p>
-            <p className="text-lg font-semibold text-black">{shareOfVoice}%</p>
+          <div className="bg-[#0a0a0f] rounded-xl p-4 text-center border border-[#2a2a3a]">
+            <p className="text-xs text-[#52525b] mb-1">Share of Voice</p>
+            <p className="text-lg font-bold text-[#22d3ee]">{shareOfVoice}%</p>
           </div>
-          <div className="bg-gray-50 rounded-lg p-4 text-center">
-            <p className="text-xs text-gray-500 mb-1">Average Position</p>
-            <p className="text-lg font-semibold text-black">#{averagePosition}</p>
+          <div className="bg-[#0a0a0f] rounded-xl p-4 text-center border border-[#2a2a3a]">
+            <p className="text-xs text-[#52525b] mb-1">Average Position</p>
+            <p className="text-lg font-bold text-[#fafafa]">#{averagePosition}</p>
           </div>
-          <div className="bg-gray-50 rounded-lg p-4 text-center">
-            <p className="text-xs text-gray-500 mb-1">Sentiment Score</p>
-            <p className="text-lg font-semibold text-black">{sentimentScore}%</p>
+          <div className="bg-[#0a0a0f] rounded-xl p-4 text-center border border-[#2a2a3a]">
+            <p className="text-xs text-[#52525b] mb-1">Sentiment Score</p>
+            <p className="text-lg font-bold text-[#10b981]">{sentimentScore}%</p>
           </div>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

@@ -1,23 +1,26 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
-import { Footer } from "@/components/footer";
+import { FooterWrapper } from "@/components/footer-wrapper";
 import { Providers } from "@/components/providers";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {
-  title: "SaaS Starter",
-  description: "Next.js SaaS Starter with Better Auth",
+  title: "SquidCrawl - AI Brand Intelligence",
+  description: "Monitor how AI models perceive and rank your brand. Track visibility across ChatGPT, Claude, Perplexity and more.",
+  keywords: ["AI brand monitoring", "brand visibility", "AI search", "ChatGPT ranking", "brand intelligence"],
 };
 
 export default function RootLayout({
@@ -26,17 +29,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans antialiased bg-[#0a0a0f] text-[#fafafa]`}
       >
         <Providers>
-          <div className="flex flex-col min-h-screen">
+          <div className="flex flex-col min-h-screen bg-[#0a0a0f]">
             <Navbar />
             <main className="flex-grow">
               {children}
             </main>
-            <Footer />
+            <FooterWrapper />
           </div>
         </Providers>
       </body>

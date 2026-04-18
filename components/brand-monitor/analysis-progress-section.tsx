@@ -1,7 +1,8 @@
-import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+'use client';
+
+import React, { useState, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, Plus, Trash2, CheckIcon } from 'lucide-react';
+import { Loader2, Plus, Trash2, CheckIcon, Target, Activity, Cpu, Sparkles } from 'lucide-react';
 import { Company, AnalysisStage } from '@/lib/types';
 import { IdentifiedCompetitor, PromptCompletionStatus } from '@/lib/brand-monitor-reducer';
 import { getEnabledProviders } from '@/lib/provider-config';
@@ -86,6 +87,12 @@ export function AnalysisProgressSection({
   onStartAnalysis,
   detectServiceType
 }: AnalysisProgressSectionProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // Generate default prompts
   const serviceType = detectServiceType(company);
   const currentYear = new Date().getFullYear();
@@ -100,137 +107,251 @@ export function AnalysisProgressSection({
   const displayPrompts = prompts.length > 0 ? prompts : [...defaultPrompts, ...customPrompts];
   
   return (
-    <div className="flex items-center justify-center animate-panel-in">
-      <div className="max-w-4xl w-full">
-        <div className="transition-all duration-400 opacity-100 translate-y-0">
-          <Card className="p-2 bg-card text-card-foreground gap-6 rounded-xl border py-6 shadow-sm border-gray-200 h-full flex flex-col">
-            <CardHeader className="pb-4">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-xl font-semibold">
-                  {analyzing ? 'Analysis Progress' : 'Prompts'}
-                </CardTitle>
-                {/* Competitors list on the right */}
-                {!analyzing && (
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-gray-500">Competitors:</span>
-                    <div className="flex -space-x-2">
-                      {identifiedCompetitors.slice(0, 6).map((comp, idx) => (
-                        <div key={idx} className="w-8 h-8 rounded-full bg-white border-2 border-white shadow-sm overflow-hidden" title={comp.name}>
-                          {comp.url ? (
-                            <img 
-                              src={`https://www.google.com/s2/favicons?domain=${comp.url}&sz=64`}
-                              alt={comp.name}
-                              className="w-full h-full object-contain p-0.5"
-                              onError={(e) => {
-                                e.currentTarget.style.display = 'none';
-                                const fallback = e.currentTarget.nextSibling as HTMLDivElement;
-                                if (fallback) fallback.style.display = 'flex';
-                              }}
-                            />
-                          ) : null}
-                          <div className="w-full h-full bg-gray-100 flex items-center justify-center text-xs font-medium text-gray-600" style={{ display: comp.url ? 'none' : 'flex' }}>
+    <div className={`flex items-center justify-center min-h-[60vh] transition-all duration-700 ${
+      mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+    }`}>
+      {/* Background effects */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-gradient-radial from-[#6366f1]/5 via-[#22d3ee]/3 to-transparent rounded-full blur-3xl" />
+      </div>
+
+      <div className="relative z-10 max-w-4xl w-full px-4">
+        <div className="bg-[#12121a] text-[#fafafa] rounded-2xl border border-[#2a2a3a] overflow-hidden shadow-2xl shadow-black/50">
+          {/* Top accent line */}
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#22d3ee] via-[#6366f1] to-[#22d3ee]" />
+          
+          {/* Background pattern */}
+          <div className="absolute inset-0 bg-grid-intelligence opacity-[0.02]" />
+          
+          <div className="relative p-8">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-[#6366f1]/20 blur-lg rounded-lg" />
+                  <div className="relative w-12 h-12 rounded-xl bg-gradient-to-br from-[#6366f1] to-[#4f46e5] flex items-center justify-center shadow-lg shadow-[#6366f1]/30">
+                    {analyzing ? (
+                      <Activity className="w-6 h-6 text-white animate-pulse" />
+                    ) : (
+                      <Target className="w-6 h-6 text-white" />
+                    )}
+                  </div>
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold text-[#fafafa]">
+                    {analyzing ? 'Analysis in Progress' : 'Configure Analysis'}
+                  </h2>
+                  <p className="text-sm text-[#71717a]">
+                    {analyzing 
+                      ? `Processing ${displayPrompts.length} prompts across ${getEnabledProviders().length} AI providers`
+                      : 'Customize prompts to analyze your brand visibility'
+                    }
+                  </p>
+                </div>
+              </div>
+              
+              {/* Competitors indicator */}
+              {!analyzing && identifiedCompetitors.length > 0 && (
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-[#71717a] uppercase tracking-wider">vs</span>
+                  <div className="flex -space-x-2">
+                    {identifiedCompetitors.slice(0, 5).map((comp, idx) => (
+                      <div key={idx} className="w-8 h-8 rounded-full bg-[#1a1a25] border-2 border-[#12121a] shadow-sm overflow-hidden" title={comp.name}>
+                        {comp.url ? (
+                          <img
+                            src={`https://www.google.com/s2/favicons?domain=${comp.url}&sz=64`}
+                            alt={comp.name}
+                            className="w-full h-full object-contain p-0.5"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-[#252533] flex items-center justify-center text-xs font-medium text-[#a1a1aa]">
                             {comp.name.charAt(0)}
                           </div>
-                        </div>
-                      ))}
-                      {identifiedCompetitors.length > 6 && (
-                        <div className="w-8 h-8 rounded-full bg-gray-100 border-2 border-white shadow-sm flex items-center justify-center">
-                          <span className="text-xs text-gray-600 font-medium">+{identifiedCompetitors.length - 6}</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </div>
-              {scrapingCompetitors && !analyzing && (
-                <CardDescription className="mt-2 flex items-center justify-center gap-2 text-orange-600">
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Validating competitor data in background...</span>
-                </CardDescription>
-              )}
-              {analyzing && analysisProgress && (
-                <div className="mt-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <CardDescription className="flex items-center gap-2">
-                      <Loader2 className="w-4 h-4 animate-spin text-orange-500" />
-                      <span>{analysisProgress.message}</span>
-                    </CardDescription>
-                    <span className="text-sm text-gray-500">{analysisProgress.progress}%</span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                    <div 
-                      className="bg-orange-500 h-2 rounded-full transition-all duration-500 ease-out"
-                      style={{ width: `${analysisProgress.progress}%` }}
-                    />
+                        )}
+                      </div>
+                    ))}
+                    {identifiedCompetitors.length > 5 && (
+                      <div className="w-8 h-8 rounded-full bg-[#1a1a25] border-2 border-[#12121a] shadow-sm flex items-center justify-center">
+                        <span className="text-xs text-[#a1a1aa] font-medium">+{identifiedCompetitors.length - 5}</span>
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {/* Prompts tiles */}
-              <div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {displayPrompts.map((prompt, index) => {
-                    const isCustom = customPrompts.includes(prompt);
-                    return (
-                      <div key={`${prompt}-${index}`} className="group relative bg-white rounded-lg border border-gray-200 p-5 hover:shadow-md transition-shadow">
-                        <div className="flex items-start justify-between gap-4">
-                          <p className="text-base font-medium text-gray-900 flex-1">
+            </div>
+
+            {/* Progress bar during analysis */}
+            {analyzing && analysisProgress && (
+              <div className="mb-8">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-4">
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-[#6366f1]/40 blur-xl rounded-full animate-pulse" />
+                      <div className="relative w-12 h-12 rounded-xl bg-gradient-to-br from-[#6366f1] to-[#4f46e5] flex items-center justify-center shadow-lg shadow-[#6366f1]/40">
+                        <Loader2 className="w-6 h-6 text-white animate-spin" />
+                      </div>
+                    </div>
+                    <div>
+                      <span className="text-[#fafafa] font-semibold text-base block">{analysisProgress.message}</span>
+                      <span className="text-[#71717a] text-sm">Processing across {getEnabledProviders().length} AI providers</span>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-end">
+                    <div className="flex items-center gap-2">
+                      <Cpu className="w-5 h-5 text-[#22d3ee]" />
+                      <span className="text-3xl font-black bg-gradient-to-r from-[#22d3ee] to-[#6366f1] bg-clip-text text-transparent">
+                        {analysisProgress.progress}%
+                      </span>
+                    </div>
+                    <div className="flex gap-1 mt-1">
+                      {[...Array(5)].map((_, i) => (
+                        <div
+                          key={i}
+                          className={`w-6 h-1 rounded-full transition-all duration-300 ${
+                            analysisProgress.progress >= (i + 1) * 20
+                              ? 'bg-gradient-to-r from-[#6366f1] to-[#22d3ee]'
+                              : 'bg-[#2a2a3a]'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div className="relative h-4 bg-[#0a0a0f] rounded-full overflow-hidden border border-[#2a2a3a]/50">
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#6366f1]/10 via-[#22d3ee]/10 to-[#6366f1]/10" />
+                  <div
+                    className="absolute top-0 left-0 h-full bg-gradient-to-r from-[#6366f1] via-[#22d3ee] to-[#6366f1] rounded-full transition-all duration-700 ease-out shadow-[0_0_20px_rgba(99,102,241,0.5)]"
+                    style={{ width: `${analysisProgress.progress}%` }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-[shimmer_1.5s_ease-in-out_infinite]" />
+                    <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-3 h-3 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.8)]" />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Background scraping notice */}
+            {scrapingCompetitors && !analyzing && (
+              <div className="mb-6 flex items-center gap-2 px-4 py-3 rounded-xl bg-[#f59e0b]/10 border border-[#f59e0b]/20">
+                <Loader2 className="w-4 h-4 animate-spin text-[#f59e0b]" />
+                <span className="text-sm text-[#f59e0b]">Validating competitor data in background...</span>
+              </div>
+            )}
+            
+            {/* Prompts Grid */}
+            <div className="mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {displayPrompts.map((prompt, index) => {
+                  const isCustom = customPrompts.includes(prompt);
+                  const normalizedPrompt = prompt.trim();
+                  const isComplete = analyzing && getEnabledProviders().every(config =>
+                    promptCompletionStatus[normalizedPrompt]?.[config.name] === 'completed'
+                  );
+
+                  return (
+                    <div
+                      key={`${prompt}-${index}`}
+                      className={`group relative rounded-xl border p-5 transition-all duration-500 hover:scale-[1.02] ${
+                        isComplete
+                          ? 'bg-gradient-to-br from-[#10b981]/10 to-[#0a0a0f] border-[#10b981]/40 shadow-[0_0_20px_rgba(16,185,129,0.15)]'
+                          : 'bg-[#0a0a0f] border-[#2a2a3a] hover:border-[#6366f1]/50 hover:shadow-[0_0_30px_rgba(99,102,241,0.1)]'
+                      } ${mounted ? 'animate-fade-in-up' : ''}`}
+                      style={{ animationDelay: `${index * 100}ms` }}
+                    >
+                      {/* Glow effect on hover */}
+                      <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#6366f1]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                      <div className="relative flex items-start justify-between gap-4">
+                        <div className="flex items-start gap-3">
+                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
+                            isComplete
+                              ? 'bg-gradient-to-br from-[#10b981] to-[#059669] shadow-lg shadow-[#10b981]/30'
+                              : 'bg-gradient-to-br from-[#6366f1]/20 to-[#4f46e5]/20 group-hover:from-[#6366f1]/30 group-hover:to-[#4f46e5]/30'
+                          }`}>
+                            {isComplete ? (
+                              <CheckIcon className="w-5 h-5 text-white" />
+                            ) : (
+                              <Sparkles className={`w-5 h-5 transition-colors duration-300 ${
+                                isComplete ? 'text-white' : 'text-[#6366f1] group-hover:text-[#818cf8]'
+                              }`} />
+                            )}
+                          </div>
+                          <p className="text-base font-medium text-[#fafafa] leading-relaxed">
                             {prompt}
                           </p>
-                          {!analyzing && !isCustom && (
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                const originalIndex = defaultPrompts.findIndex(p => p === prompt);
-                                if (originalIndex !== -1) {
-                                  onRemoveDefaultPrompt(originalIndex);
-                                }
-                              }}
-                              className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded hover:bg-red-50"
-                            >
-                              <Trash2 className="w-4 h-4 text-red-600" />
-                            </button>
+                        </div>
+                        {!analyzing && !isCustom && (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              const originalIndex = defaultPrompts.findIndex(p => p === prompt);
+                              if (originalIndex !== -1) {
+                                onRemoveDefaultPrompt(originalIndex);
+                              }
+                            }}
+                            className="opacity-0 group-hover:opacity-100 transition-all duration-200 p-2 rounded-lg hover:bg-[#ef4444]/20 hover:scale-110"
+                          >
+                            <Trash2 className="w-4 h-4 text-[#ef4444]" />
+                          </button>
+                        )}
+                        {!analyzing && isCustom && (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onRemoveCustomPrompt(prompt);
+                            }}
+                            className="opacity-0 group-hover:opacity-100 transition-all duration-200 p-2 rounded-lg hover:bg-[#ef4444]/20 hover:scale-110"
+                          >
+                            <Trash2 className="w-4 h-4 text-[#ef4444]" />
+                          </button>
+                        )}
+                      </div>
+
+                      {/* Provider status indicators */}
+                      <div className="relative mt-4 pt-4 border-t border-[#1a1a25] flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          {isCustom && (
+                            <Badge variant="outline" className="text-xs border-[#22d3ee]/40 text-[#22d3ee] bg-[#22d3ee]/10 font-semibold">
+                              Custom
+                            </Badge>
                           )}
-                          {!analyzing && isCustom && (
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                onRemoveCustomPrompt(prompt);
-                              }}
-                              className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded hover:bg-red-50"
-                            >
-                              <Trash2 className="w-4 h-4 text-red-600" />
-                            </button>
+                          {isComplete && (
+                            <Badge variant="outline" className="text-xs border-[#10b981]/40 text-[#10b981] bg-[#10b981]/10 font-semibold">
+                              Complete
+                            </Badge>
                           )}
                         </div>
-                        
-                        {/* Provider icons and status */}
-                        <div className="mt-4 flex items-center gap-3 justify-end">
+                        <div className="flex items-center gap-3">
                           {getEnabledProviders().map(config => {
                             const provider = config.name;
-                            const normalizedPrompt = prompt.trim();
                             const status = analyzing ? (promptCompletionStatus[normalizedPrompt]?.[provider] || 'pending') : null;
-                            
+
                             return (
-                              <div key={`${prompt}-${provider}`} className="flex items-center gap-1">
-                                {getProviderIcon(provider)}
+                              <div key={`${prompt}-${provider}`} className="flex items-center gap-1.5">
+                                <div className="w-5 h-5">{getProviderIcon(provider)}</div>
                                 {analyzing && (
                                   <>
                                     {status === 'pending' && (
-                                      <div className="w-4 h-4 rounded-full border border-gray-300" />
+                                      <div className="w-4 h-4 rounded-full border-2 border-[#3f3f46]" />
                                     )}
                                     {status === 'running' && (
-                                      <Loader2 className="w-4 h-4 animate-spin text-orange-500" />
+                                      <div className="relative">
+                                        <Loader2 className="w-4 h-4 animate-spin text-[#6366f1]" />
+                                        <div className="absolute inset-0 bg-[#6366f1]/30 blur-sm rounded-full" />
+                                      </div>
                                     )}
                                     {status === 'completed' && (
-                                      <CheckIcon className="w-4 h-4 text-green-500" />
+                                      <div className="w-4 h-4 rounded-full bg-gradient-to-br from-[#10b981] to-[#059669] flex items-center justify-center shadow-lg shadow-[#10b981]/30">
+                                        <CheckIcon className="w-2.5 h-2.5 text-white" />
+                                      </div>
                                     )}
                                     {status === 'failed' && (
-                                      <div className="w-4 h-4 rounded-full bg-red-500" />
+                                      <div className="w-4 h-4 rounded-full bg-[#ef4444] flex items-center justify-center">
+                                        <span className="text-white text-[8px] font-bold">!</span>
+                                      </div>
                                     )}
                                     {status === 'skipped' && (
-                                      <div className="w-4 h-4 rounded-full bg-gray-400" />
+                                      <div className="w-4 h-4 rounded-full bg-[#52525b]" />
                                     )}
                                   </>
                                 )}
@@ -238,44 +359,68 @@ export function AnalysisProgressSection({
                             );
                           })}
                         </div>
-                        {isCustom && <Badge variant="outline" className="text-xs mt-2">Custom</Badge>}
                       </div>
-                    );
-                  })}
-                </div>
+                    </div>
+                  );
+                })}
               </div>
+            </div>
 
-              {/* Add Prompt Button */}
-              <div className="flex justify-end mb-4">
+            {/* Action buttons */}
+            <div className="flex items-center justify-between pt-6 border-t border-[#2a2a3a]">
+              {!analyzing && (
                 <button
                   onClick={onAddPromptClick}
-                  disabled={analyzing}
-                  className="h-9 rounded-[10px] text-sm font-medium flex items-center transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50 bg-[#36322F] text-[#fff] hover:bg-[#4a4542] disabled:bg-[#8c8885] disabled:hover:bg-[#8c8885] [box-shadow:inset_0px_-2.108433723449707px_0px_0px_#171310,_0px_1.2048193216323853px_6.325301647186279px_0px_rgba(58,_33,_8,_58%)] hover:translate-y-[1px] hover:scale-[0.98] hover:[box-shadow:inset_0px_-1px_0px_0px_#171310,_0px_1px_3px_0px_rgba(58,_33,_8,_40%)] active:translate-y-[2px] active:scale-[0.97] active:[box-shadow:inset_0px_1px_1px_0px_#171310,_0px_1px_2px_0px_rgba(58,_33,_8,_30%)] disabled:shadow-none disabled:hover:translate-y-0 disabled:hover:scale-100 px-4 py-1 gap-1"
+                  className="group h-11 px-5 rounded-xl text-sm font-semibold flex items-center gap-2 bg-[#0a0a0f] border border-[#2a2a3a] text-[#a1a1aa] hover:border-[#6366f1] hover:text-[#fafafa] hover:bg-[#6366f1]/10 transition-all duration-300 hover:scale-[1.02]"
                 >
-                  <Plus className="h-4 w-4" />
-                  Add Prompt
+                  <div className="relative">
+                    <Plus className="h-4 w-4 transition-transform duration-300 group-hover:rotate-90" />
+                  </div>
+                  Add Custom Prompt
                 </button>
-              </div>
+              )}
 
-              {/* Start Analysis Button */}
-              <div className="flex justify-center pt-4">
-                <button
-                  onClick={onStartAnalysis}
-                  disabled={analyzing}
-                  className="h-10 px-6 rounded-[10px] text-sm font-medium flex items-center transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50 bg-orange-500 text-white hover:bg-orange-600 [box-shadow:inset_0px_-2.108433723449707px_0px_0px_#c2410c,_0px_1.2048193216323853px_6.325301647186279px_0px_rgba(234,_88,_12,_58%)] hover:translate-y-[1px] hover:scale-[0.98] hover:[box-shadow:inset_0px_-1px_0px_0px_#c2410c,_0px_1px_3px_0px_rgba(234,_88,_12,_40%)] active:translate-y-[2px] active:scale-[0.97] active:[box-shadow:inset_0px_1px_1px_0px_#c2410c,_0px_1px_2px_0px_rgba(234,_88,_12,_30%)] disabled:shadow-none disabled:hover:translate-y-0 disabled:hover:scale-100"
-                >
-                  {analyzing ? (
-                    <>
-                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                      Analyzing...
-                    </>
-                  ) : (
-                    'Start Analysis'
-                  )}
-                </button>
-              </div>
-            </CardContent>
-          </Card>
+              {analyzing && (
+                <div className="flex items-center gap-3 text-[#71717a]">
+                  <div className="flex gap-1">
+                    {[...Array(4)].map((_, i) => (
+                      <div
+                        key={i}
+                        className="w-2 h-2 rounded-full bg-gradient-to-r from-[#6366f1] to-[#22d3ee] animate-bounce"
+                        style={{ animationDelay: `${i * 100}ms` }}
+                      />
+                    ))}
+                  </div>
+                  <span className="text-sm font-medium">Processing intelligence data...</span>
+                </div>
+              )}
+
+              <button
+                onClick={onStartAnalysis}
+                disabled={analyzing}
+                className={`group h-12 px-8 rounded-xl text-sm font-bold flex items-center gap-3 transition-all duration-300 ${
+                  analyzing
+                    ? 'bg-[#1a1a25] text-[#52525b] cursor-not-allowed'
+                    : 'bg-gradient-to-r from-[#6366f1] via-[#4f46e5] to-[#6366f1] bg-[length:200%_100%] text-white shadow-[0_0_30px_rgba(99,102,241,0.4)] hover:shadow-[0_0_40px_rgba(99,102,241,0.6)] hover:scale-[1.03] hover:bg-[position:100%_0] animate-gradient'
+                }`}
+              >
+                {analyzing ? (
+                  <>
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                    <span>Analyzing...</span>
+                  </>
+                ) : (
+                  <>
+                    <div className="relative">
+                      <Sparkles className="h-5 w-5 transition-all duration-300 group-hover:scale-110 group-hover:rotate-12" />
+                      <div className="absolute inset-0 bg-white/50 blur-md rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    </div>
+                    <span>Start Analysis</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

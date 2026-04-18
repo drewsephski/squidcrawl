@@ -4,6 +4,8 @@ import { Company, BrandPrompt, AIResponse, CompanyRanking, CompetitorRanking, Pr
 import { getProviderModel, normalizeProviderName, isProviderConfigured, getConfiguredProviders, PROVIDER_CONFIGS } from './provider-config';
 import { detectBrandMention, detectMultipleBrands, BrandDetectionOptions } from './brand-detection-utils';
 import { getBrandDetectionOptions } from './brand-detection-config';
+import { getOpenRouterClient } from './openrouter-provider';
+import { searchCompetitorsWithFirecrawl } from './scrape-utils';
 
 const RankingSchema = z.object({
   rankings: z.array(z.object({
@@ -11,13 +13,18 @@ const RankingSchema = z.object({
     company: z.string(),
     reason: z.string().optional(),
     sentiment: z.enum(['positive', 'neutral', 'negative']).optional(),
-  })),
+  })).default([]),
   analysis: z.object({
-    brandMentioned: z.boolean(),
+    brandMentioned: z.boolean().default(false),
     brandPosition: z.number().optional(),
-    competitors: z.array(z.string()),
-    overallSentiment: z.enum(['positive', 'neutral', 'negative']),
-    confidence: z.number().min(0).max(1),
+    competitors: z.array(z.string()).default([]),
+    overallSentiment: z.enum(['positive', 'neutral', 'negative']).default('neutral'),
+    confidence: z.number().min(0).max(1).default(0.5),
+  }).default({
+    brandMentioned: false,
+    competitors: [],
+    overallSentiment: 'neutral',
+    confidence: 0.5,
   }),
 });
 
@@ -33,45 +40,185 @@ const CompetitorSchema = z.object({
 });
 
 export async function identifyCompetitors(company: Company, progressCallback?: ProgressCallback): Promise<string[]> {
+  console.log('[identifyCompetitors] START - company:', company?.name, 'industry:', company?.industry);
+
+  // First, check if we have competitors from scraping with rich metadata
+  if (company.scrapedData?.competitors && company.scrapedData.competitors.length > 0) {
+    console.log('[identifyCompetitors] Using scraped competitors:', company.scrapedData.competitors);
+
+    // Handle both string[] and ScrapedCompetitor[] formats
+    const scrapedCompetitors = company.scrapedData.competitors.map((c: any) => {
+      if (typeof c === 'string') return c;
+      return c.name;
+    }).filter(Boolean);
+
+    if (scrapedCompetitors.length >= 3) {
+      console.log('[identifyCompetitors] Sufficient scraped competitors found:', scrapedCompetitors.length);
+
+      // Send progress events
+      if (progressCallback) {
+        for (let i = 0; i < scrapedCompetitors.length; i++) {
+          progressCallback({
+            type: 'competitor-found',
+            stage: 'identifying-competitors',
+            data: {
+              competitor: scrapedCompetitors[i],
+              index: i + 1,
+              total: scrapedCompetitors.length
+            } as CompetitorFoundData,
+            timestamp: new Date()
+          });
+        }
+      }
+      return scrapedCompetitors.slice(0, 9);
+    }
+  }
+
+  // If no scraped competitors or insufficient, try Firecrawl web search
   try {
-    // Use AI to identify real competitors - find first available provider
-    const configuredProviders = getConfiguredProviders();
-    if (configuredProviders.length === 0) {
-      throw new Error('No AI providers configured and enabled');
+    console.log('[identifyCompetitors] Using Firecrawl to search for real competitors');
+
+    const firecrawlCompetitors = await searchCompetitorsWithFirecrawl(
+      company.name,
+      company.industry,
+      company.description
+    );
+
+    if (firecrawlCompetitors.length > 0) {
+      const competitorNames = firecrawlCompetitors.map(c => c.name);
+      console.log('[identifyCompetitors] Firecrawl found real competitors:', competitorNames);
+
+      // Send progress events
+      if (progressCallback) {
+        for (let i = 0; i < competitorNames.length; i++) {
+          progressCallback({
+            type: 'competitor-found',
+            stage: 'identifying-competitors',
+            data: {
+              competitor: competitorNames[i],
+              index: i + 1,
+              total: competitorNames.length
+            } as CompetitorFoundData,
+            timestamp: new Date()
+          });
+        }
+      }
+      return competitorNames.slice(0, 9);
     }
-    
-    // Use the first available provider
-    const provider = configuredProviders[0];
-    const model = getProviderModel(provider.id, provider.defaultModel);
-    if (!model) {
-      throw new Error(`${provider.name} model not available`);
-    }
-    
-    const prompt = `Identify 6-9 real, established competitors of ${company.name} in the ${company.industry || 'technology'} industry.
+
+    console.log('[identifyCompetitors] Firecrawl found no competitors, falling back to AI');
+  } catch (firecrawlError) {
+    console.error('[identifyCompetitors] Firecrawl search failed:', firecrawlError);
+  }
+
+  // Fallback: try AI-based identification if Firecrawl fails
+  try {
+    const openRouter = getOpenRouterClient();
+    if (openRouter) {
+      console.log('[identifyCompetitors] Using OpenRouter for competitor identification (fallback)');
+
+      const prompt = `Identify 6-9 real, established competitors of ${company.name} in the ${company.industry || 'technology'} industry.
 
 Company: ${company.name}
-Industry: ${company.industry}
-Description: ${company.description}
+Industry: ${company.industry || 'technology'}
+Description: ${company.description || 'N/A'}
 ${company.scrapedData?.keywords ? `Keywords: ${company.scrapedData.keywords.join(', ')}` : ''}
-${company.scrapedData?.competitors ? `Known competitors: ${company.scrapedData.competitors.join(', ')}` : ''}
 
-Based on this company's specific business model and target market, identify ONLY direct competitors that:
-1. Offer the SAME type of products/services (not just retailers that sell them)
-2. Target the SAME customer segment
-3. Have a SIMILAR business model (e.g., if it's a DTC brand, find other DTC brands)
-4. Actually compete for the same customers
+Based on this company's specific business model and target market, identify ONLY direct competitors.
 
-For example:
-- If it's a DTC underwear brand, find OTHER DTC underwear brands (not department stores)
-- If it's a web scraping API, find OTHER web scraping APIs (not general data tools)
-- If it's an AI model provider, find OTHER AI model providers (not AI applications)
+Return ONLY a JSON object in this exact format:
+{
+  "competitors": [
+    {"name": "Competitor Name 1"},
+    {"name": "Competitor Name 2"},
+    {"name": "Competitor Name 3"}
+  ]
+}
 
-IMPORTANT: 
-- Only include companies you are confident actually exist
-- Focus on TRUE competitors with similar offerings
-- Exclude retailers, marketplaces, or aggregators unless the company itself is one
-- Aim for 6-9 competitors total
-- Do NOT include general retailers or platforms that just sell/distribute products`;
+Rules:
+- Include 6-9 well-known competitors in the same industry
+- Focus on companies offering similar products/services
+- Do NOT include retailers or marketplaces unless the company itself is one
+- Only return the JSON object, no markdown, no explanation`;
+
+      try {
+        const response = await openRouter.chat.send({
+          chatRequest: {
+            model: 'openrouter/free',
+            messages: [
+              { role: 'system', content: 'You are an expert competitive intelligence analyst with deep market knowledge. Return ONLY valid JSON with accurate, real competitors.' },
+              { role: 'user', content: prompt }
+            ],
+            temperature: 0.3,
+            responseFormat: { type: 'json_object' },
+            maxTokens: 2000,
+          }
+        });
+
+        const content = response.choices?.[0]?.message?.content || '{}';
+        console.log('[identifyCompetitors] OpenRouter raw response:', content.substring(0, 200));
+
+        let parsed;
+        try {
+          parsed = JSON.parse(content);
+        } catch (e) {
+          // Try extracting JSON from markdown
+          const jsonMatch = content.match(/```(?:json)?\s*([\s\S]*?)```/);
+          if (jsonMatch) {
+            parsed = JSON.parse(jsonMatch[1]);
+          } else {
+            throw e;
+          }
+        }
+
+        const competitors = parsed.competitors?.map((c: any) => c.name || c).filter(Boolean) || [];
+        console.log('[identifyCompetitors] OpenRouter found competitors:', competitors);
+
+        if (competitors.length > 0) {
+          // Send progress events
+          if (progressCallback) {
+            for (let i = 0; i < competitors.length; i++) {
+              progressCallback({
+                type: 'competitor-found',
+                stage: 'identifying-competitors',
+                data: {
+                  competitor: competitors[i],
+                  index: i + 1,
+                  total: competitors.length
+                } as CompetitorFoundData,
+                timestamp: new Date()
+              });
+            }
+          }
+          return competitors.slice(0, 9);
+        }
+      } catch (openRouterError) {
+        console.error('[identifyCompetitors] OpenRouter failed:', openRouterError);
+      }
+    }
+
+    // Fallback: try configured providers via ai SDK
+    console.log('[identifyCompetitors] Trying ai SDK providers...');
+    const configuredProviders = getConfiguredProviders();
+    console.log('[identifyCompetitors] Configured providers:', configuredProviders.length);
+
+    if (configuredProviders.length === 0) {
+      console.log('[identifyCompetitors] No ai SDK providers, using fallback competitors');
+      return getFallbackCompetitors(company.industry || 'technology');
+    }
+
+    const provider = configuredProviders[0];
+    const model = getProviderModel(provider.id, provider.defaultModel);
+
+    if (!model) {
+      console.log('[identifyCompetitors] No model available, using fallback');
+      return getFallbackCompetitors(company.industry || 'technology');
+    }
+
+    const prompt = `Identify 6-9 real competitors of ${company.name} in the ${company.industry || 'technology'} industry.
+Company: ${company.name}
+Industry: ${company.industry}
+Description: ${company.description}`;
 
     const { object } = await generateObject({
       model,
@@ -80,58 +227,80 @@ IMPORTANT:
       temperature: 0.3,
     });
 
-    // Extract competitor names and filter for direct competitors
-    // Exclude retailers and platforms unless the company itself is one
-    const isRetailOrPlatform = company.industry?.toLowerCase().includes('marketplace') || 
-                              company.industry?.toLowerCase().includes('platform') ||
-                              company.industry?.toLowerCase().includes('retailer');
-    
     const competitors = object.competitors
-      .filter(c => {
-        // Always include direct competitors with high market overlap
-        if (c.isDirectCompetitor && c.marketOverlap === 'high') return true;
-        
-        // Exclude retailers/platforms for product companies
-        if (!isRetailOrPlatform && (c.competitorType === 'retailer' || c.competitorType === 'platform')) {
-          return false;
-        }
-        
-        // Include other direct competitors and high-overlap indirect competitors
-        return c.competitorType === 'direct' || (c.competitorType === 'indirect' && c.marketOverlap === 'high');
-      })
-      .map(c => c.name)
-      .slice(0, 9); // Limit to 9 competitors max
+      .filter((c: any) => c.competitorType === 'direct' || (c.competitorType === 'indirect' && c.marketOverlap === 'high'))
+      .map((c: any) => c.name)
+      .slice(0, 9);
 
-    // Add any competitors found during scraping
-    if (company.scrapedData?.competitors) {
-      company.scrapedData.competitors.forEach(comp => {
-        if (!competitors.includes(comp)) {
-          competitors.push(comp);
-        }
-      });
+    console.log('[identifyCompetitors] ai SDK found competitors:', competitors);
+    return competitors;
+
+  } catch (error) {
+    console.error('[identifyCompetitors] TOP LEVEL ERROR:', error);
+    return getFallbackCompetitors(company.industry || 'technology');
+  }
+}
+
+// Fallback competitors when AI fails
+function getFallbackCompetitors(industry: string): string[] {
+  const fallbacks: Record<string, string[]> = {
+    'technology': ['Google', 'Microsoft', 'Amazon', 'Apple', 'Meta', 'Salesforce'],
+    'software': ['Atlassian', 'Slack', 'Zoom', 'Dropbox', 'Notion', 'Asana'],
+    'web scraping': ['Scrapy', 'Beautiful Soup', 'Puppeteer', 'Playwright', 'Selenium', 'Apify'],
+    'e-commerce': ['Shopify', 'WooCommerce', 'BigCommerce', 'Magento', 'Squarespace', 'Wix'],
+    'SaaS': ['Salesforce', 'HubSpot', 'Zendesk', 'Slack', 'Monday.com', 'Asana'],
+    'cloud': ['AWS', 'Azure', 'Google Cloud', 'DigitalOcean', 'Heroku', 'Vercel'],
+    'payment': ['Stripe', 'PayPal', 'Square', 'Adyen', 'Braintree', 'Chargebee'],
+  };
+
+  const lowerIndustry = industry.toLowerCase();
+  for (const [key, competitors] of Object.entries(fallbacks)) {
+    if (lowerIndustry.includes(key)) return competitors;
+  }
+
+  return fallbacks['technology'];
+}
+
+/**
+ * Get industry competitors based on keywords
+ */
+function getIndustryCompetitorsFromKeywords(keywords: string[], industry?: string): string[] {
+  const keywordSet = new Set(keywords.map(k => k.toLowerCase()));
+  const industryLower = industry?.toLowerCase() || '';
+
+  // Industry-specific competitor mappings
+  const industryCompetitors: Record<string, string[]> = {
+    'web scraping': ['ScrapingBee', 'Scrapy Cloud', 'Octoparse', 'ParseHub', 'Bright Data', 'Apify', 'ScraperAPI'],
+    'data extraction': ['Import.io', 'Diffbot', 'ScrapingBee', 'Octoparse', 'ParseHub'],
+    'api': ['Postman', 'Swagger', 'RapidAPI', 'Stoplight', 'Insomnia'],
+    'coolers': ['YETI', 'RTIC', 'Pelican', 'Igloo', 'Coleman', 'Orca', 'Bison'],
+    'drinkware': ['YETI', 'Hydro Flask', 'Stanley', 'Contigo', 'S\'well', 'Corkcicle'],
+    'outdoor': ['YETI', 'Patagonia', 'The North Face', 'Arc\'teryx', 'Columbia', 'REI Co-op'],
+    'e-commerce': ['Shopify', 'BigCommerce', 'WooCommerce', 'Magento', 'Wix', 'Squarespace'],
+    'email': ['Mailchimp', 'SendGrid', 'ConvertKit', 'Klaviyo', 'ActiveCampaign', 'HubSpot'],
+    'analytics': ['Google Analytics', 'Mixpanel', 'Amplitude', 'Heap', 'Segment', 'Plausible'],
+    'ai': ['OpenAI', 'Anthropic', 'Cohere', 'AI21 Labs', 'Hugging Face', 'Stability AI'],
+    'crm': ['Salesforce', 'HubSpot', 'Pipedrive', 'Zoho', 'Freshsales', 'Monday.com'],
+  };
+
+  // Check for industry match
+  for (const [key, competitors] of Object.entries(industryCompetitors)) {
+    if (industryLower.includes(key) || keywordSet.has(key)) {
+      return competitors;
     }
+  }
 
-    // Send progress events for each competitor found
-    if (progressCallback) {
-      for (let i = 0; i < competitors.length; i++) {
-        progressCallback({
-          type: 'competitor-found',
-          stage: 'identifying-competitors',
-          data: {
-            competitor: competitors[i],
-            index: i + 1,
-            total: competitors.length
-          } as CompetitorFoundData,
-          timestamp: new Date()
-        });
+  // Check keywords
+  for (const keyword of keywords) {
+    const lowerKeyword = keyword.toLowerCase();
+    for (const [key, competitors] of Object.entries(industryCompetitors)) {
+      if (lowerKeyword.includes(key) || key.includes(lowerKeyword)) {
+        return competitors;
       }
     }
-
-    return competitors;
-  } catch (error) {
-    console.error('Error identifying competitors:', error);
-    return company.scrapedData?.competitors || [];
   }
+
+  return [];
 }
 
 // Enhanced industry detection function
@@ -397,9 +566,10 @@ Examples of mentions to catch:
 
     let object;
     try {
-      // Use a fast model for structured output if available
-      const structuredModel = normalizedProvider === 'anthropic' 
-        ? getProviderModel('openai', 'gpt-4o-mini') || model
+      // Use elephant-alpha through OpenRouter for structured output (superior analysis)
+      const openRouter = getOpenRouterClient();
+      const structuredModel = openRouter 
+        ? 'openrouter/free' as any
         : model;
       
       const result = await generateObject({
@@ -669,6 +839,23 @@ export async function analyzeCompetitors(
         brandData.positions.push(response.brandPosition);
       }
       brandData.sentiments.push(response.sentiment);
+      mentionedInResponse.add(company.name);
+    }
+
+    // Fallback: Also count mentions from response.competitors array if rankings failed
+    // This ensures visibility scores are calculated even when structured extraction fails
+    if (response.competitors && response.competitors.length > 0) {
+      response.competitors.forEach(competitorName => {
+        if (trackedCompanies.has(competitorName) && !mentionedInResponse.has(competitorName)) {
+          const compData = competitorMap.get(competitorName)!;
+          compData.mentions++;
+          mentionedInResponse.add(competitorName);
+          // Use neutral sentiment if not already set from rankings
+          if (compData.sentiments.length === 0) {
+            compData.sentiments.push('neutral');
+          }
+        }
+      });
     }
   });
 

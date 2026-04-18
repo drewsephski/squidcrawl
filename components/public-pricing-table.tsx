@@ -79,7 +79,7 @@ export function PublicPricingTable() {
               <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
-              100 messages/month
+              1 analysis credit
             </li>
             <li className="flex items-center">
               <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -195,11 +195,11 @@ export function PublicPricingTable() {
               isRecommended ? 'border-2 border-orange-500 relative' : 'border-zinc-200'
             }`}
           >
-            {isRecommended && (
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-black text-white px-4 py-1 rounded-full text-sm font-medium">
-                {product.display.recommend_text}
-              </div>
-            )}
+         {isRecommended && (
+               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-black text-white px-4 py-1 rounded-full text-sm font-medium">
+                 {product.display?.recommend_text}
+               </div>
+             )}
             <h3 className="text-2xl font-bold mb-2">
               {product.display?.name || product.name}
             </h3>

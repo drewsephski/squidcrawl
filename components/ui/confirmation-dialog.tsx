@@ -54,13 +54,14 @@ export function ConfirmationDialog({
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button variant="outline" onClick={handleCancel} disabled={isLoading}>
+          <Button variant="outline" onClick={handleCancel} disabled={isLoading} className="text-white hover:text-slate-800">
             {cancelText}
           </Button>
           <Button
             variant="destructive"
             onClick={handleConfirm}
             disabled={isLoading}
+            className="text-white"
           >
             {isLoading ? "Deleting..." : confirmText}
           </Button>

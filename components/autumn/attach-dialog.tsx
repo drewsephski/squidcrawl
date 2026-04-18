@@ -102,21 +102,27 @@ export default function AttachDialog(params?: AttachDialogProps) {
             onClick={async () => {
               setLoading(true);
               try {
-                await attach({
+                const result = await attach({
                   productId: preview.product_id,
                   options: optionsInput.map((option) => ({
                     featureId: option.feature_id,
                     quantity: option.quantity || 0,
                   })),
-                  returnUrl: window.location.origin + '/dashboard',
-                  successUrl: window.location.origin + '/dashboard',
-                  cancelUrl: window.location.origin + '/plans',
+                  successUrl: window.location.origin + '/dashboard?checkout=success',
                 });
+
+                // If checkout_url is returned, redirect to Stripe checkout
+                // Note: result is wrapped in a Result type with data property
+                if (result.data?.checkout_url) {
+                  window.location.href = result.data.checkout_url;
+                  return;
+                }
+
                 setOpen(false);
-                
+
                 // Refresh customer data to update credits in navbar
                 await refetch();
-                
+
                 // Show success message based on scenario
                 if (preview.scenario === 'downgrade') {
                   alert(`Downgrade scheduled! Your plan will change to ${preview.product_name} on ${new Date(preview.next_cycle_at!).toLocaleDateString()}.`);

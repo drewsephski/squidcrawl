@@ -1,9 +1,11 @@
-import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+'use client';
+
+import React, { useState, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 import { CompetitorRanking } from '@/lib/types';
 import { IdentifiedCompetitor } from '@/lib/brand-monitor-reducer';
+import { Target, TrendingUp, Award, Users } from 'lucide-react';
 
 interface VisibilityScoreTabProps {
   competitors: CompetitorRanking[];
@@ -16,51 +18,83 @@ export function VisibilityScoreTab({
   brandData,
   identifiedCompetitors
 }: VisibilityScoreTabProps) {
+  const [mounted, setMounted] = useState(false);
+  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const topCompetitor = competitors.filter(c => !c.isOwn)[0];
   const brandRank = competitors.findIndex(c => c.isOwn) + 1;
   const difference = topCompetitor ? brandData.visibilityScore - topCompetitor.visibilityScore : 0;
   
   return (
-    <div className="flex flex-col h-full">
+    <div className={`flex flex-col h-full transition-all duration-700 ${
+      mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+    }`}>
       {/* Main Content Card */}
-      <Card className="p-2 bg-card text-card-foreground gap-6 rounded-xl border py-6 shadow-sm border-gray-200 h-full flex flex-col">
-        <CardHeader className="border-b">
-          <div className="flex justify-between items-center">
-            <div>
-              <CardTitle className="text-xl font-semibold">Visibility Score</CardTitle>
-              <CardDescription className="text-sm text-gray-600 mt-1">
-                Your brand visibility across AI providers
-              </CardDescription>
+      <div className="relative bg-[#12121a] text-[#fafafa] rounded-2xl border-2 border-[#2a2a3a] overflow-hidden shadow-2xl shadow-black/50 h-full flex flex-col">
+        {/* Top accent line */}
+        <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#f59e0b] via-[#22d3ee] to-[#6366f1]" />
+        
+        {/* Background pattern */}
+        <div className="absolute inset-0 bg-grid-intelligence opacity-[0.02]" />
+        <div className="relative p-8 border-b-2 border-[#2a2a3a]">
+          <div className="flex justify-between items-start">
+            <div className="flex items-center gap-4">
+              <div className="relative">
+                <div className="absolute inset-0 bg-[#f59e0b]/30 blur-xl rounded-xl" />
+                <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-[#f59e0b] to-[#d97706] flex items-center justify-center shadow-xl shadow-[#f59e0b]/40">
+                  <Target className="w-7 h-7 text-white" />
+                </div>
+              </div>
+              <div>
+                <h2 className="text-2xl font-extrabold text-[#fafafa]">Visibility Score</h2>
+                <p className="text-base text-[#a1a1aa]">
+                  Your brand visibility across AI providers
+                </p>
+              </div>
             </div>
-            {/* Visibility Score in top right */}
+            
+            {/* Visibility Score display */}
             <div className="text-right">
-              <p className="text-3xl font-bold text-orange-600">{brandData.visibilityScore}%</p>
-              <p className="text-xs text-gray-500 mt-1">Overall Score</p>
+              <div className="relative inline-flex items-center justify-center">
+                <div className="absolute inset-0 bg-[#f59e0b]/20 blur-2xl rounded-full" />
+                <div className="relative px-8 py-4 rounded-2xl bg-[#0a0a0f] border-2 border-[#f59e0b]/40">
+                  <p className="text-5xl font-black bg-gradient-to-r from-[#f59e0b] to-[#22d3ee] bg-clip-text text-transparent">
+                    {brandData.visibilityScore}%
+                  </p>
+                  <p className="text-sm text-[#a1a1aa] mt-1 font-semibold">Overall Score</p>
+                </div>
+              </div>
             </div>
           </div>
-        </CardHeader>
-        <CardContent className="pt-6 flex-1">
-          <div className="flex gap-8">
+        </div>
+        
+        <div className="relative flex-1 p-8">
+          <div className="flex flex-col lg:flex-row gap-8">
             {/* Left side - Pie Chart */}
-            <div className="flex-1">
+            <div className="flex-1 min-w-0">
               <div className="h-80 relative">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <defs>
-                      <linearGradient id="orangeGradient" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0%" stopColor="#fb923c" />
-                        <stop offset="100%" stopColor="#ea580c" />
+                      <linearGradient id="brandGradient" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stopColor="#f59e0b" />
+                        <stop offset="100%" stopColor="#22d3ee" />
                       </linearGradient>
-                      <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-                        <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
-                        <feOffset dx="0" dy="2" result="offsetblur"/>
-                        <feFlood floodColor="#000000" floodOpacity="0.1"/>
-                        <feComposite in2="offsetblur" operator="in"/>
-                        <feMerge>
-                          <feMergeNode/>
-                          <feMergeNode in="SourceGraphic"/>
-                        </feMerge>
-                      </filter>
+                      <linearGradient id="competitor1" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stopColor="#6366f1" />
+                        <stop offset="100%" stopColor="#4f46e5" />
+                      </linearGradient>
+                      <linearGradient id="competitor2" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stopColor="#ec4899" />
+                        <stop offset="100%" stopColor="#be185d" />
+                      </linearGradient>
+                      <linearGradient id="competitor3" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stopColor="#10b981" />
+                        <stop offset="100%" stopColor="#059669" />
+                      </linearGradient>
                     </defs>
                     <Pie
                       data={competitors.slice(0, 8).map((competitor) => ({
@@ -70,56 +104,84 @@ export function VisibilityScoreTab({
                       }))}
                       cx="50%"
                       cy="50%"
-                      innerRadius={70}
-                      outerRadius={110}
-                      paddingAngle={1}
+                      innerRadius={75}
+                      outerRadius={115}
+                      paddingAngle={2}
                       dataKey="value"
                       startAngle={90}
                       endAngle={-270}
                       animationBegin={0}
-                      animationDuration={800}
-                      filter="url(#shadow)"
+                      animationDuration={1000}
+                      stroke="none"
                     >
                       {competitors.slice(0, 8).map((competitor, idx) => (
                         <Cell 
                           key={`cell-${idx}`} 
-                          fill={competitor.isOwn ? 'url(#orangeGradient)' : 
-                            ['#3b82f6', '#8b5cf6', '#ec4899', '#10b981', '#f59e0b', '#6366f1', '#14b8a6', '#f43f5e'][idx % 8]}
-                          stroke={competitor.isOwn ? '#ea580c' : 'none'}
-                          strokeWidth={competitor.isOwn ? 2 : 0}
+                          fill={competitor.isOwn 
+                            ? 'url(#brandGradient)' 
+                            : idx === 0 ? 'url(#competitor1)' 
+                            : idx === 1 ? 'url(#competitor2)'
+                            : idx === 2 ? 'url(#competitor3)'
+                            : ['#3b82f6', '#8b5cf6', '#14b8a6', '#f43f5e', '#6366f1'][idx % 5]}
+                          stroke={competitor.isOwn ? '#f59e0b' : 'transparent'}
+                          strokeWidth={competitor.isOwn ? 3 : 0}
                         />
                       ))}
                     </Pie>
                     <Tooltip 
                       contentStyle={{ 
-                        backgroundColor: 'rgba(255, 255, 255, 0.95)', 
-                        border: '1px solid #e5e7eb',
-                        borderRadius: '8px',
+                        backgroundColor: '#12121a', 
+                        border: '1px solid #2a2a3a',
+                        borderRadius: '12px',
                         fontSize: '14px',
-                        padding: '8px 12px',
-                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                        padding: '12px 16px',
+                        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5)'
                       }}
+                      itemStyle={{ color: '#fafafa' }}
+                      labelStyle={{ color: '#a1a1aa', fontWeight: 600, marginBottom: '8px' }}
                       formatter={(value: number, name: string) => [`${value}% visibility`, name]}
-                      labelStyle={{ fontWeight: 600 }}
                     />
                   </PieChart>
                 </ResponsiveContainer>
                 
-                {/* Center text showing relative performance */}
+                {/* Center content */}
                 <div className="absolute top-[50%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
-                  <p className="text-3xl font-bold text-gray-900">#{brandRank}</p>
-                  <p className="text-sm text-gray-500 mt-1">Rank</p>
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-[#6366f1]/30 blur-2xl rounded-full" />
+                    <div className="relative">
+                      <div className="flex items-center justify-center gap-2 mb-2">
+                        <Award className="w-6 h-6 text-[#f59e0b]" />
+                        <p className="text-5xl font-black text-[#fafafa]">#{brandRank}</p>
+                      </div>
+                      <p className="text-base text-[#a1a1aa] font-semibold">Rank</p>
+                    </div>
+                  </div>
                   {difference !== 0 && (
-                    <p className={`text-xs mt-2 font-medium ${difference > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                      {difference > 0 ? '+' : ''}{Math.abs(difference).toFixed(1)}% vs #1
-                    </p>
+                    <div className={`mt-4 flex items-center justify-center gap-2 px-4 py-2 rounded-full border-2 ${
+                      difference > 0 
+                        ? 'bg-[#10b981]/20 text-[#10b981] border-[#10b981]/40' 
+                        : 'bg-[#ef4444]/20 text-[#ef4444] border-[#ef4444]/40'
+                    }`}>
+                      <TrendingUp className={`w-4 h-4 ${difference < 0 ? 'rotate-180' : ''}`} />
+                      <span className="text-sm font-bold">
+                        {difference > 0 ? '+' : ''}{Math.abs(difference).toFixed(1)}% vs #1
+                      </span>
+                    </div>
                   )}
                 </div>
               </div>
             </div>
             
             {/* Right side - Legend */}
-            <div className="w-80 space-y-2">
+            <div className="w-full lg:w-80 space-y-4">
+              {/* Legend header */}
+              <div className="flex items-center gap-3 mb-4 pb-4 border-b-2 border-[#2a2a3a]">
+                <Users className="w-5 h-5 text-[#a1a1aa]" />
+                <span className="text-sm font-bold text-[#a1a1aa] uppercase tracking-wider">
+                  Competitors ({competitors.length})
+                </span>
+              </div>
+              
               {competitors.slice(0, 8).map((competitor, idx) => {
                 const competitorData = identifiedCompetitors.find(c => 
                   c.name === competitor.name || 
@@ -128,52 +190,72 @@ export function VisibilityScoreTab({
                 const faviconUrl = competitorData?.url ? 
                   `https://www.google.com/s2/favicons?domain=${competitorData.url}&sz=64` : null;
                 
-                const color = competitor.isOwn ? '#ea580c' : 
-                  ['#3b82f6', '#8b5cf6', '#ec4899', '#10b981', '#f59e0b', '#6366f1', '#14b8a6', '#f43f5e'][idx % 8];
+                const color = competitor.isOwn ? '#f59e0b' : 
+                  ['#6366f1', '#ec4899', '#10b981', '#3b82f6', '#8b5cf6', '#14b8a6', '#f43f5e'][idx % 7];
                 
                 return (
-                  <div key={idx} className="flex items-center gap-2">
+                  <div 
+                    key={idx} 
+                    className={`group flex items-center gap-4 p-4 rounded-xl transition-all duration-300 ${
+                      competitor.isOwn 
+                        ? 'bg-gradient-to-r from-[#f59e0b]/20 to-[#f59e0b]/5 border-2 border-[#f59e0b]/50' 
+                        : 'bg-[#0a0a0f] border-2 border-[#2a2a3a] hover:border-[#3f3f46]'
+                    }`}
+                  >
+                    {/* Color indicator */}
                     <div 
-                      className="w-3 h-3 rounded-full flex-shrink-0" 
-                      style={{ backgroundColor: color }}
+                      className="w-4 h-4 rounded-full flex-shrink-0 shadow-lg" 
+                      style={{ backgroundColor: color, boxShadow: `0 0 12px ${color}60` }}
                     />
-                    <div className="flex items-center gap-2 min-w-0">
-                      <div className="w-5 h-5 rounded flex items-center justify-center bg-gray-100 flex-shrink-0">
-                        {faviconUrl ? (
-                          <img 
-                            src={faviconUrl}
-                            alt={competitor.name}
-                            className="w-4 h-4 object-contain"
-                            onError={(e) => {
-                              e.currentTarget.style.display = 'none';
-                              const fallback = e.currentTarget.nextSibling as HTMLDivElement;
-                              if (fallback) fallback.style.display = 'flex';
-                            }}
-                          />
-                        ) : null}
-                        <div className={`w-full h-full ${
-                          competitor.isOwn ? 'bg-orange-500' : 'bg-gray-300'
-                        } flex items-center justify-center text-white text-[8px] font-bold rounded`} 
-                        style={{ display: faviconUrl ? 'none' : 'flex' }}>
-                          {competitor.name.charAt(0)}
-                        </div>
+                    
+                    {/* Favicon */}
+                    <div className="w-8 h-8 rounded-lg bg-[#12121a] flex items-center justify-center flex-shrink-0">
+                      {faviconUrl ? (
+                        <img 
+                          src={faviconUrl}
+                          alt={competitor.name}
+                          className="w-5 h-5 object-contain"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = 'none';
+                          }}
+                        />
+                      ) : null}
+                      <div 
+                        className={`w-5 h-5 rounded flex items-center justify-center text-white text-[10px] font-bold ${
+                          competitor.isOwn ? 'bg-[#f59e0b]' : 'bg-[#3f3f46]'
+                        }`}
+                        style={{ display: faviconUrl ? 'none' : 'flex' }}
+                      >
+                        {competitor.name.charAt(0).toUpperCase()}
                       </div>
-                      <span className={`text-sm truncate ${
-                        competitor.isOwn ? 'font-semibold text-orange-600' : 'text-gray-700'
-                      }`}>
-                        {competitor.name}
-                      </span>
-                      <span className="text-sm font-medium text-gray-900 ml-auto">
-                        {competitor.visibilityScore}%
-                      </span>
                     </div>
+                    
+                    {/* Name */}
+                    <span className={`text-base truncate flex-1 ${
+                      competitor.isOwn ? 'font-bold text-[#f59e0b]' : 'font-semibold text-[#a1a1aa] group-hover:text-[#fafafa]'
+                    }`}>
+                      {competitor.name}
+                    </span>
+                    
+                    {/* Score */}
+                    <span className={`text-base font-black ${
+                      competitor.isOwn ? 'text-[#f59e0b]' : 'text-[#fafafa]'
+                    }`}>
+                      {competitor.visibilityScore}%
+                    </span>
                   </div>
                 );
               })}
+              
+              {competitors.length > 8 && (
+                <div className="text-center py-3">
+                  <span className="text-sm font-bold text-[#52525b]">+{competitors.length - 8} more competitors</span>
+                </div>
+              )}
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }

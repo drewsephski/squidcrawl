@@ -1,105 +1,98 @@
+// Autumn Product Configuration
+// These products will be created in Autumn via the setup script
+
+export interface AutumnFeature {
+  id: string;
+  name: string;
+  type: 'boolean' | 'metered' | 'credit_system';
+  consumable: boolean;
+  event_names?: string[];
+}
+
 export interface AutumnProduct {
   id: string;
   name: string;
   description?: string;
-  type: 'service' | 'physical' | 'addon';
-  display?: {
-    name?: string;
-    description?: string;
-    recommend_text?: string;
-    button_text?: string;
-    button_url?: string;
-    everything_from?: string;
-  };
-  properties?: {
-    interval?: 'month' | 'year' | 'one_time';
-    interval_group?: 'month' | 'year';
-    is_free?: boolean;
-  };
+  group?: string;
+  add_on: boolean;
+  auto_enable: boolean;
+  price?: {
+    amount: number;
+    interval: 'month' | 'year' | 'one_off';
+    interval_count?: number;
+  } | null;
   items: Array<{
-    id: string;
-    type: 'flat' | 'unit' | 'tier';
-    display?: {
-      primary_text?: string;
-      secondary_text?: string;
-    };
-    flat?: {
-      amount: number;
-    };
-    unit?: {
-      amount: number;
-      quantity?: number;
-    };
+    feature_id: string;
+    included: number;
+    unlimited?: boolean;
+    reset?: {
+      interval: 'month' | 'year' | 'day' | 'week';
+      interval_count?: number;
+    } | null;
+    price?: {
+      amount?: number;
+      interval: 'month' | 'year' | 'one_off';
+      billing_method: 'prepaid' | 'usage_based';
+    } | null;
   }>;
 }
 
+// Feature definitions
+export const AUTUMN_FEATURES: AutumnFeature[] = [
+  {
+    id: 'messages',
+    name: 'Messages',
+    type: 'metered',
+    consumable: true,
+    event_names: ['message_sent'],
+  },
+];
+
+// Product definitions
 export const AUTUMN_PRODUCTS: AutumnProduct[] = [
   {
     id: 'free',
     name: 'Free',
-    description: 'Get started with basic features',
-    type: 'service',
-    display: {
-      name: 'Free',
-      description: 'Perfect for trying out our service',
-      button_text: 'Get Started',
-    },
-    properties: {
-      is_free: true,
-    },
+    description: '1 free credit to try brand monitoring',
+    group: 'main',
+    add_on: false,
+    auto_enable: true,
+    price: null,
     items: [
       {
-        id: 'free-messages',
-        type: 'unit',
-        display: {
-          primary_text: '100 messages',
-          secondary_text: 'per month',
+        feature_id: 'messages',
+        included: 1,
+        unlimited: false,
+        reset: {
+          interval: 'month',
+          interval_count: 1,
         },
-        unit: {
-          amount: 0,
-          quantity: 100,
-        },
+        price: null,
       },
     ],
   },
   {
     id: 'pro',
     name: 'Pro',
-    description: 'For growing teams that need more power',
-    type: 'service',
-    display: {
-      name: 'Pro',
-      description: 'Unlock full potential',
-      button_text: 'Start Free Trial',
-      recommend_text: 'Most Popular',
-    },
-    properties: {
+    description: '50 credits per month for power users',
+    group: 'main',
+    add_on: false,
+    auto_enable: false,
+    price: {
+      amount: 999, // $9.99 in cents
       interval: 'month',
-      interval_group: 'month',
+      interval_count: 1,
     },
     items: [
       {
-        id: 'pro-price',
-        type: 'flat',
-        display: {
-          primary_text: '$9.99',
-          secondary_text: 'per month',
+        feature_id: 'messages',
+        included: 50,
+        unlimited: false,
+        reset: {
+          interval: 'month',
+          interval_count: 1,
         },
-        flat: {
-          amount: 999, // Amount in cents
-        },
-      },
-      {
-        id: 'pro-messages',
-        type: 'unit',
-        display: {
-          primary_text: '10,000 messages',
-          secondary_text: 'per month',
-        },
-        unit: {
-          amount: 0,
-          quantity: 10000,
-        },
+        price: null,
       },
     ],
   },

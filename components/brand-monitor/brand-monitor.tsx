@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useReducer, useCallback, useState, useEffect, useRef } from 'react';
-import { Company } from '@/lib/types';
+import { Company, ScrapedCompetitor } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Sparkles } from 'lucide-react';
 import { CREDITS_PER_BRAND_ANALYSIS } from '@/config/constants';
@@ -44,39 +44,61 @@ interface BrandMonitorProps {
   onCreditsUpdate?: () => void;
   selectedAnalysis?: any;
   onSaveAnalysis?: (analysis: any) => void;
+  onRequestNewAnalysis?: () => void;
+  newAnalysisRequested?: boolean;
 }
 
-export function BrandMonitor({ 
-  creditsAvailable = 0, 
+export function BrandMonitor({
+  creditsAvailable = 0,
   onCreditsUpdate,
   selectedAnalysis,
-  onSaveAnalysis 
+  onSaveAnalysis,
+  onRequestNewAnalysis,
+  newAnalysisRequested
 }: BrandMonitorProps = {}) {
   const [state, dispatch] = useReducer(brandMonitorReducer, initialBrandMonitorState);
   const [demoUrl] = useState('example.com');
   const saveAnalysis = useSaveBrandAnalysis();
   const [isLoadingExistingAnalysis, setIsLoadingExistingAnalysis] = useState(false);
   const hasSavedRef = useRef(false);
-  
-  const { startSSEConnection } = useSSEHandler({ 
-    state, 
-    dispatch, 
+
+  // Use refs to access latest state values in callbacks without closing over stale values
+  const companyRef = useRef(state.company);
+  const urlRef = useRef(state.url);
+  const identifiedCompetitorsRef = useRef(state.identifiedCompetitors);
+  const analyzingPromptsRef = useRef(state.analyzingPrompts);
+
+  // Update refs whenever state changes
+  useEffect(() => { companyRef.current = state.company; }, [state.company]);
+  useEffect(() => { urlRef.current = state.url; }, [state.url]);
+  useEffect(() => { identifiedCompetitorsRef.current = state.identifiedCompetitors; }, [state.identifiedCompetitors]);
+  useEffect(() => { analyzingPromptsRef.current = state.analyzingPrompts; }, [state.analyzingPrompts]);
+
+  const { startSSEConnection } = useSSEHandler({
+    state,
+    dispatch,
     onCreditsUpdate,
     onAnalysisComplete: (completedAnalysis) => {
       // Only save if this is a new analysis (not loaded from existing)
       if (!selectedAnalysis && !hasSavedRef.current) {
         hasSavedRef.current = true;
-        
+
+        // Use refs to get latest values, not stale closure values
+        const company = companyRef.current;
+        const url = urlRef.current;
+        const competitors = identifiedCompetitorsRef.current;
+        const prompts = analyzingPromptsRef.current;
+
         const analysisData = {
           url: company?.url || url,
           companyName: company?.name,
           industry: company?.industry,
           analysisData: completedAnalysis,
-          competitors: identifiedCompetitors,
-          prompts: analyzingPrompts,
+          competitors: competitors,
+          prompts: prompts,
           creditsUsed: CREDITS_PER_BRAND_ANALYSIS
         };
-        
+
         saveAnalysis.mutate(analysisData, {
           onSuccess: (savedAnalysis) => {
             console.log('Analysis saved successfully:', savedAnalysis);
@@ -256,10 +278,14 @@ export function BrandMonitor({
   }, [url, creditsAvailable, onCreditsUpdate]);
   
   const handlePrepareAnalysis = useCallback(async () => {
-    if (!company) return;
-    
+    if (!company) {
+      console.log('[handlePrepareAnalysis] No company data available');
+      return;
+    }
+
+    console.log('[handlePrepareAnalysis] Starting with company:', company.name, 'industry:', company.industry);
     dispatch({ type: 'SET_PREPARING_ANALYSIS', payload: true });
-    
+
     // Check which providers are available
     try {
       const response = await fetch('/api/brand-monitor/check-providers', {
@@ -270,58 +296,110 @@ export function BrandMonitor({
         dispatch({ type: 'SET_AVAILABLE_PROVIDERS', payload: data.providers || ['OpenAI', 'Anthropic', 'Google'] });
       }
     } catch (e) {
-      // Default to providers with API keys if check fails
+      console.log('[handlePrepareAnalysis] Provider check failed, using defaults');
       const defaultProviders = [];
       if (process.env.NEXT_PUBLIC_HAS_OPENAI_KEY) defaultProviders.push('OpenAI');
       if (process.env.NEXT_PUBLIC_HAS_ANTHROPIC_KEY) defaultProviders.push('Anthropic');
       dispatch({ type: 'SET_AVAILABLE_PROVIDERS', payload: defaultProviders.length > 0 ? defaultProviders : ['OpenAI', 'Anthropic'] });
     }
-    
+
     // Extract competitors from scraped data or use industry defaults
     const extractedCompetitors = company.scrapedData?.competitors || [];
-    const industryCompetitors = getIndustryCompetitors(company.industry || '');
-    
+    const industry = company.industry || '';
+    const industryCompetitors = getIndustryCompetitors(industry);
+
+    console.log('[handlePrepareAnalysis] Extracted from scrape:', extractedCompetitors);
+    console.log('[handlePrepareAnalysis] Industry defaults for:', industry, industryCompetitors);
+
     // Merge extracted competitors with industry defaults, keeping URLs where available
     const competitorMap = new Map<string, IdentifiedCompetitor>();
-    
+
     // Add industry competitors first (they have URLs)
     industryCompetitors.forEach(comp => {
       const normalizedName = normalizeCompetitorName(comp.name);
       competitorMap.set(normalizedName, comp as IdentifiedCompetitor);
     });
-    
+
     // Add extracted competitors and try to match them with known URLs
-    extractedCompetitors.forEach(name => {
-      const normalizedName = normalizeCompetitorName(name);
-      
+    extractedCompetitors.forEach((comp: ScrapedCompetitor) => {
+      const normalizedName = normalizeCompetitorName(comp.name);
+
       // Check if we already have this competitor
       const existing = competitorMap.get(normalizedName);
       if (existing) {
         // If existing has URL but current doesn't, keep existing
         if (!existing.url) {
-          const url = assignUrlToCompetitor(name);
-          competitorMap.set(normalizedName, { name, url });
+          const url = assignUrlToCompetitor(comp.name);
+          competitorMap.set(normalizedName, { name: comp.name, url });
         }
         return;
       }
-      
+
       // New competitor - try to find a URL for it
-      const url = assignUrlToCompetitor(name);
-      competitorMap.set(normalizedName, { name, url });
+      const url = assignUrlToCompetitor(comp.name);
+      competitorMap.set(normalizedName, { name: comp.name, url });
     });
-    
+
     let competitors = Array.from(competitorMap.values())
-      .filter(comp => comp.name !== 'Competitor 1' && comp.name !== 'Competitor 2' && 
-                      comp.name !== 'Competitor 3' && comp.name !== 'Competitor 4' && 
+      .filter(comp => comp.name !== 'Competitor 1' && comp.name !== 'Competitor 2' &&
+                      comp.name !== 'Competitor 3' && comp.name !== 'Competitor 4' &&
                       comp.name !== 'Competitor 5')
       .slice(0, 10);
 
-    // Just use the first 6 competitors without AI validation
+    console.log('[handlePrepareAnalysis] After merge, competitor count:', competitors.length, competitors);
+
+    // ALWAYS use AI to identify competitors if we have fewer than 6
+    if (competitors.length < 6) {
+      console.log('[handlePrepareAnalysis] Calling AI competitor identification API...');
+      try {
+        const response = await fetch('/api/brand-monitor/identify-competitors', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ company }),
+        });
+
+        console.log('[handlePrepareAnalysis] AI API response status:', response.status);
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log('[handlePrepareAnalysis] AI API returned:', data);
+
+          if (data.competitors && data.competitors.length > 0) {
+            // Merge AI-identified competitors with existing ones
+            data.competitors.forEach((comp: ScrapedCompetitor) => {
+              const normalizedName = normalizeCompetitorName(comp.name);
+              if (!competitorMap.has(normalizedName)) {
+                const url = assignUrlToCompetitor(comp.name);
+                competitorMap.set(normalizedName, { name: comp.name, url });
+              }
+            });
+
+            // Recreate the competitors list
+            competitors = Array.from(competitorMap.values())
+              .filter(comp => comp.name !== 'Competitor 1' && comp.name !== 'Competitor 2' &&
+                              comp.name !== 'Competitor 3' && comp.name !== 'Competitor 4' &&
+                              comp.name !== 'Competitor 5')
+              .slice(0, 9);
+
+            console.log('[handlePrepareAnalysis] After AI merge, competitor count:', competitors.length);
+          } else {
+            console.log('[handlePrepareAnalysis] AI API returned no competitors');
+          }
+        } else {
+          const errorText = await response.text();
+          console.error('[handlePrepareAnalysis] AI API error:', response.status, errorText);
+        }
+      } catch (error) {
+        console.error('[handlePrepareAnalysis] Error calling AI competitor API:', error);
+      }
+    }
+
+    // Limit to 6 competitors for display
     competitors = competitors.slice(0, 6);
-    
-    console.log('Identified competitors:', competitors);
+
+    console.log('[handlePrepareAnalysis] Final competitors to display:', competitors);
     dispatch({ type: 'SET_IDENTIFIED_COMPETITORS', payload: competitors });
-    
+
     // Show competitors on the same page with animation
     dispatch({ type: 'SET_SHOW_COMPETITORS', payload: true });
     dispatch({ type: 'SET_PREPARING_ANALYSIS', payload: false });
@@ -413,12 +491,64 @@ export function BrandMonitor({
     }
   }, [company, removedDefaultPrompts, customPrompts, identifiedCompetitors, startSSEConnection, creditsAvailable]);
   
-  const handleRestart = useCallback(() => {
-    dispatch({ type: 'RESET_STATE' });
-    hasSavedRef.current = false;
-    setIsLoadingExistingAnalysis(false);
-  }, []);
-  
+  const handleRestart = useCallback(async () => {
+    // If there's a current analysis that hasn't been saved yet, save it first
+    if (analysis && !selectedAnalysis && !hasSavedRef.current) {
+      hasSavedRef.current = true;
+
+      const analysisData = {
+        url: company?.url || urlRef.current,
+        companyName: company?.name,
+        industry: company?.industry,
+        analysisData: analysis,
+        competitors: identifiedCompetitorsRef.current,
+        prompts: analyzingPromptsRef.current,
+        creditsUsed: CREDITS_PER_BRAND_ANALYSIS
+      };
+
+      saveAnalysis.mutate(analysisData, {
+        onSuccess: (savedAnalysis) => {
+          console.log('Analysis saved on restart:', savedAnalysis);
+          if (onSaveAnalysis) {
+            onSaveAnalysis(savedAnalysis);
+          }
+          // Reset after saving
+          dispatch({ type: 'RESET_STATE' });
+          hasSavedRef.current = false;
+          setIsLoadingExistingAnalysis(false);
+          if (onRequestNewAnalysis) {
+            onRequestNewAnalysis();
+          }
+        },
+        onError: (error) => {
+          console.error('Failed to save analysis on restart:', error);
+          hasSavedRef.current = false;
+          // Still reset even if save fails
+          dispatch({ type: 'RESET_STATE' });
+          setIsLoadingExistingAnalysis(false);
+          if (onRequestNewAnalysis) {
+            onRequestNewAnalysis();
+          }
+        }
+      });
+    } else {
+      // No unsaved analysis, just reset
+      dispatch({ type: 'RESET_STATE' });
+      hasSavedRef.current = false;
+      setIsLoadingExistingAnalysis(false);
+      if (onRequestNewAnalysis) {
+        onRequestNewAnalysis();
+      }
+    }
+  }, [analysis, company, selectedAnalysis, onSaveAnalysis, onRequestNewAnalysis, saveAnalysis]);
+
+  // Handle new analysis request from parent (sidebar "New Analysis" button)
+  useEffect(() => {
+    if (newAnalysisRequested) {
+      handleRestart();
+    }
+  }, [newAnalysisRequested, handleRestart]);
+
   const batchScrapeAndValidateCompetitors = useCallback(async (competitors: IdentifiedCompetitor[]) => {
     const validatedCompetitors = competitors.map(comp => ({
       ...comp,
