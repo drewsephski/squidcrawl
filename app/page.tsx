@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useCustomer } from "autumn-js/react";
 import { useSession } from "@/lib/auth-client";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
@@ -26,6 +27,44 @@ import {
   Check
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+
+// Separate component for pricing buttons that uses useCustomer
+function PricingButtons({ session }: { session: any }) {
+  const { customer } = useCustomer();
+  
+  const hasFreePlan = customer?.products?.some((p: any) => p.id === 'free');
+  const hasProPlan = customer?.products?.some((p: any) => p.id === 'pro');
+  
+  return (
+    <>
+      <div className="col-span-6 lg:col-span-4 p-6 border-r border-[#2a2a3a]">
+        {hasFreePlan ? (
+          <Button variant="outline" size="lg" className="w-full" disabled>
+            Current Plan
+          </Button>
+        ) : (
+          <Button variant="outline" size="lg" className="w-full text-white hover:text-black" asChild>
+            <Link href={session ? "/plans" : "/register"}>Get Started</Link>
+          </Button>
+        )}
+      </div>
+      <div className="col-span-6 lg:col-span-4 p-6 bg-[#6366f1]/5">
+        {hasProPlan ? (
+          <Button variant="indigo" size="lg" className="w-full" disabled>
+            Current Plan
+          </Button>
+        ) : (
+          <Button variant="indigo" size="lg" className="w-full" asChild>
+            <Link href={session ? "/plans" : "/register"}>
+              Upgrade to Pro
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </Button>
+        )}
+      </div>
+    </>
+  );
+}
 
 export default function Home() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -522,19 +561,25 @@ export default function Home() {
               <div className="col-span-12 lg:col-span-4 p-6 border-b lg:border-b-0 lg:border-r border-[#2a2a3a] hidden lg:flex items-center">
                 <span className="text-xs font-mono text-[#52525b]">SELECT PLAN</span>
               </div>
-              <div className="col-span-6 lg:col-span-4 p-6 border-r border-[#2a2a3a]">
-                <Button variant="outline" size="lg" className="w-full text-white hover:text-black" asChild>
-                  <Link href="/register">Get Started</Link>
-                </Button>
-              </div>
-              <div className="col-span-6 lg:col-span-4 p-6 bg-[#6366f1]/5">
-                <Button variant="indigo" size="lg" className="w-full" asChild>
-                  <Link href="/register">
-                    Upgrade to Pro
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
-                </Button>
-              </div>
+              {session ? (
+                <PricingButtons session={session} />
+              ) : (
+                <>
+                  <div className="col-span-6 lg:col-span-4 p-6 border-r border-[#2a2a3a]">
+                    <Button variant="outline" size="lg" className="w-full text-white hover:text-black" asChild>
+                      <Link href="/register">Get Started</Link>
+                    </Button>
+                  </div>
+                  <div className="col-span-6 lg:col-span-4 p-6 bg-[#6366f1]/5">
+                    <Button variant="indigo" size="lg" className="w-full" asChild>
+                      <Link href="/register">
+                        Upgrade to Pro
+                        <ArrowRight className="w-4 h-4" />
+                      </Link>
+                    </Button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
 

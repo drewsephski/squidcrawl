@@ -17,5 +17,15 @@ export const db = drizzle(pool, { schema });
 // Export the pool for raw queries if needed
 export { pool };
 
-process.on('SIGINT', () => pool.end());
-process.on('SIGTERM', () => pool.end());
+// Track if pool has been ended to prevent double-ending
+let poolEnded = false;
+
+const gracefulShutdown = () => {
+  if (!poolEnded) {
+    poolEnded = true;
+    pool.end();
+  }
+};
+
+process.on('SIGINT', gracefulShutdown);
+process.on('SIGTERM', gracefulShutdown);
