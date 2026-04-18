@@ -304,7 +304,11 @@ export function BrandMonitor({
     }
 
     // Extract competitors from scraped data or use industry defaults
-    const extractedCompetitors = company.scrapedData?.competitors || [];
+    // Normalize to ScrapedCompetitor[] format (handles string[] | ScrapedCompetitor[] union)
+    const rawCompetitors = company.scrapedData?.competitors || [];
+    const extractedCompetitors: ScrapedCompetitor[] = rawCompetitors.map((c: string | ScrapedCompetitor) =>
+      typeof c === 'string' ? { name: c } : c
+    );
     const industry = company.industry || '';
     const industryCompetitors = getIndustryCompetitors(industry);
 
@@ -321,7 +325,7 @@ export function BrandMonitor({
     });
 
     // Add extracted competitors and try to match them with known URLs
-    extractedCompetitors.forEach((comp: ScrapedCompetitor) => {
+    extractedCompetitors.forEach((comp) => {
       const normalizedName = normalizeCompetitorName(comp.name);
 
       // Check if we already have this competitor
@@ -639,107 +643,107 @@ export function BrandMonitor({
 
       {/* Analysis Results */}
       {analysis && brandData && (
-        <div className="flex-1 flex justify-center animate-panel-in pt-8">
-          <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
-            <div className="flex gap-6 relative">
-            {/* Sidebar Navigation */}
-            <ResultsNavigation
-              activeTab={activeResultsTab}
-              onTabChange={(tab) => {
-                dispatch({ type: 'SET_ACTIVE_RESULTS_TAB', payload: tab });
-              }}
-              onRestart={handleRestart}
-            />
-            
-            {/* Main Content Area */}
-            <div className="flex-1 flex flex-col">
-              <div className="w-full flex-1 flex flex-col">
-                {/* Tab Content */}
-                {activeResultsTab === 'visibility' && (
-                  <VisibilityScoreTab
-                    competitors={analysis.competitors}
-                    brandData={brandData}
-                    identifiedCompetitors={identifiedCompetitors}
-                  />
-                )}
+        <div className="flex-1 flex justify-center animate-panel-in pt-4 sm:pt-8">
+          <div className="max-w-7xl mx-auto w-full px-3 sm:px-4 lg:px-6 xl:px-8">
+            <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 relative">
+              {/* Sidebar Navigation */}
+              <ResultsNavigation
+                activeTab={activeResultsTab}
+                onTabChange={(tab) => {
+                  dispatch({ type: 'SET_ACTIVE_RESULTS_TAB', payload: tab });
+                }}
+                onRestart={handleRestart}
+              />
 
-                {activeResultsTab === 'matrix' && (
-                  <Card className="p-2 bg-card text-card-foreground gap-6 rounded-xl border py-6 shadow-sm border-gray-200 h-full flex flex-col">
-                    <CardHeader className="border-b">
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <CardTitle className="text-xl font-semibold">Comparison Matrix</CardTitle>
-                          <CardDescription className="text-sm text-gray-600 mt-1">
-                            Compare visibility scores across different AI providers
-                          </CardDescription>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-2xl font-bold text-orange-600">{brandData.visibilityScore}%</p>
-                          <p className="text-xs text-gray-500 mt-1">Average Score</p>
-                        </div>
-                      </div>
-                    </CardHeader>
-                    <CardContent className="pt-6 flex-1 overflow-auto">
-                      {analysis.providerComparison ? (
-                        <ProviderComparisonMatrix 
-                          data={analysis.providerComparison} 
-                          brandName={company?.name || ''} 
-                          competitors={identifiedCompetitors}
-                        />
-                      ) : (
-                        <div className="text-center py-8 text-gray-500">
-                          <p>No comparison data available</p>
-                          <p className="text-sm mt-2">Please ensure AI providers are configured and the analysis has completed.</p>
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
-                )}
-
-                {activeResultsTab === 'rankings' && analysis.providerRankings && (
-                  <div id="provider-rankings" className="h-full">
-                    <ProviderRankingsTabs 
-                      providerRankings={analysis.providerRankings} 
-                      brandName={company?.name || 'Your Brand'}
-                      shareOfVoice={brandData.shareOfVoice}
-                      averagePosition={Math.round(brandData.averagePosition)}
-                      sentimentScore={brandData.sentimentScore}
-                      weeklyChange={brandData.weeklyChange}
+              {/* Main Content Area */}
+              <div className="flex-1 flex flex-col min-w-0">
+                <div className="w-full flex-1 flex flex-col">
+                  {/* Tab Content */}
+                  {activeResultsTab === 'visibility' && (
+                    <VisibilityScoreTab
+                      competitors={analysis.competitors}
+                      brandData={brandData}
+                      identifiedCompetitors={identifiedCompetitors}
                     />
-                  </div>
-                )}
+                  )}
 
-                {activeResultsTab === 'prompts' && analysis.prompts && (
-                  <Card className="p-2 bg-card text-card-foreground gap-6 rounded-xl border py-6 shadow-sm border-gray-200 h-full flex flex-col">
-                    <CardHeader className="border-b">
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <CardTitle className="text-xl font-semibold">Prompts & Responses</CardTitle>
-                          <CardDescription className="text-sm text-gray-600 mt-1">
-                            AI responses to your brand queries
-                          </CardDescription>
+                  {activeResultsTab === 'matrix' && (
+                    <Card className="p-2 sm:p-4 bg-card text-card-foreground gap-4 sm:gap-6 rounded-xl border py-4 sm:py-6 shadow-sm border-gray-200 h-full flex flex-col">
+                      <CardHeader className="border-b pb-3 sm:pb-4">
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4">
+                          <div>
+                            <CardTitle className="text-lg sm:text-xl font-semibold">Comparison Matrix</CardTitle>
+                            <CardDescription className="text-xs sm:text-sm text-gray-600 mt-1">
+                              Compare visibility scores across different AI providers
+                            </CardDescription>
+                          </div>
+                          <div className="text-left sm:text-right">
+                            <p className="text-xl sm:text-2xl font-bold text-orange-600">{brandData.visibilityScore}%</p>
+                            <p className="text-xs text-gray-500 mt-1">Average Score</p>
+                          </div>
                         </div>
-                        <div className="text-right">
-                          <p className="text-2xl font-bold text-orange-600">{analysis.prompts.length}</p>
-                          <p className="text-xs text-gray-500 mt-1">Total Prompts</p>
-                        </div>
-                      </div>
-                    </CardHeader>
-                    <CardContent className="pt-6 flex-1 overflow-auto">
-                      <PromptsResponsesTab
-                        prompts={analysis.prompts}
-                        responses={analysis.responses}
-                        expandedPromptIndex={expandedPromptIndex}
-                        onToggleExpand={(index) => dispatch({ type: 'SET_EXPANDED_PROMPT_INDEX', payload: index })}
-                        brandName={analysis.company?.name || ''}
-                        competitors={analysis.competitors?.map(c => c.name) || []}
+                      </CardHeader>
+                      <CardContent className="pt-4 sm:pt-6 flex-1">
+                        {analysis.providerComparison ? (
+                          <ProviderComparisonMatrix
+                            data={analysis.providerComparison}
+                            brandName={company?.name || ''}
+                            competitors={identifiedCompetitors}
+                          />
+                        ) : (
+                          <div className="text-center py-6 sm:py-8 text-gray-500">
+                            <p className="text-sm">No comparison data available</p>
+                            <p className="text-xs sm:text-sm mt-2">Please ensure AI providers are configured and the analysis has completed.</p>
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  )}
+
+                  {activeResultsTab === 'rankings' && analysis.providerRankings && (
+                    <div id="provider-rankings" className="h-full">
+                      <ProviderRankingsTabs
+                        providerRankings={analysis.providerRankings}
+                        brandName={company?.name || 'Your Brand'}
+                        shareOfVoice={brandData.shareOfVoice}
+                        averagePosition={Math.round(brandData.averagePosition)}
+                        sentimentScore={brandData.sentimentScore}
+                        weeklyChange={brandData.weeklyChange}
                       />
-                    </CardContent>
-                  </Card>
-                )}
+                    </div>
+                  )}
+
+                  {activeResultsTab === 'prompts' && analysis.prompts && (
+                    <Card className="p-2 sm:p-4 bg-card text-card-foreground gap-4 sm:gap-6 rounded-xl border py-4 sm:py-6 shadow-sm border-gray-200 h-full flex flex-col">
+                      <CardHeader className="border-b pb-3 sm:pb-4">
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4">
+                          <div>
+                            <CardTitle className="text-lg sm:text-xl font-semibold">Prompts & Responses</CardTitle>
+                            <CardDescription className="text-xs sm:text-sm text-gray-600 mt-1">
+                              AI responses to your brand queries
+                            </CardDescription>
+                          </div>
+                          <div className="text-left sm:text-right">
+                            <p className="text-xl sm:text-2xl font-bold text-orange-600">{analysis.prompts.length}</p>
+                            <p className="text-xs text-gray-500 mt-1">Total Prompts</p>
+                          </div>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="pt-4 sm:pt-6 flex-1">
+                        <PromptsResponsesTab
+                          prompts={analysis.prompts}
+                          responses={analysis.responses}
+                          expandedPromptIndex={expandedPromptIndex}
+                          onToggleExpand={(index) => dispatch({ type: 'SET_EXPANDED_PROMPT_INDEX', payload: index })}
+                          brandName={analysis.company?.name || ''}
+                          competitors={analysis.competitors?.map(c => c.name) || []}
+                        />
+                      </CardContent>
+                    </Card>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
           </div>
         </div>
       )}
@@ -756,7 +760,7 @@ export function BrandMonitor({
       <AddPromptModal
         isOpen={showAddPromptModal}
         promptText={newPromptText}
-        onPromptTextChange={(text) => dispatch({ type: 'SET_NEW_PROMPT_TEXT', payload: text })}
+        onPromptChange={(text: string) => dispatch({ type: 'SET_NEW_PROMPT_TEXT', payload: text })}
         onAdd={() => {
           if (newPromptText.trim()) {
             dispatch({ type: 'ADD_CUSTOM_PROMPT', payload: newPromptText.trim() });

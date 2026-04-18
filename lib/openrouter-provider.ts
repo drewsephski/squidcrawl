@@ -39,10 +39,10 @@ export function getOpenRouterClient(): OpenRouter | null {
 
 // Model definitions for popular providers through OpenRouter
 const OPENROUTER_MODELS: ProviderModel[] = [
-  // Featured model (user requested)
+  // Minimax M2.7 - Primary model
   {
-    id: 'openrouter/free',
-    name: 'OpenRouter Free',
+    id: 'minimax/minimax-m2.7',
+    name: 'MiniMax M2.7',
     maxTokens: 128000,
     supportsFunctionCalling: true,
     supportsStructuredOutput: true,
@@ -178,7 +178,7 @@ export const OPENROUTER_CONFIG: ProviderConfig = {
   envKey: 'OPENROUTER_API_KEY',
   enabled: true,
   models: OPENROUTER_MODELS,
-  defaultModel: 'openrouter/elephant-alpha',
+  defaultModel: 'minimax/minimax-m2.7',
   capabilities: {
     webSearch: true,
     functionCalling: true,

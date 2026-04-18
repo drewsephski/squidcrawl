@@ -76,23 +76,23 @@ export function CompanyCard({
         
         <div className="relative">
           {/* Header section with asymmetric layout */}
-          <div className="flex items-stretch">
+          <div className="flex flex-col lg:flex-row lg:items-stretch">
             {/* Left side - Visual showcase */}
-            <div className="relative w-72 lg:w-80 flex-shrink-0 bg-gradient-to-br from-[#1a1a25] to-[#0a0a0f] p-6 flex flex-col items-center justify-center">
-              {/* Decorative elements */}
-              <div className="absolute top-4 left-4 w-20 h-20 border border-[#6366f1]/20 rounded-full" />
-              <div className="absolute bottom-4 right-4 w-12 h-12 border border-[#22d3ee]/20 rounded-full" />
-              
+            <div className="relative w-full lg:w-80 lg:flex-shrink-0 bg-gradient-to-br from-[#1a1a25] to-[#0a0a0f] p-4 sm:p-6 flex flex-row lg:flex-col items-center justify-between lg:justify-center gap-4 lg:gap-0">
+              {/* Decorative elements - hidden on mobile */}
+              <div className="hidden lg:block absolute top-4 left-4 w-20 h-20 border border-[#6366f1]/20 rounded-full" />
+              <div className="hidden lg:block absolute bottom-4 right-4 w-12 h-12 border border-[#22d3ee]/20 rounded-full" />
+
               {/* Logo/Brand display */}
-              <div className="relative">
+              <div className="relative flex-shrink-0">
                 <div className="absolute inset-0 bg-[#6366f1]/20 blur-2xl rounded-full" />
-                <div className="relative w-24 h-24 rounded-2xl bg-[#0a0a0f] border border-[#2a2a3a] flex items-center justify-center overflow-hidden">
+                <div className="relative w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-xl lg:rounded-2xl bg-[#0a0a0f] border border-[#2a2a3a] flex items-center justify-center overflow-hidden">
                   {validLogoUrl && !logoError ? (
                     <Image
                       src={validLogoUrl}
                       alt={company.name}
                       fill
-                      className="object-contain p-3"
+                      className="object-contain p-2 lg:p-3"
                       sizes="96px"
                       onError={() => setLogoError(true)}
                     />
@@ -106,8 +106,8 @@ export function CompanyCard({
                       onError={() => setFaviconError(true)}
                     />
                   ) : (
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#6366f1] to-[#4f46e5] flex items-center justify-center">
-                      <span className="text-2xl font-bold text-white">
+                    <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-lg lg:rounded-xl bg-gradient-to-br from-[#6366f1] to-[#4f46e5] flex items-center justify-center">
+                      <span className="text-xl lg:text-2xl font-bold text-white">
                         {company.name.charAt(0).toUpperCase()}
                       </span>
                     </div>
@@ -120,18 +120,18 @@ export function CompanyCard({
                 href={company.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-4 flex items-center gap-2 px-4 py-2 rounded-lg bg-[#0a0a0f] border border-[#2a2a3a] hover:border-[#6366f1] hover:bg-[#1a1a25] transition-all group"
+                className="flex-shrink-0 lg:mt-4 flex items-center gap-2 px-3 py-1.5 lg:px-4 lg:py-2 rounded-lg bg-[#0a0a0f] border border-[#2a2a3a] hover:border-[#6366f1] hover:bg-[#1a1a25] transition-all group"
               >
                 <Globe className="h-3.5 w-3.5 text-[#71717a] group-hover:text-[#22d3ee]" />
-                <span className="text-xs text-[#a1a1aa] group-hover:text-[#fafafa]">
+                <span className="text-xs text-[#a1a1aa] group-hover:text-[#fafafa] truncate max-w-[120px] sm:max-w-[180px] lg:max-w-none">
                   {new URL(company.url).hostname}
                 </span>
-                <ExternalLink className="h-3 w-3 text-[#52525b] group-hover:text-[#a1a1aa]" />
+                <ExternalLink className="h-3 w-3 text-[#52525b] group-hover:text-[#a1a1aa] hidden sm:inline" />
               </a>
             </div>
 
             {/* Right side - Content */}
-            <div className="flex-1 p-8">
+            <div className="flex-1 p-4 sm:p-6 lg:p-8">
               <div className="flex items-start justify-between gap-6 mb-6">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-3 mb-2">
@@ -154,7 +154,7 @@ export function CompanyCard({
                 <button
                   onClick={onAnalyze}
                   disabled={analyzing}
-                  className={`flex-shrink-0 h-12 px-6 rounded-xl font-medium flex items-center gap-2 transition-all duration-300 ${
+                  className={`flex-shrink-0 h-10 sm:h-12 px-4 sm:px-6 rounded-lg sm:rounded-xl text-sm sm:text-base font-medium flex items-center gap-1.5 sm:gap-2 transition-all duration-300 ${
                     analyzing
                       ? 'bg-[#1a1a25] text-[#71717a] cursor-not-allowed'
                       : 'bg-gradient-to-r from-[#6366f1] to-[#4f46e5] text-white shadow-lg shadow-[#6366f1]/30 hover:shadow-[#6366f1]/50 hover:scale-[1.02]'
@@ -162,13 +162,15 @@ export function CompanyCard({
                 >
                   {analyzing ? (
                     <>
-                      <div className="h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
-                      <span>Scanning...</span>
+                      <div className="h-3.5 w-3.5 sm:h-4 sm:w-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
+                      <span className="hidden sm:inline">Scanning...</span>
+                      <span className="sm:hidden">Scanning</span>
                     </>
                   ) : (
                     <>
-                      <Radar className="h-4 w-4" />
-                      <span>Identify Competitors</span>
+                      <Radar className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                      <span className="hidden sm:inline">Identify Competitors</span>
+                      <span className="sm:hidden">Find Competitors</span>
                     </>
                   )}
                 </button>
@@ -206,51 +208,51 @@ export function CompanyCard({
                 </div>
               )}
               
-              {/* Stats row */}
-              <div className="flex items-center gap-6 pt-4 border-t border-[#2a2a3a]">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-[#0a0a0f] border border-[#2a2a3a] flex items-center justify-center">
-                    <Zap className="h-4 w-4 text-[#f59e0b]" />
+              {/* Stats row - horizontal scroll on mobile */}
+              <div className="flex items-center gap-3 sm:gap-6 pt-4 border-t border-[#2a2a3a] overflow-x-auto scrollbar-hide pb-2">
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#0a0a0f] border border-[#2a2a3a] flex items-center justify-center">
+                    <Zap className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#f59e0b]" />
                   </div>
                   <div>
-                    <p className="text-xs text-[#52525b]">Analysis Type</p>
-                    <p className="text-sm text-[#a1a1aa]">AI Visibility Scan</p>
+                    <p className="text-[10px] sm:text-xs text-[#52525b]">Analysis Type</p>
+                    <p className="text-xs sm:text-sm text-[#a1a1aa]">AI Visibility Scan</p>
                   </div>
                 </div>
-                <div className="h-8 w-px bg-[#2a2a3a]" />
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-[#0a0a0f] border border-[#2a2a3a] flex items-center justify-center">
-                    <Sparkles className="h-4 w-4 text-[#6366f1]" />
+                <div className="h-7 sm:h-8 w-px bg-[#2a2a3a] flex-shrink-0" />
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#0a0a0f] border border-[#2a2a3a] flex items-center justify-center">
+                    <Sparkles className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#6366f1]" />
                   </div>
                   <div>
-                    <p className="text-xs text-[#52525b]">Providers</p>
-                    <p className="text-sm text-[#a1a1aa]">5 AI Platforms</p>
+                    <p className="text-[10px] sm:text-xs text-[#52525b]">Providers</p>
+                    <p className="text-xs sm:text-sm text-[#a1a1aa]">5 AI Platforms</p>
                   </div>
                 </div>
                 {company.scrapedData?.founded && (
                   <>
-                    <div className="h-8 w-px bg-[#2a2a3a]" />
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-lg bg-[#0a0a0f] border border-[#2a2a3a] flex items-center justify-center">
-                        <Building2 className="h-4 w-4 text-[#22d3ee]" />
+                    <div className="h-7 sm:h-8 w-px bg-[#2a2a3a] flex-shrink-0" />
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#0a0a0f] border border-[#2a2a3a] flex items-center justify-center">
+                        <Building2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#22d3ee]" />
                       </div>
                       <div>
-                        <p className="text-xs text-[#52525b]">Founded</p>
-                        <p className="text-sm text-[#a1a1aa]">{company.scrapedData.founded}</p>
+                        <p className="text-[10px] sm:text-xs text-[#52525b]">Founded</p>
+                        <p className="text-xs sm:text-sm text-[#a1a1aa]">{company.scrapedData.founded}</p>
                       </div>
                     </div>
                   </>
                 )}
                 {company.scrapedData?.employees && (
                   <>
-                    <div className="h-8 w-px bg-[#2a2a3a]" />
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-lg bg-[#0a0a0f] border border-[#2a2a3a] flex items-center justify-center">
-                        <Users className="h-4 w-4 text-[#10b981]" />
+                    <div className="h-7 sm:h-8 w-px bg-[#2a2a3a] flex-shrink-0" />
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#0a0a0f] border border-[#2a2a3a] flex items-center justify-center">
+                        <Users className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#10b981]" />
                       </div>
                       <div>
-                        <p className="text-xs text-[#52525b]">Team</p>
-                        <p className="text-sm text-[#a1a1aa]">{company.scrapedData.employees}</p>
+                        <p className="text-[10px] sm:text-xs text-[#52525b]">Team</p>
+                        <p className="text-xs sm:text-sm text-[#a1a1aa]">{company.scrapedData.employees}</p>
                       </div>
                     </div>
                   </>
@@ -290,7 +292,7 @@ export function CompanyCard({
         {/* Screenshot & Metadata Section */}
         {showCompetitors && (
           <div className="border-t border-[#2a2a3a]">
-            <div className="px-8 py-6 bg-[#0a0a0f]/50">
+            <div className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 bg-[#0a0a0f]/50">
               {/* Screenshot Preview */}
               {company.scrapedData?.screenshot && (
                 <div className="mb-6">
@@ -324,7 +326,7 @@ export function CompanyCard({
               
               {/* Additional Metadata Grid */}
               {(company.scrapedData?.useCases?.length || company.scrapedData?.differentiators?.length || company.scrapedData?.targetAudience || company.scrapedData?.headquarters) && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
                   {company.scrapedData?.useCases && company.scrapedData.useCases.length > 0 && (
                     <div className="bg-[#12121a] rounded-xl border border-[#2a2a3a] p-4">
                       <div className="flex items-center gap-2 mb-2">
@@ -387,14 +389,14 @@ export function CompanyCard({
         {/* Competitors Section */}
         {showCompetitors && (
           <div className="border-t border-[#2a2a3a]">
-            <div className="px-8 py-6 pb-8 bg-[#0a0a0f]/50">
+            <div className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 pb-6 sm:pb-8 bg-[#0a0a0f]/50">
               {/* Header */}
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-3">
-                  <div className="w-1 h-6 bg-gradient-to-b from-[#22d3ee] to-[#6366f1] rounded-full" />
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-0 mb-4 sm:mb-6">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="w-1 h-5 sm:h-6 bg-gradient-to-b from-[#22d3ee] to-[#6366f1] rounded-full" />
                   <div>
-                    <h3 className="text-lg font-semibold text-[#fafafa]">Identified Competitors</h3>
-                    <p className="text-sm text-[#71717a]">
+                    <h3 className="text-base sm:text-lg font-semibold text-[#fafafa]">Identified Competitors</h3>
+                    <p className="text-xs sm:text-sm text-[#71717a]">
                       {identifiedCompetitors.length > 0
                         ? `Comparing ${company.name} against ${identifiedCompetitors.length} competitors`
                         : 'Add competitors manually or continue without them'}
@@ -403,7 +405,7 @@ export function CompanyCard({
                 </div>
                 <div className="flex items-center gap-2">
                   {identifiedCompetitors.length > 0 && (
-                    <span className="px-3 py-1 rounded-full bg-[#6366f1]/10 text-[#6366f1] text-sm font-medium">
+                    <span className="px-2 sm:px-3 py-1 rounded-full bg-[#6366f1]/10 text-[#6366f1] text-xs sm:text-sm font-medium">
                       {identifiedCompetitors.length} found
                     </span>
                   )}
@@ -411,7 +413,7 @@ export function CompanyCard({
               </div>
 
               {identifiedCompetitors.length > 0 ? (
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-4 sm:mb-6">
                   {identifiedCompetitors.map((competitor, idx) => (
                     <div
                       key={idx}
@@ -498,11 +500,11 @@ export function CompanyCard({
               )}
 
               {/* Actions */}
-              <div className="relative z-20 flex items-center justify-between pt-4 pb-2 border-t border-[#2a2a3a]">
+              <div className="relative z-20 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-0 pt-4 pb-2 border-t border-[#2a2a3a]">
                 {onAddCompetitor && (
                   <Button
                     onClick={onAddCompetitor}
-                    className="h-10 px-4 rounded-xl text-sm font-medium flex items-center gap-2 bg-[#0a0a0f] border border-[#2a2a3a] text-[#a1a1aa] hover:border-[#22d3ee] hover:text-[#22d3ee] transition-all duration-300"
+                    className="h-10 px-4 rounded-xl text-sm font-medium flex items-center justify-center gap-2 bg-[#0a0a0f] border border-[#2a2a3a] text-[#a1a1aa] hover:border-[#22d3ee] hover:text-[#22d3ee] transition-all duration-300"
                   >
                     <Plus className="w-4 h-4" />
                     Add Competitor
@@ -512,9 +514,10 @@ export function CompanyCard({
                 {onContinueToAnalysis && (
                   <Button
                     onClick={onContinueToAnalysis}
-                    className="h-11 px-8 rounded-xl text-sm font-semibold flex items-center gap-2 bg-gradient-to-r from-[#6366f1] to-[#4f46e5] text-white shadow-lg shadow-[#6366f1]/30 hover:shadow-[#6366f1]/50 hover:scale-[1.02] transition-all duration-300"
+                    className="h-11 px-6 sm:px-8 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 bg-gradient-to-r from-[#6366f1] to-[#4f46e5] text-white shadow-lg shadow-[#6366f1]/30 hover:shadow-[#6366f1]/50 hover:scale-[1.02] transition-all duration-300"
                   >
-                    Continue to Analysis
+                    <span className="hidden sm:inline">Continue to Analysis</span>
+                    <span className="sm:hidden">Continue</span>
                     <ExternalLink className="w-4 h-4" />
                   </Button>
                 )}

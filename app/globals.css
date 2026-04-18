@@ -723,3 +723,93 @@
   background: #252533 !important;
   border-color: #6366f1 !important;
 }
+
+/* Mobile-friendly utilities */
+@layer utilities {
+  /* Safe area insets for notched devices */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .px-safe {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* Touch-friendly minimum sizes */
+  .min-touch {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Prevent text selection on interactive elements */
+  .no-select {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* Smooth scrolling for touch devices */
+  .touch-scroll {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Mobile-specific animations */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes slide-up-mobile {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-down-mobile {
+    from {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .animate-slide-up-mobile {
+    animation: slide-up-mobile 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .animate-slide-down-mobile {
+    animation: slide-down-mobile 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+}
+
+/* Mobile landscape adjustments */
+@media (max-height: 500px) and (orientation: landscape) {
+  .landscape-hide {
+    display: none !important;
+  }
+  
+  .landscape-py-2 {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+}
