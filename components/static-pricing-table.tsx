@@ -4,12 +4,15 @@ import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Check, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import ProductChangeDialog from '@/components/autumn/product-change-dialog';
+import { useCustomer } from '@/hooks/useAutumnCustomer';
 
 interface StaticProduct {
   id: string;
   name?: string;
   description?: string;
   recommendText?: string;
+  isCurrentPlan?: boolean;
   price: {
     primaryText: string;
     secondaryText?: string;
@@ -22,16 +25,26 @@ interface StaticProduct {
 
 interface StaticPricingTableProps {
   products: StaticProduct[];
+  isAuthenticated?: boolean;
 }
 
-export default function StaticPricingTable({ products }: StaticPricingTableProps) {
+export default function StaticPricingTable({ products, isAuthenticated }: StaticPricingTableProps) {
   const [loadingProductId, setLoadingProductId] = useState<string | null>(null);
   const router = useRouter();
+  const { attach } = useCustomer();
 
-  const handleSignup = async (productId: string) => {
-    setLoadingProductId(productId);
-    // Redirect to register page with the product ID
-    router.push(`/register?plan=${productId}`);
+  const handleSelectPlan = async (productId: string) => {
+    if (isAuthenticated) {
+      setLoadingProductId(productId);
+      await attach({
+        productId,
+        dialog: ProductChangeDialog,
+      });
+      setLoadingProductId(null);
+    } else {
+      setLoadingProductId(productId);
+      router.push(`/register?plan=${productId}`);
+    }
   };
 
   const hasRecommended = products.some((p) => p.recommendText);
@@ -111,8 +124,8 @@ export default function StaticPricingTable({ products }: StaticPricingTableProps
               </div>
               <div className={cn("px-6", product.recommendText && "lg:-translate-y-12")}>
                 <button
-                  onClick={() => handleSignup(product.id)}
-                  disabled={loadingProductId === product.id}
+                  onClick={() => handleSelectPlan(product.id)}
+                  disabled={product.isCurrentPlan || loadingProductId === product.id}
                   className={cn(
                     "w-full py-3 px-4 group overflow-hidden relative transition-all duration-300 border rounded-[10px] inline-flex items-center justify-center whitespace-nowrap text-sm font-medium disabled:pointer-events-none disabled:opacity-50",
                     product.recommendText ? "btn-firecrawl-orange" : "btn-firecrawl-default"
@@ -120,14 +133,16 @@ export default function StaticPricingTable({ products }: StaticPricingTableProps
                 >
                   {loadingProductId === product.id ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : product.isCurrentPlan ? (
+                    <span>Current Plan</span>
                   ) : (
                     <>
                       <div className="flex items-center justify-between w-full transition-transform duration-300 group-hover:-translate-y-[150%]">
-                        <span>Get Started</span>
+                        <span>{isAuthenticated ? 'Select Plan' : 'Get Started'}</span>
                         <span className="text-sm">→</span>
                       </div>
                       <div className="flex items-center justify-between w-full absolute inset-x-0 px-4 translate-y-[150%] transition-transform duration-300 group-hover:translate-y-0">
-                        <span>Get Started</span>
+                        <span>{isAuthenticated ? 'Select Plan' : 'Get Started'}</span>
                         <span className="text-sm">→</span>
                       </div>
                     </>

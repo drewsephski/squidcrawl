@@ -1,62 +1,74 @@
 'use client';
 
-import PricingTable from '@/components/autumn/pricing-table';
 import StaticPricingTable from '@/components/static-pricing-table';
 import { useSession } from '@/lib/auth-client';
+import { useCustomer } from '@/hooks/useAutumnCustomer';
+import { Loader2 } from 'lucide-react';
 
-// Static product details for unauthenticated users
+// Static product details - these are shown consistently to all users
 const staticProducts = [
   {
     id: "free",
     name: "Free",
-    description: "Perfect for trying out our service",
+    description: "Perfect for trying out brand monitoring",
     price: {
       primaryText: "Free",
       secondaryText: "No credit card required"
     },
     items: [
-      { 
-        primaryText: "10 messages per month",
-        secondaryText: "AI-powered chat responses"
+      {
+        primaryText: "1 AI credit per month",
+        secondaryText: "Try our AI-powered brand analysis"
       },
       {
         primaryText: "Community support",
-        secondaryText: "Get help from our community"
-      },
-      {
-        primaryText: "Basic features",
-        secondaryText: "Essential tools to get started"
+        secondaryText: "Get help when you need it"
       }
     ]
   },
   {
     id: "pro",
     name: "Pro",
-    description: "For all your messaging needs",
+    description: "For serious brand monitoring",
     recommendText: "Most Popular",
     price: {
-      primaryText: "$10/month",
+      primaryText: "$9.99/month",
       secondaryText: "billed monthly"
     },
     items: [
-      { 
-        primaryText: "100 messages per month",
-        secondaryText: "AI-powered chat responses"
+      {
+        primaryText: "50 AI credits per month",
+        secondaryText: "Full-powered brand analysis"
       },
       {
-        primaryText: "Premium support",
+        primaryText: "Priority support",
         secondaryText: "Get help from our team"
-      },
-      {
-        primaryText: "Priority access",
-        secondaryText: "Be first to try new features"
       }
     ]
   }
 ];
 
 export default function PricingPage() {
-  const { data: session } = useSession();
+  const { data: session, isPending: isSessionLoading } = useSession();
+  const { customer } = useCustomer();
+
+  // Get current plan IDs from customer data
+  const currentPlanIds = customer?.products?.map((p: any) => p.id) || [];
+
+  // Add isCurrentPlan flag to products
+  const productsWithCurrentPlan = staticProducts.map(product => ({
+    ...product,
+    isCurrentPlan: currentPlanIds.includes(product.id)
+  }));
+
+  // Show loading state while session is loading to prevent flicker
+  if (isSessionLoading) {
+    return (
+      <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-zinc-500" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] py-12 relative">
@@ -82,12 +94,11 @@ export default function PricingPage() {
         </div>
 
         <div className="card-intelligence p-8">
-          {/* Use static component for unauthenticated users to avoid API calls */}
-          {session ? (
-            <PricingTable />
-          ) : (
-            <StaticPricingTable products={staticProducts} />
-          )}
+          {/* Always use StaticPricingTable for consistent design */}
+          <StaticPricingTable
+            products={productsWithCurrentPlan}
+            isAuthenticated={!!session}
+          />
         </div>
       </div>
     </div>
