@@ -16,23 +16,23 @@ import type { AIResponse, CompanyRanking } from './types';
 import { z } from 'zod';
 import * as errors from '@openrouter/sdk/models/errors';
 
-// Default model to use for analysis - using elephant-alpha for superior competitive intelligence
-const DEFAULT_ANALYSIS_MODEL = 'openrouter/elephant-alpha';
-const DEFAULT_STRUCTURED_MODEL = 'openrouter/elephant-alpha';
+// Default model to use for analysis - using minimax-m2.7 for superior competitive intelligence
+const DEFAULT_ANALYSIS_MODEL = 'minimax/minimax-m2.7';
+const DEFAULT_STRUCTURED_MODEL = 'minimax/minimax-m2.7';
 
 // Type for ranking output from structured generation
 export type RankingOutput = z.infer<typeof RankingSchema>;
 
 /**
- * Provider-specific model mapping - all use elephant-alpha for superior competitive intelligence
+ * Provider-specific model mapping - all use minimax-m2.7 for superior competitive intelligence
  * While we simulate different providers for perspective diversity, all use the same powerful model
  */
 const PROVIDER_MODEL_MAP: Record<string, string> = {
-  'OpenAI': 'openrouter/elephant-alpha',
-  'Anthropic': 'openrouter/elephant-alpha',
-  'Google': 'openrouter/elephant-alpha',
-  'Perplexity': 'openrouter/elephant-alpha',
-  'OpenRouter': 'openrouter/elephant-alpha',
+  'OpenAI': 'minimax/minimax-m2.7',
+  'Anthropic': 'minimax/minimax-m2.7',
+  'Google': 'minimax/minimax-m2.7',
+  'Perplexity': 'minimax/minimax-m2.7',
+  'OpenRouter': 'minimax/minimax-m2.7',
 };
 
 /**
