@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { Check, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCustomer } from '@/hooks/useAutumnCustomer';
+import ProductChangeDialog from '@/components/autumn/product-change-dialog';
 
 interface StaticProduct {
   id: string;
@@ -30,16 +31,38 @@ interface StaticPricingTableProps {
 export default function StaticPricingTable({ products, isAuthenticated }: StaticPricingTableProps) {
   const [loadingProductId, setLoadingProductId] = useState<string | null>(null);
   const router = useRouter();
-  const { refetch: refetchCustomer } = useCustomer();
+  const { refetch: refetchCustomer, attach } = useCustomer();
 
   const handleSelectPlan = async (productId: string) => {
-    if (isAuthenticated) {
-      setLoadingProductId(productId);
-      await refetchCustomer();
-      setLoadingProductId(null);
-    } else {
+    if (!isAuthenticated) {
       setLoadingProductId(productId);
       router.push(`/register?plan=${productId}`);
+      return;
+    }
+
+    // For authenticated users, trigger checkout via Autumn
+    setLoadingProductId(productId);
+    try {
+      // Free plan - just attach directly without payment
+      if (productId === 'free') {
+        await attach({
+          productId,
+          successUrl: window.location.origin + '/dashboard?checkout=success',
+        });
+        await refetchCustomer();
+        router.push('/dashboard');
+      } else {
+        // Paid plan - use dialog for checkout flow
+        await attach({
+          productId,
+          dialog: ProductChangeDialog,
+          successUrl: window.location.origin + '/dashboard?checkout=success',
+        });
+      }
+    } catch (error) {
+      console.error('Error selecting plan:', error);
+    } finally {
+      setLoadingProductId(null);
     }
   };
 

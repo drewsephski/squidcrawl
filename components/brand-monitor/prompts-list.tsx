@@ -46,18 +46,18 @@ const providerIcons: Record<string, React.ReactNode> = {
   ),
 };
 
-// Default prompts
+// Default prompts - industry-neutral templates that work for any sector
 const defaultPrompts: string[] = [
-  "What are the top 10 {industry} tools in 2024?",
-  "List the best {industry} platforms available today",
-  "Compare the top 5 {industry} tools including {brand}",
-  "What are the best alternatives to {brand}?",
-  "Which {industry} tool would you recommend for businesses?",
-  "What are the most popular {industry} solutions?",
-  "How do the major {industry} platforms compare?",
-  "List similar tools to {brand} for {industry}",
-  "What's the best {industry} solution for enterprise use?",
-  "Which {industry} platform offers the best value?",
+  "What are the top {industry} providers in 2026?",
+  "Compare {brand} with leading {industry} competitors",
+  "Best alternatives to {brand} in the {industry} space",
+  "Which {industry} solution has the best customer satisfaction?",
+  "How does {brand} compare to other {industry} options?",
+  "Top rated {industry} companies and their strengths",
+  "Why choose {brand} over other {industry} providers?",
+  "Best value {industry} solutions for businesses",
+  "Most reliable {industry} providers in the market",
+  "Customer reviews of {brand} vs {industry} competitors",
 ];
 
 export function PromptsList({

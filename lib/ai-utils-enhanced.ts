@@ -48,7 +48,7 @@ export async function analyzePromptWithProviderEnhanced(
   // Handle provider-specific web search configurations
   if (normalizedProvider === 'openrouter' && useWebSearch) {
     // Use OpenRouter's web search
-    model = getProviderModel('openrouter', 'openrouter/free', { useWebSearch: true });
+    model = getProviderModel('openrouter', 'minimax/minimax-m2.7', { useWebSearch: true });
     // Note: Web search tools configuration would need to be handled by the provider's getModel implementation
   } else {
     // Get model with web search options if supported
@@ -104,7 +104,7 @@ Be very thorough in detecting company names - they might appear in different con
     let object;
     try {
       // Use a fast model for structured output
-      const analysisModel = getProviderModel('openrouter', 'openrouter/free');
+      const analysisModel = getProviderModel('openrouter', 'minimax/minimax-m2.7');
       if (!analysisModel) {
         throw new Error('Analysis model not available');
       }

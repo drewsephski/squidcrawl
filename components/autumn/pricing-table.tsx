@@ -91,9 +91,10 @@ export default function PricingTable({
                     await attach({
                       productId: product.id,
                       dialog: AttachDialog,
-                      returnUrl: window.location.origin + '/dashboard',
-                      successUrl: window.location.origin + '/dashboard',
-                      cancelUrl: window.location.origin + '/pricing',
+                      successUrl: window.location.origin + '/dashboard?checkout=success',
+                      checkoutSessionParams: {
+                        cancel_url: window.location.origin + '/pricing',
+                      },
                     });
                   } else if (product.display?.button_url) {
                     window.open(product.display?.button_url, "_blank");

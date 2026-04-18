@@ -203,7 +203,7 @@ export async function scrapeCompanyInfo(url: string, maxAge?: number): Promise<C
     
     const extractionResponse = await openRouterClient.chat.send({
       chatRequest: {
-        model: 'openrouter/free', // Use OpenRouter free tier
+        model: 'minimax/minimax-m2.7', // Use MiniMax M2.7 for superior competitive intelligence
         messages: [
           {
             role: 'system',

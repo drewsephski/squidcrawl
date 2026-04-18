@@ -16,7 +16,7 @@ const RankingSchema = z.object({
   })).default([]),
   analysis: z.object({
     brandMentioned: z.boolean().default(false),
-    brandPosition: z.number().optional(),
+    brandPosition: z.number().nullable().optional(),
     competitors: z.array(z.string()).default([]),
     overallSentiment: z.enum(['positive', 'neutral', 'negative']).default('neutral'),
     confidence: z.number().min(0).max(1).default(0.5),
@@ -144,7 +144,7 @@ Rules:
       try {
         const response = await openRouter.chat.send({
           chatRequest: {
-            model: 'openrouter/free',
+            model: 'minimax/minimax-m2.7',
             messages: [
               { role: 'system', content: 'You are an expert competitive intelligence analyst with deep market knowledge. Return ONLY valid JSON with accurate, real competitors.' },
               { role: 'user', content: prompt }
@@ -360,7 +360,7 @@ async function detectIndustryFromContent(company: Company): Promise<string> {
 }
 
 // Sector types for tailored prompt generation
-type Sector = 'saas' | 'ecommerce' | 'outdoor_gear' | 'ai_ml' | 'fintech' | 'healthcare' | 'consumer_goods' | 'b2b_software' | 'general';
+type Sector = 'saas' | 'ecommerce' | 'outdoor_gear' | 'ai_ml' | 'fintech' | 'healthcare' | 'consumer_goods' | 'b2b_software' | 'education' | 'real_estate' | 'travel' | 'food_beverage' | 'fitness' | 'marketing' | 'general';
 
 /**
  * Determine the sector based on company data
@@ -374,14 +374,114 @@ function determineSector(
 ): Sector {
   const allContext = `${company.industry || ''} ${productContext} ${categoryContext} ${keywords.join(' ')} ${mainProducts.join(' ')}`.toLowerCase();
 
-  // AI/ML sector detection
-  if (allContext.includes('artificial intelligence') ||
-      allContext.includes('machine learning') ||
-      allContext.includes('llm') ||
-      allContext.includes('ai model') ||
-      allContext.includes('generative ai') ||
-      allContext.includes('nlp') ||
-      allContext.includes('computer vision')) {
+  // Education sector detection (check before AI to avoid misclassification)
+  if (allContext.includes('education') ||
+      allContext.includes('learning platform') ||
+      allContext.includes('online course') ||
+      allContext.includes('e-learning') ||
+      allContext.includes('student') ||
+      allContext.includes('academic') ||
+      allContext.includes('school') ||
+      allContext.includes('university') ||
+      allContext.includes('training') ||
+      allContext.includes('certification') ||
+      allContext.includes('tutoring') ||
+      allContext.includes('edtech')) {
+    return 'education';
+  }
+
+  // Real estate sector detection
+  if (allContext.includes('real estate') ||
+      allContext.includes('property') ||
+      allContext.includes('housing') ||
+      allContext.includes('mortgage') ||
+      allContext.includes('rental') ||
+      allContext.includes('apartment') ||
+      allContext.includes('home buying') ||
+      allContext.includes('listing') ||
+      allContext.includes('commercial real estate')) {
+    return 'real_estate';
+  }
+
+  // Travel sector detection
+  if (allContext.includes('travel') ||
+      allContext.includes('booking') ||
+      allContext.includes('hotel') ||
+      allContext.includes('flight') ||
+      allContext.includes('vacation') ||
+      allContext.includes('tourism') ||
+      allContext.includes('trip planning') ||
+      allContext.includes('destination') ||
+      allContext.includes('airline') ||
+      allContext.includes('accommodation')) {
+    return 'travel';
+  }
+
+  // Food & beverage sector detection
+  if (allContext.includes('food') ||
+      allContext.includes('restaurant') ||
+      allContext.includes('delivery') ||
+      allContext.includes('meal') ||
+      allContext.includes('catering') ||
+      allContext.includes('grocery') ||
+      allContext.includes('beverage') ||
+      allContext.includes('recipe') ||
+      allContext.includes('kitchen') ||
+      allContext.includes('dining')) {
+    // Make sure it's not a cooler/outdoor gear company misclassified as beverage
+    if (!allContext.includes('cooler') && !allContext.includes('insulated') && !allContext.includes('yeti')) {
+      return 'food_beverage';
+    }
+  }
+
+  // Fitness sector detection
+  if (allContext.includes('fitness') ||
+      allContext.includes('workout') ||
+      allContext.includes('gym') ||
+      allContext.includes('exercise') ||
+      allContext.includes('training') ||
+      allContext.includes('wellness') ||
+      allContext.includes('health') ||
+      allContext.includes('yoga') ||
+      allContext.includes('nutrition') ||
+      allContext.includes('personal trainer')) {
+    return 'fitness';
+  }
+
+  // Marketing sector detection
+  if (allContext.includes('marketing') ||
+      allContext.includes('advertising') ||
+      allContext.includes('seo') ||
+      allContext.includes('social media') ||
+      allContext.includes('content marketing') ||
+      allContext.includes('email marketing') ||
+      allContext.includes('lead generation') ||
+      allContext.includes('campaign') ||
+      allContext.includes('analytics')) {
+    return 'marketing';
+  }
+
+  // AI/ML sector detection - STRICT: must be AI-first company
+  // Only classify as AI if multiple strong AI signals OR core AI terminology
+  const aiSignals = [
+    'artificial intelligence platform',
+    'ai platform',
+    'ai api',
+    'machine learning platform',
+    'llm api',
+    'generative ai',
+    'ai model',
+    'computer vision',
+    'natural language processing',
+    'nlp api',
+    'ai inference',
+    'foundation model',
+    'large language model'
+  ];
+  const hasStrongAISignal = aiSignals.some(signal => allContext.includes(signal));
+  const aiMentions = ['llm', 'ai api', 'ml platform', 'neural network', 'deep learning'].filter(term => allContext.includes(term)).length;
+  
+  if (hasStrongAISignal || aiMentions >= 2) {
     return 'ai_ml';
   }
 
@@ -572,6 +672,84 @@ function generateSectorPrompts(
       );
       break;
 
+    case 'education':
+      prompts.push(
+        { prompt: `best ${productContext} for student engagement`, category: 'ranking' },
+        { prompt: `${brandName} vs ${competitors[0] || 'competitors'} course completion rates`, category: 'comparison' },
+        { prompt: `affordable ${productContext} for schools`, category: 'alternatives' },
+        { prompt: `${brandName} certification and accreditation value`, category: 'recommendations' },
+        { prompt: `most effective ${productContext} for skill development`, category: 'ranking' },
+        { prompt: `${brandName} instructor quality vs competitors`, category: 'comparison' },
+        { prompt: `top ${productContext} for career advancement`, category: 'ranking' },
+        { prompt: `${brandName} learning outcomes and student success`, category: 'recommendations' }
+      );
+      break;
+
+    case 'real_estate':
+      prompts.push(
+        { prompt: `best ${productContext} for property searches`, category: 'ranking' },
+        { prompt: `${brandName} vs ${competitors[0] || 'competitors'} listing accuracy`, category: 'comparison' },
+        { prompt: `${productContext} with lowest fees for agents`, category: 'alternatives' },
+        { prompt: `${brandName} market data and analytics quality`, category: 'recommendations' },
+        { prompt: `most reliable ${productContext} for homebuyers`, category: 'ranking' },
+        { prompt: `${brandName} lead generation vs competitors`, category: 'comparison' },
+        { prompt: `top ${productContext} for commercial real estate`, category: 'ranking' },
+        { prompt: `${brandName} customer support for agents and brokers`, category: 'recommendations' }
+      );
+      break;
+
+    case 'travel':
+      prompts.push(
+        { prompt: `best ${productContext} for booking deals`, category: 'ranking' },
+        { prompt: `${brandName} vs ${competitors[0] || 'competitors'} price comparison`, category: 'comparison' },
+        { prompt: `cheaper alternatives to ${brandName} for ${productContext}`, category: 'alternatives' },
+        { prompt: `${brandName} customer service during travel disruptions`, category: 'recommendations' },
+        { prompt: `most user-friendly ${productContext} for trip planning`, category: 'ranking' },
+        { prompt: `${brandName} loyalty rewards vs competitors`, category: 'comparison' },
+        { prompt: `top ${productContext} for last-minute bookings`, category: 'ranking' },
+        { prompt: `${brandName} cancellation policy vs alternatives`, category: 'comparison' }
+      );
+      break;
+
+    case 'food_beverage':
+      prompts.push(
+        { prompt: `best ${productContext} for food delivery`, category: 'ranking' },
+        { prompt: `${brandName} vs ${competitors[0] || 'competitors'} delivery speed`, category: 'comparison' },
+        { prompt: `healthier alternatives to ${brandName} ${productContext}`, category: 'alternatives' },
+        { prompt: `${brandName} food quality and freshness reviews`, category: 'recommendations' },
+        { prompt: `most affordable ${productContext} for families`, category: 'ranking' },
+        { prompt: `${brandName} menu variety vs competitors`, category: 'comparison' },
+        { prompt: `top rated ${productContext} in local markets`, category: 'ranking' },
+        { prompt: `${brandName} sustainability and sourcing practices`, category: 'comparison' }
+      );
+      break;
+
+    case 'fitness':
+      prompts.push(
+        { prompt: `best ${productContext} for workout results`, category: 'ranking' },
+        { prompt: `${brandName} vs ${competitors[0] || 'competitors'} trainer quality`, category: 'comparison' },
+        { prompt: `affordable ${productContext} for beginners`, category: 'alternatives' },
+        { prompt: `${brandName} program effectiveness and user success stories`, category: 'recommendations' },
+        { prompt: `most convenient ${productContext} for busy schedules`, category: 'ranking' },
+        { prompt: `${brandName} equipment and facilities vs competitors`, category: 'comparison' },
+        { prompt: `top ${productContext} for weight loss goals`, category: 'ranking' },
+        { prompt: `${brandName} community and motivation features`, category: 'recommendations' }
+      );
+      break;
+
+    case 'marketing':
+      prompts.push(
+        { prompt: `best ${productContext} for ROI and conversions`, category: 'ranking' },
+        { prompt: `${brandName} vs ${competitors[0] || 'competitors'} analytics accuracy`, category: 'comparison' },
+        { prompt: `${productContext} with better free plans`, category: 'alternatives' },
+        { prompt: `${brandName} ease of use for non-technical marketers`, category: 'recommendations' },
+        { prompt: `most comprehensive ${productContext} for small business`, category: 'ranking' },
+        { prompt: `${brandName} integration capabilities vs competitors`, category: 'comparison' },
+        { prompt: `top ${productContext} for social media management`, category: 'ranking' },
+        { prompt: `${brandName} customer support and onboarding quality`, category: 'recommendations' }
+      );
+      break;
+
     default:
       // General prompts for unrecognized sectors
       prompts.push(
@@ -671,31 +849,224 @@ export async function generatePromptsForCompany(company: Company, competitors: s
   // Generate sector-specific prompts
   const sectorPrompts = generateSectorPrompts(sector, brandName, productContext, categoryContext, mainProducts, keywords, competitors);
 
-  // Generate contextually relevant prompts (base templates)
-  const contextualTemplates = {
-    ranking: [
-      `best ${productContext} in 2024`,
-      `top ${categoryContext} ranked by quality`,
-      mainProducts.length > 0 ? `most recommended ${mainProducts[0]}` : `most recommended ${productContext}`,
-      keywords.length > 0 ? `best brands for ${keywords[0]}` : `popular ${categoryContext}`,
-    ],
-    comparison: [
-      `${brandName} vs ${competitors.slice(0, 2).join(' vs ')} for ${productContext}`,
-      `how does ${brandName} compare to other ${categoryContext}`,
-      competitors[0] && mainProducts[0] ? `${competitors[0]} or ${brandName} which has better ${mainProducts[0]}` : `${brandName} compared to alternatives`,
-    ],
-    alternatives: [
-      `alternatives to ${brandName} ${mainProducts[0] || productContext}`,
-      `${categoryContext} similar to ${brandName}`,
-      `competitors of ${brandName} in ${productContext.split(' ')[0]} market`,
-    ],
-    recommendations: [
-      mainProducts.length > 0 ? `is ${brandName} ${mainProducts[0]} worth buying` : `is ${brandName} worth it for ${productContext}`,
-      `${brandName} ${productContext} reviews and recommendations`,
-      `should I buy ${brandName} or other ${categoryContext}`,
-      `best ${productContext} for ${keywords.includes('professional') ? 'professionals' : keywords.includes('outdoor') ? 'outdoor enthusiasts' : 'everyday use'}`,
-    ],
+  // Generate contextually relevant prompts (base templates) - only for general sector or as supplements
+  // These are designed to be more natural and industry-specific
+  const getSectorSpecificContext = () => {
+    switch (sector) {
+      case 'outdoor_gear':
+        return {
+          ranking: [
+            `most durable ${productContext} for outdoor use`,
+            `highest rated ${categoryContext} by outdoor enthusiasts`,
+          ],
+          comparison: [
+            `${brandName} build quality compared to ${competitors[0] || 'competitors'}`,
+          ],
+          alternatives: [
+            `${productContext} with best warranty coverage`,
+          ],
+          recommendations: [
+            `why choose ${brandName} for ${productContext}`,
+          ],
+        };
+      case 'saas':
+      case 'b2b_software':
+        return {
+          ranking: [
+            `most reliable ${productContext} for business use`,
+            `${categoryContext} with best customer support`,
+          ],
+          comparison: [
+            `${brandName} features vs ${competitors[0] || 'competitors'}`,
+          ],
+          alternatives: [
+            `${productContext} with easiest setup process`,
+          ],
+          recommendations: [
+            `why businesses choose ${brandName} for ${productContext}`,
+          ],
+        };
+      case 'ecommerce':
+        return {
+          ranking: [
+            `fastest ${productContext} for online stores`,
+            `most scalable ${categoryContext} for growing businesses`,
+          ],
+          comparison: [
+            `${brandName} transaction fees vs ${competitors[0] || 'competitors'}`,
+          ],
+          alternatives: [
+            `${productContext} with best built-in marketing tools`,
+          ],
+          recommendations: [
+            `why sellers choose ${brandName} for ${productContext}`,
+          ],
+        };
+      case 'fintech':
+        return {
+          ranking: [
+            `most secure ${productContext} for financial transactions`,
+            `fastest ${categoryContext} for payment processing`,
+          ],
+          comparison: [
+            `${brandName} compliance standards vs ${competitors[0] || 'competitors'}`,
+          ],
+          alternatives: [
+            `${productContext} with lowest transaction fees`,
+          ],
+          recommendations: [
+            `why businesses trust ${brandName} for ${productContext}`,
+          ],
+        };
+      case 'healthcare':
+        return {
+          ranking: [
+            `most secure ${productContext} for patient data`,
+            `${categoryContext} with best EMR integration`,
+          ],
+          comparison: [
+            `${brandName} HIPAA compliance vs ${competitors[0] || 'competitors'}`,
+          ],
+          alternatives: [
+            `${productContext} with best telehealth features`,
+          ],
+          recommendations: [
+            `why providers choose ${brandName} for ${productContext}`,
+          ],
+        };
+      case 'consumer_goods':
+        return {
+          ranking: [
+            `best quality ${productContext} available`,
+            `most popular ${categoryContext} this year`,
+          ],
+          comparison: [
+            `${brandName} quality vs ${competitors[0] || 'competitors'}`,
+          ],
+          alternatives: [
+            `${productContext} with best customer reviews`,
+          ],
+          recommendations: [
+            `why customers prefer ${brandName} ${productContext}`,
+          ],
+        };
+      case 'education':
+        return {
+          ranking: [
+            `most engaging ${productContext} for students`,
+            `highest rated ${categoryContext} by educators`,
+          ],
+          comparison: [
+            `${brandName} learning outcomes vs ${competitors[0] || 'competitors'}`,
+          ],
+          alternatives: [
+            `${productContext} with best certification value`,
+          ],
+          recommendations: [
+            `why students choose ${brandName} for ${productContext}`,
+          ],
+        };
+      case 'real_estate':
+        return {
+          ranking: [
+            `most accurate ${productContext} for property data`,
+            `${categoryContext} with best market insights`,
+          ],
+          comparison: [
+            `${brandName} listing reach vs ${competitors[0] || 'competitors'}`,
+          ],
+          alternatives: [
+            `${productContext} with best lead generation`,
+          ],
+          recommendations: [
+            `why agents choose ${brandName} for ${productContext}`,
+          ],
+        };
+      case 'travel':
+        return {
+          ranking: [
+            `most reliable ${productContext} for bookings`,
+            `${categoryContext} with best price guarantees`,
+          ],
+          comparison: [
+            `${brandName} cancellation policy vs ${competitors[0] || 'competitors'}`,
+          ],
+          alternatives: [
+            `${productContext} with best loyalty rewards`,
+          ],
+          recommendations: [
+            `why travelers book with ${brandName} for ${productContext}`,
+          ],
+        };
+      case 'food_beverage':
+        return {
+          ranking: [
+            `fastest ${productContext} for delivery`,
+            `highest rated ${categoryContext} by customers`,
+          ],
+          comparison: [
+            `${brandName} food quality vs ${competitors[0] || 'competitors'}`,
+          ],
+          alternatives: [
+            `${productContext} with healthiest options`,
+          ],
+          recommendations: [
+            `why customers order from ${brandName} for ${productContext}`,
+          ],
+        };
+      case 'fitness':
+        return {
+          ranking: [
+            `most effective ${productContext} for results`,
+            `highest rated ${categoryContext} by members`,
+          ],
+          comparison: [
+            `${brandName} trainer quality vs ${competitors[0] || 'competitors'}`,
+          ],
+          alternatives: [
+            `${productContext} with flexible scheduling`,
+          ],
+          recommendations: [
+            `why people choose ${brandName} for ${productContext}`,
+          ],
+        };
+      case 'marketing':
+        return {
+          ranking: [
+            `most effective ${productContext} for campaigns`,
+            `${categoryContext} with best analytics`,
+          ],
+          comparison: [
+            `${brandName} ROI vs ${competitors[0] || 'competitors'}`,
+          ],
+          alternatives: [
+            `${productContext} with easiest automation`,
+          ],
+          recommendations: [
+            `why marketers choose ${brandName} for ${productContext}`,
+          ],
+        };
+      default:
+        // General prompts for unrecognized sectors - keep these generic but natural
+        return {
+          ranking: [
+            `top rated ${productContext} in the market`,
+            `best performing ${categoryContext} this year`,
+          ],
+          comparison: [
+            `${brandName} vs ${competitors[0] || 'leading competitors'}`,
+          ],
+          alternatives: [
+            `top alternatives to ${brandName}`,
+          ],
+          recommendations: [
+            `why customers choose ${brandName} for ${productContext}`,
+          ],
+        };
+    }
   };
+
+  const contextualTemplates = getSectorSpecificContext();
 
   // Add sector-specific prompts first (more targeted and relevant)
   sectorPrompts.forEach(({ prompt, category }) => {
@@ -811,10 +1182,10 @@ Examples of mentions to catch:
 
     let object;
     try {
-      // Use elephant-alpha through OpenRouter for structured output (superior analysis)
+      // Use MiniMax M2.7 through OpenRouter for structured output (superior analysis)
       const openRouter = getOpenRouterClient();
       const structuredModel = openRouter 
-        ? 'openrouter/free' as any
+        ? 'minimax/minimax-m2.7' as any
         : model;
       
       const result = await generateObject({
@@ -985,7 +1356,7 @@ Return a simple analysis:
       rankings,
       competitors: relevantCompetitors,
       brandMentioned,
-      brandPosition: object.analysis.brandPosition,
+      brandPosition: object.analysis.brandPosition ?? undefined,
       sentiment: object.analysis.overallSentiment,
       confidence: object.analysis.confidence,
       timestamp: new Date(),

@@ -141,25 +141,25 @@ export const OPENROUTER_PROVIDERS = {
     name: 'OpenAI',
     icon: '🤖',
     models: OPENROUTER_MODELS.filter(m => m.id.startsWith('openrouter/')),
-    defaultModel: 'openrouter/free',
+    defaultModel: 'minimax/minimax-m2.7',
   },
   anthropic: {
     name: 'Anthropic',
     icon: '🧠',
     models: OPENROUTER_MODELS.filter(m => m.id.startsWith('openrouter/')),
-    defaultModel: 'openrouter/free',
+    defaultModel: 'minimax/minimax-m2.7',
   },
   google: {
     name: 'Google',
     icon: '🌟',
     models: OPENROUTER_MODELS.filter(m => m.id.startsWith('openrouter/')),
-    defaultModel: 'openrouter/free',
+    defaultModel: 'minimax/minimax-m2.7',
   },
   perplexity: {
     name: 'Perplexity',
     icon: '🔍',
     models: OPENROUTER_MODELS.filter(m => m.id.startsWith('openrouter/')),
-    defaultModel: 'openrouter/free',
+    defaultModel: 'minimax/minimax-m2.7',
   },
   other: {
     name: 'Other Models',
@@ -167,7 +167,7 @@ export const OPENROUTER_PROVIDERS = {
     models: OPENROUTER_MODELS.filter(m => 
       !m.id.startsWith('openrouter/')
     ),
-    defaultModel: 'openrouter/free',
+    defaultModel: 'minimax/minimax-m2.7',
   },
 };
 
