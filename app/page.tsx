@@ -113,16 +113,16 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#0a0a0f]">
       {/* Hero Section - Dark Intelligence Command Center */}
-      <section className="relative overflow-hidden min-h-[90vh] flex items-center">
+      <section className="relative overflow-hidden min-h-[85vh] sm:min-h-[90vh] flex items-center">
         {/* Subtle grid background */}
         <div className="absolute inset-0 bg-grid-intelligence opacity-20" />
-        
+
         {/* Left side data stream decoration */}
         <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[#2a2a3a] to-transparent opacity-50" />
         <div className="absolute left-8 top-1/4 bottom-1/4 w-px bg-gradient-to-b from-transparent via-[#6366f1]/20 to-transparent hidden lg:block" />
-        
-        {/* Right side status indicators */}
-        <div className="absolute right-8 top-1/3 hidden lg:flex flex-col items-end gap-4">
+
+        {/* Right side status indicators - Hidden on mobile */}
+        <div className="absolute right-4 sm:right-8 top-1/3 hidden lg:flex flex-col items-end gap-4">
           {providers.map((provider, i) => (
             <div key={provider.name} className="flex items-center gap-3 text-xs font-mono">
               <span className="text-[#52525b]">{provider.latency}</span>
@@ -134,36 +134,36 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32 w-full">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-32 w-full">
           <div className="max-w-3xl">
             {/* Status bar */}
-            <div className="flex items-center gap-4 mb-8 animate-fade-in-up">
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#12121a] border border-[#2a2a3a]">
-                <Radio className="w-3.5 h-3.5 text-[#10b981]" />
-                <span className="text-xs font-mono text-[#71717a]">SYSTEM ONLINE</span>
+            <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8 animate-fade-in-up">
+              <div className="flex items-center gap-2 px-2.5 sm:px-3 py-1.5 rounded-md bg-[#12121a] border border-[#2a2a3a]">
+                <Radio className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#10b981]" />
+                <span className="text-[10px] sm:text-xs font-mono text-[#71717a]">SYSTEM ONLINE</span>
               </div>
-              <div className="h-px flex-1 max-w-[120px] bg-gradient-to-r from-[#2a2a3a] to-transparent" />
+              <div className="h-px flex-1 max-w-[80px] sm:max-w-[120px] bg-gradient-to-r from-[#2a2a3a] to-transparent" />
             </div>
 
             {/* Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6 animate-fade-in-up animation-delay-100">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4 sm:mb-6 animate-fade-in-up animation-delay-100">
               <span className="text-[#fafafa] block">AI Brand Intelligence</span>
-              <span className="text-[#71717a] block mt-2">Command Center</span>
+              <span className="text-[#71717a] block mt-1 sm:mt-2">Command Center</span>
             </h1>
 
             {/* Subheadline */}
-            <p className="text-lg sm:text-xl text-[#a1a1aa] mb-10 leading-relaxed max-w-2xl animate-fade-in-up animation-delay-200">
-              Track how AI models rank your brand against competitors. 
+            <p className="text-base sm:text-lg lg:text-xl text-[#a1a1aa] mb-8 sm:mb-10 leading-relaxed max-w-2xl animate-fade-in-up animation-delay-200">
+              Track how AI models rank your brand against competitors.
               Real-time monitoring across ChatGPT, Claude, Perplexity, and Gemini.
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-col sm:flex-row gap-4 mb-12 animate-fade-in-up animation-delay-300">
-              <Button variant="indigo" size="lg" onClick={handleStartAnalysis}>
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-12 animate-fade-in-up animation-delay-300">
+              <Button variant="indigo" size="lg" onClick={handleStartAnalysis} className="w-full sm:w-auto">
                 <Terminal className="w-4 h-4" />
                 Start Analysis
               </Button>
-              <Button variant="outline" size="lg" asChild className="flex items-center gap-2 text-foreground hover:text-black">
+              <Button variant="outline" size="lg" asChild className="flex items-center justify-center gap-2 text-foreground hover:text-black w-full sm:w-auto">
                 <Link href="/plans">
                   View Pricing
                   <ArrowRight className="w-4 h-4" />
@@ -172,17 +172,17 @@ export default function Home() {
             </div>
 
             {/* Trust indicators */}
-            <div className="flex flex-wrap items-center gap-6 text-sm text-[#71717a] animate-fade-in-up animation-delay-400">
-              <div className="flex items-center gap-2">
-                <Shield className="w-4 h-4 text-[#10b981]" />
+            <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-xs sm:text-sm text-[#71717a] animate-fade-in-up animation-delay-400">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <Shield className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#10b981]" />
                 <span>No credit card</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Globe className="w-4 h-4 text-[#6366f1]" />
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <Globe className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#6366f1]" />
                 <span>5+ AI providers</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Database className="w-4 h-4 text-[#22d3ee]" />
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <Database className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#22d3ee]" />
                 <span>Real-time data</span>
               </div>
             </div>
@@ -194,7 +194,7 @@ export default function Home() {
       </section>
 
       {/* Capabilities Section - Asymmetric Intelligence Grid */}
-      <section className="py-32 lg:py-40 relative overflow-hidden">
+      <section className="py-16 sm:py-24 lg:py-32 relative overflow-hidden">
         {/* Background texture */}
         <div className="absolute inset-0 opacity-[0.02]">
           <div className="absolute inset-0" style={{
@@ -202,59 +202,59 @@ export default function Home() {
             backgroundSize: '40px 40px'
           }} />
         </div>
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           {/* Section header - Asymmetric left-aligned with dramatic scale */}
-          <div className="mb-20 lg:mb-28 animate-fade-in-up">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="h-px w-20 bg-[#6366f1]" />
-              <span className="text-sm font-mono text-[#6366f1] uppercase tracking-[0.2em]">Capabilities</span>
+          <div className="mb-12 sm:mb-16 lg:mb-28 animate-fade-in-up">
+            <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+              <div className="h-px w-12 sm:w-20 bg-[#6366f1]" />
+              <span className="text-xs sm:text-sm font-mono text-[#6366f1] uppercase tracking-[0.15em] sm:tracking-[0.2em]">Capabilities</span>
             </div>
-            <div className="grid lg:grid-cols-2 gap-8 items-end">
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#fafafa] leading-[1.1]">
+            <div className="grid lg:grid-cols-2 gap-4 sm:gap-8 items-end">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-[#fafafa] leading-[1.1]">
                 Command center for
                 <span className="text-[#71717a]"> AI visibility</span>
               </h2>
-              <p className="text-lg text-[#a1a1aa] lg:text-right lg:pb-2">
+              <p className="text-base sm:text-lg text-[#a1a1aa] lg:text-right lg:pb-2">
                 Real-time monitoring across all major AI platforms. Track rankings, analyze competitors, optimize presence.
               </p>
             </div>
           </div>
 
-          {/* Asymmetric Feature Grid - Breaking the predictable pattern */}
-          <div className="grid grid-cols-12 gap-4 lg:gap-6">
-            {/* Feature 1: Large horizontal card spanning 8 cols */}
-            <div className="col-span-12 lg:col-span-8 group animate-fade-in-up" style={{ animationDelay: '100ms' }}>
-              <div className="h-full bg-[#12121a] border border-[#2a2a3a] p-8 lg:p-10 relative overflow-hidden transition-all duration-500 hover:border-[#6366f1]/50">
-                {/* Data stream decoration */}
-                <div className="absolute top-0 right-0 w-64 h-full opacity-10">
+          {/* Asymmetric Feature Grid - Mobile-first responsive */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3 sm:gap-4 lg:gap-6">
+            {/* Feature 1: Large horizontal card */}
+            <div className="col-span-1 md:col-span-2 lg:col-span-8 group animate-fade-in-up" style={{ animationDelay: '100ms' }}>
+              <div className="h-full bg-[#12121a] border border-[#2a2a3a] p-5 sm:p-6 lg:p-10 relative overflow-hidden transition-all duration-500 hover:border-[#6366f1]/50">
+                {/* Data stream decoration - Hidden on small mobile */}
+                <div className="absolute top-0 right-0 w-32 sm:w-64 h-full opacity-10 hidden sm:block">
                   <div className="h-full flex flex-col justify-around py-4">
                     {[...Array(8)].map((_, i) => (
                       <div key={i} className="flex items-center gap-2 justify-end">
-                        <div className="h-px bg-gradient-to-l from-[#6366f1] to-transparent" style={{ width: `${Math.random() * 100 + 50}px` }} />
+                        <div className="h-px bg-gradient-to-l from-[#6366f1] to-transparent" style={{ width: `${Math.random() * 60 + 30}px` }} />
                         <div className="w-1 h-1 rounded-full bg-[#6366f1]" />
                       </div>
                     ))}
                   </div>
                 </div>
-                
+
                 <div className="relative z-10">
-                  <div className="flex items-start justify-between mb-8">
-                    <span className="text-7xl lg:text-8xl font-bold font-mono text-[#6366f1]/10">01</span>
-                    <div className="w-14 h-14 bg-[#6366f1]/10 flex items-center justify-center">
-                      <Eye className="w-7 h-7 text-[#6366f1]" />
+                  <div className="flex items-start justify-between mb-4 sm:mb-8">
+                    <span className="text-4xl sm:text-5xl lg:text-7xl xl:text-8xl font-bold font-mono text-[#6366f1]/10">01</span>
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-[#6366f1]/10 flex items-center justify-center">
+                      <Eye className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-[#6366f1]" />
                     </div>
                   </div>
-                  <h3 className="text-2xl lg:text-3xl font-bold text-[#fafafa] mb-4">Visibility Tracking</h3>
-                  <p className="text-[#a1a1aa] text-lg leading-relaxed max-w-md">
+                  <h3 className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-[#fafafa] mb-3 sm:mb-4">Visibility Tracking</h3>
+                  <p className="text-[#a1a1aa] text-sm sm:text-base lg:text-lg leading-relaxed max-w-md">
                     Monitor how ChatGPT, Claude, Perplexity, and Gemini rank your brand. Real-time alerts when your position changes.
                   </p>
-                  
+
                   {/* Terminal-style data preview */}
-                  <div className="mt-8 flex items-center gap-4 text-xs font-mono">
+                  <div className="mt-4 sm:mt-8 flex flex-wrap items-center gap-2 sm:gap-4 text-[10px] sm:text-xs font-mono">
                     <span className="text-[#52525b]">STATUS</span>
                     <span className="text-[#10b981]">● MONITORING</span>
-                    <span className="text-[#2a2a3a]">|</span>
+                    <span className="text-[#2a2a3a] hidden sm:inline">|</span>
                     <span className="text-[#52525b]">PROVIDERS</span>
                     <span className="text-[#6366f1]">5 ACTIVE</span>
                   </div>
@@ -262,31 +262,31 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Feature 2: Vertical card spanning 4 cols */}
-            <div className="col-span-12 lg:col-span-4 group animate-fade-in-up" style={{ animationDelay: '200ms' }}>
-              <div className="h-full bg-[#0f0f14] border border-[#2a2a3a] p-8 relative overflow-hidden transition-all duration-500 hover:border-[#22d3ee]/50">
-                <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#22d3ee]/5 to-transparent" />
-                
+            {/* Feature 2: Vertical card */}
+            <div className="col-span-1 md:col-span-1 lg:col-span-4 group animate-fade-in-up" style={{ animationDelay: '200ms' }}>
+              <div className="h-full bg-[#0f0f14] border border-[#2a2a3a] p-5 sm:p-6 lg:p-8 relative overflow-hidden transition-all duration-500 hover:border-[#22d3ee]/50">
+                <div className="absolute bottom-0 left-0 w-full h-24 lg:h-32 bg-gradient-to-t from-[#22d3ee]/5 to-transparent" />
+
                 <div className="relative z-10 flex flex-col h-full">
-                  <div className="flex items-start justify-between mb-6">
-                    <span className="text-5xl font-bold font-mono text-[#22d3ee]/10">02</span>
-                    <div className="w-12 h-12 bg-[#22d3ee]/10 flex items-center justify-center">
-                      <Target className="w-6 h-6 text-[#22d3ee]" />
+                  <div className="flex items-start justify-between mb-4 sm:mb-6">
+                    <span className="text-3xl sm:text-4xl lg:text-5xl font-bold font-mono text-[#22d3ee]/10">02</span>
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#22d3ee]/10 flex items-center justify-center">
+                      <Target className="w-5 h-5 sm:w-6 sm:h-6 text-[#22d3ee]" />
                     </div>
                   </div>
-                  
+
                   <div className="flex-1">
-                    <h3 className="text-xl lg:text-2xl font-bold text-[#fafafa] mb-3">Competitor Analysis</h3>
-                    <p className="text-[#a1a1aa] leading-relaxed">
+                    <h3 className="text-base sm:text-lg lg:text-xl xl:text-2xl font-bold text-[#fafafa] mb-2 sm:mb-3">Competitor Analysis</h3>
+                    <p className="text-[#a1a1aa] text-sm sm:text-base leading-relaxed">
                       Compare your visibility against competitors. Identify opportunities to outrank them across all AI platforms.
                     </p>
                   </div>
-                  
+
                   {/* Mini chart visualization */}
-                  <div className="mt-6 flex items-end gap-1 h-12">
+                  <div className="mt-4 sm:mt-6 flex items-end gap-1 h-10 sm:h-12">
                     {[40, 65, 45, 80, 55, 90, 70].map((h, i) => (
-                      <div 
-                        key={i} 
+                      <div
+                        key={i}
                         className="flex-1 bg-[#22d3ee]/20 hover:bg-[#22d3ee]/40 transition-colors"
                         style={{ height: `${h}%` }}
                       />
@@ -296,32 +296,32 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Feature 3: Vertical card spanning 5 cols */}
-            <div className="col-span-12 lg:col-span-5 group animate-fade-in-up" style={{ animationDelay: '300ms' }}>
-              <div className="h-full bg-[#0f0f14] border border-[#2a2a3a] p-8 relative overflow-hidden transition-all duration-500 hover:border-[#f59e0b]/50">
-                {/* Concentric rings decoration */}
-                <div className="absolute -right-20 -top-20 w-64 h-64 opacity-10">
+            {/* Feature 3: Vertical card */}
+            <div className="col-span-1 md:col-span-1 lg:col-span-5 group animate-fade-in-up" style={{ animationDelay: '300ms' }}>
+              <div className="h-full bg-[#0f0f14] border border-[#2a2a3a] p-5 sm:p-6 lg:p-8 relative overflow-hidden transition-all duration-500 hover:border-[#f59e0b]/50">
+                {/* Concentric rings decoration - Hidden on small mobile */}
+                <div className="absolute -right-10 sm:-right-20 -top-10 sm:-top-20 w-32 sm:w-64 h-32 sm:h-64 opacity-10 hidden sm:block">
                   <div className="w-full h-full rounded-full border border-[#f59e0b]" />
                   <div className="absolute inset-8 rounded-full border border-[#f59e0b]" />
                   <div className="absolute inset-16 rounded-full border border-[#f59e0b]" />
                 </div>
-                
+
                 <div className="relative z-10">
-                  <div className="flex items-start justify-between mb-6">
-                    <span className="text-5xl font-bold font-mono text-[#f59e0b]/10">03</span>
-                    <div className="w-12 h-12 bg-[#f59e0b]/10 flex items-center justify-center">
-                      <Activity className="w-6 h-6 text-[#f59e0b]" />
+                  <div className="flex items-start justify-between mb-4 sm:mb-6">
+                    <span className="text-3xl sm:text-4xl lg:text-5xl font-bold font-mono text-[#f59e0b]/10">03</span>
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#f59e0b]/10 flex items-center justify-center">
+                      <Activity className="w-5 h-5 sm:w-6 sm:h-6 text-[#f59e0b]" />
                     </div>
                   </div>
-                  <h3 className="text-xl lg:text-2xl font-bold text-[#fafafa] mb-3">Performance Metrics</h3>
-                  <p className="text-[#a1a1aa] leading-relaxed mb-6">
+                  <h3 className="text-base sm:text-lg lg:text-xl xl:text-2xl font-bold text-[#fafafa] mb-2 sm:mb-3">Performance Metrics</h3>
+                  <p className="text-[#a1a1aa] text-sm sm:text-base leading-relaxed mb-4 sm:mb-6">
                     Track visibility scores, share of voice, and sentiment analysis. Understand how AI models perceive your brand.
                   </p>
-                  
+
                   {/* Metric pills */}
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     {['Score', 'Share', 'Sentiment', 'Trend'].map((label) => (
-                      <span key={label} className="px-3 py-1 text-xs font-mono bg-[#f59e0b]/10 text-[#f59e0b] border border-[#f59e0b]/20">
+                      <span key={label} className="px-2 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-mono bg-[#f59e0b]/10 text-[#f59e0b] border border-[#f59e0b]/20">
                         {label}
                       </span>
                     ))}
@@ -330,11 +330,11 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Feature 4: Large horizontal card spanning 7 cols */}
-            <div className="col-span-12 lg:col-span-7 group animate-fade-in-up" style={{ animationDelay: '400ms' }}>
-              <div className="h-full bg-[#12121a] border border-[#2a2a3a] p-8 lg:p-10 relative overflow-hidden transition-all duration-500 hover:border-[#10b981]/50">
-                {/* Radar sweep effect */}
-                <div className="absolute right-10 top-1/2 -translate-y-1/2 w-48 h-48 opacity-10">
+            {/* Feature 4: Large horizontal card */}
+            <div className="col-span-1 md:col-span-1 lg:col-span-7 group animate-fade-in-up" style={{ animationDelay: '400ms' }}>
+              <div className="h-full bg-[#12121a] border border-[#2a2a3a] p-5 sm:p-6 lg:p-10 relative overflow-hidden transition-all duration-500 hover:border-[#10b981]/50">
+                {/* Radar sweep effect - Hidden on small mobile */}
+                <div className="absolute right-4 sm:right-10 top-1/2 -translate-y-1/2 w-24 sm:w-48 h-24 sm:h-48 opacity-10 hidden sm:block">
                   <div className="w-full h-full rounded-full border-2 border-[#10b981]" />
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="w-2 h-2 rounded-full bg-[#10b981]" />
@@ -343,34 +343,34 @@ export default function Home() {
                     <div className="w-full h-px bg-gradient-to-r from-transparent via-[#10b981] to-transparent rotate-45" />
                   </div>
                 </div>
-                
+
                 <div className="relative z-10">
-                  <div className="flex items-start justify-between mb-8">
-                    <span className="text-7xl lg:text-8xl font-bold font-mono text-[#10b981]/10">04</span>
-                    <div className="w-14 h-14 bg-[#10b981]/10 flex items-center justify-center">
-                      <Radar className="w-7 h-7 text-[#10b981]" />
+                  <div className="flex items-start justify-between mb-4 sm:mb-8">
+                    <span className="text-4xl sm:text-5xl lg:text-7xl xl:text-8xl font-bold font-mono text-[#10b981]/10">04</span>
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-[#10b981]/10 flex items-center justify-center">
+                      <Radar className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-[#10b981]" />
                     </div>
                   </div>
-                  
-                  <div className="grid lg:grid-cols-2 gap-8">
+
+                  <div className="grid lg:grid-cols-2 gap-4 sm:gap-8">
                     <div>
-                      <h3 className="text-2xl lg:text-3xl font-bold text-[#fafafa] mb-4">Prompt Intelligence</h3>
-                      <p className="text-[#a1a1aa] text-lg leading-relaxed">
+                      <h3 className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-[#fafafa] mb-3 sm:mb-4">Prompt Intelligence</h3>
+                      <p className="text-[#a1a1aa] text-sm sm:text-base lg:text-lg leading-relaxed">
                         Discover which prompts trigger your brand appearance. Optimize your content for better AI visibility and recommendations.
                       </p>
                     </div>
-                    
+
                     {/* Prompt tags visualization */}
-                    <div className="flex flex-col gap-2 justify-center">
+                    <div className="flex flex-col gap-1.5 sm:gap-2 justify-center">
                       {[
                         { text: '"best saas tools"', rank: 1 },
                         { text: '"ai monitoring"', rank: 2 },
                         { text: '"brand visibility"', rank: 3 },
                       ].map((prompt, i) => (
-                        <div key={i} className="flex items-center gap-3 text-sm font-mono">
-                          <span className="text-[#10b981] w-6">#{prompt.rank}</span>
-                          <span className="text-[#a1a1aa]">{prompt.text}</span>
-                          <div className="flex-1 h-px bg-[#2a2a3a]" />
+                        <div key={i} className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm font-mono">
+                          <span className="text-[#10b981] w-4 sm:w-6">#{prompt.rank}</span>
+                          <span className="text-[#a1a1aa] truncate">{prompt.text}</span>
+                          <div className="flex-1 h-px bg-[#2a2a3a] hidden sm:block" />
                           <span className="text-[#10b981]">+{12 - i * 3}%</span>
                         </div>
                       ))}
@@ -384,27 +384,27 @@ export default function Home() {
       </section>
 
       {/* Stats Section - Bold Terminal Intelligence */}
-      <section className="py-24 lg:py-32 border-y border-[#2a2a3a] bg-[#0a0a0f] relative overflow-hidden">
+      <section className="py-16 sm:py-24 lg:py-32 border-y border-[#2a2a3a] bg-[#0a0a0f] relative overflow-hidden">
         {/* Background grid */}
         <div className="absolute inset-0 opacity-[0.03]">
           <div className="h-full w-full" style={{
             backgroundImage: `linear-gradient(90deg, #2a2a3a 1px, transparent 1px), linear-gradient(#2a2a3a 1px, transparent 1px)`,
-            backgroundSize: '60px 60px'
+            backgroundSize: '40px 40px sm:60px sm:60px'
           }} />
         </div>
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           {/* Section label */}
-          <div className="flex items-center gap-4 mb-12">
-            <span className="text-xs font-mono text-[#52525b] uppercase tracking-[0.2em]">System Metrics</span>
+          <div className="flex items-center gap-3 sm:gap-4 mb-8 sm:mb-12">
+            <span className="text-[10px] sm:text-xs font-mono text-[#52525b] uppercase tracking-[0.15em] sm:tracking-[0.2em]">System Metrics</span>
             <div className="flex-1 h-px bg-[#2a2a3a]" />
-            <div className="flex items-center gap-2 text-xs font-mono">
-              <span className="w-2 h-2 rounded-full bg-[#10b981] animate-pulse" />
+            <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-mono">
+              <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#10b981] animate-pulse" />
               <span className="text-[#52525b]">LIVE</span>
             </div>
           </div>
-          
-          {/* Stats grid - Asymmetric with dramatic scale */}
+
+          {/* Stats grid - Mobile-first responsive */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-[#2a2a3a]">
             {[
               { value: "5+", label: "AI Providers", sublabel: "Monitored 24/7", accent: "#6366f1", code: "PRV" },
@@ -412,27 +412,27 @@ export default function Home() {
               { value: "100%", label: "Coverage", sublabel: "All platforms", accent: "#f59e0b", code: "COV" },
               { value: "∞", label: "Scale", sublabel: "Enterprise ready", accent: "#10b981", code: "SC" },
             ].map((stat, i) => (
-              <div key={stat.label} className="bg-[#0a0a0f] p-8 lg:p-10 group hover:bg-[#12121a] transition-colors duration-300 animate-fade-in-up" style={{ animationDelay: `${i * 100}ms` }}>
+              <div key={stat.label} className="bg-[#0a0a0f] p-4 sm:p-6 lg:p-10 group hover:bg-[#12121a] transition-colors duration-300 animate-fade-in-up" style={{ animationDelay: `${i * 100}ms` }}>
                 {/* Terminal code label */}
-                <div className="flex items-center justify-between mb-6">
-                  <span className="text-xs font-mono text-[#52525b]">{stat.code}</span>
-                  <div 
-                    className="w-1.5 h-1.5 rounded-full opacity-60"
+                <div className="flex items-center justify-between mb-3 sm:mb-6">
+                  <span className="text-[10px] sm:text-xs font-mono text-[#52525b]">{stat.code}</span>
+                  <div
+                    className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full opacity-60"
                     style={{ backgroundColor: stat.accent }}
                   />
                 </div>
-                
+
                 {/* Dramatic value */}
-                <div 
-                  className="font-mono text-4xl sm:text-5xl lg:text-6xl font-bold mb-3 tracking-tight"
+                <div
+                  className="font-mono text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-2 sm:mb-3 tracking-tight"
                   style={{ color: stat.accent }}
                 >
                   {stat.value}
                 </div>
-                
+
                 {/* Label */}
-                <div className="text-lg font-medium text-[#fafafa] mb-1">{stat.label}</div>
-                <div className="text-sm text-[#52525b] font-mono">{stat.sublabel}</div>
+                <div className="text-sm sm:text-base lg:text-lg font-medium text-[#fafafa] mb-0.5 sm:mb-1">{stat.label}</div>
+                <div className="text-[10px] sm:text-xs lg:text-sm text-[#52525b] font-mono">{stat.sublabel}</div>
               </div>
             ))}
           </div>
@@ -440,92 +440,92 @@ export default function Home() {
       </section>
 
       {/* Pricing Section - Command Center Terminal Style */}
-      <section className="py-32 lg:py-40 relative overflow-hidden">
+      <section className="py-16 sm:py-24 lg:py-32 xl:py-40 relative overflow-hidden">
         {/* Background grid pattern */}
         <div className="absolute inset-0 opacity-[0.02]">
           <div className="h-full w-full" style={{
             backgroundImage: `linear-gradient(90deg, #6366f1 1px, transparent 1px), linear-gradient(#6366f1 1px, transparent 1px)`,
-            backgroundSize: '80px 80px'
+            backgroundSize: '40px 40px sm:80px sm:80px'
           }} />
         </div>
-        
+
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           {/* Section header - Asymmetric with terminal aesthetic */}
-          <div className="mb-20 lg:mb-24">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="h-px w-20 bg-[#f59e0b]" />
-              <span className="text-sm font-mono text-[#f59e0b] uppercase tracking-[0.2em]">Pricing</span>
-              <span className="text-xs font-mono text-[#52525b]">v2.4</span>
+          <div className="mb-10 sm:mb-16 lg:mb-24">
+            <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+              <div className="h-px w-12 sm:w-20 bg-[#f59e0b]" />
+              <span className="text-xs sm:text-sm font-mono text-[#f59e0b] uppercase tracking-[0.15em] sm:tracking-[0.2em]">Pricing</span>
+              <span className="text-[10px] sm:text-xs font-mono text-[#52525b]">v2.4</span>
             </div>
-            <div className="grid lg:grid-cols-2 gap-8 items-end">
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#fafafa] leading-[1.1]">
+            <div className="grid lg:grid-cols-2 gap-4 sm:gap-8 items-end">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-[#fafafa] leading-[1.1]">
                 Choose your
                 <span className="block text-[#52525b]">access level</span>
               </h2>
-              <p className="text-lg text-[#a1a1aa] lg:text-right lg:pb-2">
+              <p className="text-base sm:text-lg text-[#a1a1aa] lg:text-right lg:pb-2">
                 Transparent pricing with no hidden fees. Upgrade or downgrade anytime. Pay only for what you use.
               </p>
             </div>
           </div>
 
-          {/* Pricing Table - Terminal Data Display */}
-          <div className="border border-[#2a2a3a] bg-[#0a0a0f]/80 backdrop-blur-sm">
+          {/* Pricing Table - Mobile-first responsive */}
+          <div className="border border-[#2a2a3a] bg-[#0a0a0f]/80 backdrop-blur-sm overflow-hidden rounded-lg">
             {/* Table Header */}
-            <div className="grid grid-cols-12 border-b border-[#2a2a3a] bg-[#12121a]">
-              <div className="col-span-12 lg:col-span-4 p-6 border-b lg:border-b-0 lg:border-r border-[#2a2a3a]">
-                <span className="text-xs font-mono text-[#52525b] uppercase tracking-wider">Plan</span>
+            <div className="grid grid-cols-2 lg:grid-cols-12 border-b border-[#2a2a3a] bg-[#12121a]">
+              <div className="col-span-2 lg:col-span-4 p-3 sm:p-4 lg:p-6 border-b lg:border-b-0 lg:border-r border-[#2a2a3a] hidden lg:flex items-center">
+                <span className="text-[10px] sm:text-xs font-mono text-[#52525b] uppercase tracking-wider">Plan</span>
               </div>
-              <div className="col-span-6 lg:col-span-4 p-6 border-r border-[#2a2a3a]">
-                <div className="flex items-center gap-3">
-                  <span className="text-xs font-mono text-[#52525b] uppercase tracking-wider">Starter</span>
-                  <span className="px-2 py-0.5 text-xs font-mono bg-[#52525b]/20 text-[#71717a] rounded">FREE</span>
+              <div className="col-span-1 lg:col-span-4 p-3 sm:p-4 lg:p-6 border-r border-[#2a2a3a]">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <span className="text-[10px] sm:text-xs font-mono text-[#52525b] uppercase tracking-wider">Starter</span>
+                  <span className="px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-xs font-mono bg-[#52525b]/20 text-[#71717a] rounded">FREE</span>
                 </div>
               </div>
-              <div className="col-span-6 lg:col-span-4 p-6 relative">
-                <div className="absolute top-0 right-0 w-32 h-px bg-gradient-to-l from-[#6366f1] to-transparent" />
-                <div className="flex items-center gap-3">
-                  <span className="text-xs font-mono text-[#6366f1] uppercase tracking-wider">Pro</span>
-                  <span className="px-2 py-0.5 text-xs font-mono bg-[#6366f1]/20 text-[#6366f1] rounded">RECOMMENDED</span>
+              <div className="col-span-1 lg:col-span-4 p-3 sm:p-4 lg:p-6 relative">
+                <div className="absolute top-0 right-0 w-16 sm:w-32 h-px bg-gradient-to-l from-[#6366f1] to-transparent" />
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <span className="text-[10px] sm:text-xs font-mono text-[#6366f1] uppercase tracking-wider">Pro</span>
+                  <span className="px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-xs font-mono bg-[#6366f1]/20 text-[#6366f1] rounded">RECOMMENDED</span>
                 </div>
               </div>
             </div>
 
             {/* Price Row */}
-            <div className="grid grid-cols-12 border-b border-[#2a2a3a]">
-              <div className="col-span-12 lg:col-span-4 p-6 border-b lg:border-b-0 lg:border-r border-[#2a2a3a] flex items-center">
-                <span className="text-sm font-mono text-[#71717a]">Monthly Cost</span>
+            <div className="grid grid-cols-2 lg:grid-cols-12 border-b border-[#2a2a3a]">
+              <div className="col-span-2 lg:col-span-4 p-3 sm:p-4 lg:p-6 border-b lg:border-b-0 lg:border-r border-[#2a2a3a] hidden lg:flex items-center">
+                <span className="text-xs sm:text-sm font-mono text-[#71717a]">Monthly Cost</span>
               </div>
-              <div className="col-span-6 lg:col-span-4 p-6 border-r border-[#2a2a3a]">
-                <span className="text-4xl lg:text-5xl font-bold font-mono text-[#fafafa]">$0</span>
-                <span className="text-sm text-[#52525b] ml-2">/mo</span>
+              <div className="col-span-1 lg:col-span-4 p-3 sm:p-4 lg:p-6 border-r border-[#2a2a3a]">
+                <span className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold font-mono text-[#fafafa]">$0</span>
+                <span className="text-xs sm:text-sm text-[#52525b] ml-1 sm:ml-2">/mo</span>
               </div>
-              <div className="col-span-6 lg:col-span-4 p-6 bg-[#6366f1]/5">
-                <span className="text-4xl lg:text-5xl font-bold font-mono text-[#6366f1]">$9.99</span>
-                <span className="text-sm text-[#52525b] ml-2">/mo</span>
+              <div className="col-span-1 lg:col-span-4 p-3 sm:p-4 lg:p-6 bg-[#6366f1]/5">
+                <span className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold font-mono text-[#6366f1]">$9.99</span>
+                <span className="text-xs sm:text-sm text-[#52525b] ml-1 sm:ml-2">/mo</span>
               </div>
             </div>
 
             {/* Credits Row */}
-            <div className="grid grid-cols-12 border-b border-[#2a2a3a]">
-              <div className="col-span-12 lg:col-span-4 p-6 border-b lg:border-b-0 lg:border-r border-[#2a2a3a] flex items-center">
-                <span className="text-sm font-mono text-[#71717a]">Analysis Credits</span>
+            <div className="grid grid-cols-2 lg:grid-cols-12 border-b border-[#2a2a3a]">
+              <div className="col-span-2 lg:col-span-4 p-3 sm:p-4 lg:p-6 border-b lg:border-b-0 lg:border-r border-[#2a2a3a] hidden lg:flex items-center">
+                <span className="text-xs sm:text-sm font-mono text-[#71717a]">Analysis Credits</span>
               </div>
-              <div className="col-span-6 lg:col-span-4 p-6 border-r border-[#2a2a3a]">
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl font-bold font-mono text-[#fafafa]">1</span>
-                  <span className="text-sm text-[#71717a]">total</span>
+              <div className="col-span-1 lg:col-span-4 p-3 sm:p-4 lg:p-6 border-r border-[#2a2a3a]">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <span className="text-xl sm:text-2xl font-bold font-mono text-[#fafafa]">1</span>
+                  <span className="text-xs sm:text-sm text-[#71717a]">total</span>
                 </div>
               </div>
-              <div className="col-span-6 lg:col-span-4 p-6 bg-[#6366f1]/5">
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl font-bold font-mono text-[#6366f1]">50</span>
-                  <span className="text-sm text-[#6366f1]">/month</span>
+              <div className="col-span-1 lg:col-span-4 p-3 sm:p-4 lg:p-6 bg-[#6366f1]/5">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <span className="text-xl sm:text-2xl font-bold font-mono text-[#6366f1]">50</span>
+                  <span className="text-xs sm:text-sm text-[#6366f1]">/month</span>
                 </div>
-                <span className="text-xs text-[#6366f1]/70 mt-1 block">50x more capacity</span>
+                <span className="text-[10px] sm:text-xs text-[#6366f1]/70 mt-0.5 sm:mt-1 block">50x more capacity</span>
               </div>
             </div>
 
-            {/* Features Rows */}
+            {/* Features Rows - Collapsible on mobile */}
             {[
               { label: "AI Providers", starter: "All 5", pro: "All 5 + Priority" },
               { label: "Analysis Depth", starter: "Standard", pro: "Advanced" },
@@ -533,48 +533,49 @@ export default function Home() {
               { label: "Data Export", starter: "—", pro: "CSV & JSON" },
               { label: "API Access", starter: "—", pro: "Full Access" },
             ].map((row, i) => (
-              <div key={i} className="grid grid-cols-12 border-b border-[#2a2a3a] last:border-b-0">
-                <div className="col-span-12 lg:col-span-4 p-6 border-b lg:border-b-0 lg:border-r border-[#2a2a3a] flex items-center">
-                  <span className="text-sm text-[#a1a1aa]">{row.label}</span>
+              <div key={i} className="grid grid-cols-2 lg:grid-cols-12 border-b border-[#2a2a3a] last:border-b-0">
+                <div className="col-span-2 lg:col-span-4 p-3 sm:p-4 lg:p-6 border-b lg:border-b-0 lg:border-r border-[#2a2a3a] flex items-center">
+                  <span className="text-xs sm:text-sm text-[#a1a1aa]">{row.label}</span>
                 </div>
-                <div className="col-span-6 lg:col-span-4 p-6 border-r border-[#2a2a3a] flex items-center">
+                <div className="col-span-1 lg:col-span-4 p-3 sm:p-4 lg:p-6 border-r border-[#2a2a3a] flex items-center">
                   {row.starter === "—" ? (
                     <span className="text-[#52525b]">—</span>
                   ) : (
-                    <div className="flex items-center gap-2">
-                      <Check className="w-4 h-4 text-[#52525b]" />
-                      <span className="text-sm text-[#71717a]">{row.starter}</span>
+                    <div className="flex items-center gap-1.5 sm:gap-2">
+                      <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#52525b] flex-shrink-0" />
+                      <span className="text-xs sm:text-sm text-[#71717a]">{row.starter}</span>
                     </div>
                   )}
                 </div>
-                <div className="col-span-6 lg:col-span-4 p-6 bg-[#6366f1]/5 flex items-center">
-                  <div className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-[#6366f1]" />
-                    <span className="text-sm text-[#fafafa]">{row.pro}</span>
+                <div className="col-span-1 lg:col-span-4 p-3 sm:p-4 lg:p-6 bg-[#6366f1]/5 flex items-center">
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#6366f1] flex-shrink-0" />
+                    <span className="text-xs sm:text-sm text-[#fafafa]">{row.pro}</span>
                   </div>
                 </div>
               </div>
             ))}
 
             {/* CTA Row */}
-            <div className="grid grid-cols-12">
-              <div className="col-span-12 lg:col-span-4 p-6 border-b lg:border-b-0 lg:border-r border-[#2a2a3a] hidden lg:flex items-center">
-                <span className="text-xs font-mono text-[#52525b]">SELECT PLAN</span>
+            <div className="grid grid-cols-2 lg:grid-cols-12">
+              <div className="col-span-2 lg:col-span-4 p-3 sm:p-4 lg:p-6 border-b lg:border-b-0 lg:border-r border-[#2a2a3a] hidden lg:flex items-center">
+                <span className="text-[10px] sm:text-xs font-mono text-[#52525b]">SELECT PLAN</span>
               </div>
               {session ? (
                 <PricingButtons session={session} />
               ) : (
                 <>
-                  <div className="col-span-6 lg:col-span-4 p-6 border-r border-[#2a2a3a]">
-                    <Button variant="outline" size="lg" className="w-full text-white hover:text-black" asChild>
+                  <div className="col-span-1 lg:col-span-4 p-3 sm:p-4 lg:p-6 border-r border-[#2a2a3a]">
+                    <Button variant="outline" size="sm" className="w-full text-white hover:text-black text-xs sm:text-sm" asChild>
                       <Link href="/register">Get Started</Link>
                     </Button>
                   </div>
-                  <div className="col-span-6 lg:col-span-4 p-6 bg-[#6366f1]/5">
-                    <Button variant="indigo" size="lg" className="w-full" asChild>
+                  <div className="col-span-1 lg:col-span-4 p-3 sm:p-4 lg:p-6 bg-[#6366f1]/5">
+                    <Button variant="indigo" size="sm" className="w-full text-xs sm:text-sm" asChild>
                       <Link href="/register">
-                        Upgrade to Pro
-                        <ArrowRight className="w-4 h-4" />
+                        <span className="hidden sm:inline">Upgrade to Pro</span>
+                        <span className="sm:hidden">Upgrade</span>
+                        <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 ml-1" />
                       </Link>
                     </Button>
                   </div>
@@ -584,12 +585,12 @@ export default function Home() {
           </div>
 
           {/* Credit info */}
-          <div className="mt-8 flex items-center justify-between">
-            <p className="text-sm text-[#52525b] font-mono">
+          <div className="mt-4 sm:mt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-4">
+            <p className="text-xs sm:text-sm text-[#52525b] font-mono">
               <span className="text-[#6366f1]">1 credit</span> = <span className="text-[#22d3ee]">1 brand analysis</span> across all AI providers
             </p>
-            <div className="flex items-center gap-2 text-xs font-mono text-[#52525b]">
-              <span className="w-2 h-2 rounded-full bg-[#10b981] animate-pulse" />
+            <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-mono text-[#52525b]">
+              <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#10b981] animate-pulse" />
               <span>LIVE PRICING</span>
             </div>
           </div>
@@ -597,94 +598,94 @@ export default function Home() {
       </section>
 
       {/* FAQ Section - With Framer Motion Animations */}
-      <section className="py-32 lg:py-40 relative overflow-hidden">
+      <section className="py-16 sm:py-24 lg:py-32 xl:py-40 relative overflow-hidden">
         {/* Subtle background */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#12121a]/30 to-transparent" />
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="grid lg:grid-cols-5 gap-12 lg:gap-16">
+          <div className="grid lg:grid-cols-5 gap-8 sm:gap-12 lg:gap-16">
             {/* Left side - Header */}
             <div className="lg:col-span-2">
-              <motion.div 
+              <motion.div
                 className="lg:sticky lg:top-32"
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               >
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="h-px w-20 bg-[#22d3ee]" />
-                  <span className="text-sm font-mono text-[#22d3ee] uppercase tracking-[0.2em]">FAQ</span>
+                <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+                  <div className="h-px w-12 sm:w-20 bg-[#22d3ee]" />
+                  <span className="text-xs sm:text-sm font-mono text-[#22d3ee] uppercase tracking-[0.15em] sm:tracking-[0.2em]">FAQ</span>
                 </div>
-                <h2 className="text-4xl sm:text-5xl font-bold text-[#fafafa] mb-4 leading-[1.1]">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#fafafa] mb-3 sm:mb-4 leading-[1.1]">
                   Questions?
                   <span className="block text-[#52525b]">Answers.</span>
                 </h2>
-                <p className="text-[#a1a1aa] mb-8 text-lg">
+                <p className="text-sm sm:text-base text-[#a1a1aa] mb-6 sm:mb-8">
                   Everything you need to know about SquidCrawl Monitor. Can't find what you're looking for?
                 </p>
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-2 text-[#22d3ee] hover:text-[#22d3ee]/80 transition-colors text-sm font-medium group"
+                  className="inline-flex items-center gap-1.5 sm:gap-2 text-[#22d3ee] hover:text-[#22d3ee]/80 transition-colors text-sm font-medium group"
                 >
-                  <MessageSquare className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                  <MessageSquare className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:scale-110 transition-transform" />
                   Contact Support
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </motion.div>
             </div>
 
             {/* Right side - FAQ items with Framer Motion */}
-            <div className="lg:col-span-3 space-y-3">
+            <div className="lg:col-span-3 space-y-2 sm:space-y-3">
               {faqs.map((faq, i) => (
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ 
-                    duration: 0.5, 
+                  transition={{
+                    duration: 0.5,
                     delay: i * 0.1,
                     ease: [0.16, 1, 0.3, 1]
                   }}
-                  className="bg-[#12121a] border border-[#2a2a3a] rounded-xl overflow-hidden hover:border-[#3f3f46] transition-colors duration-300"
+                  className="bg-[#12121a] border border-[#2a2a3a] rounded-lg sm:rounded-xl overflow-hidden hover:border-[#3f3f46] transition-colors duration-300"
                 >
                   <button
                     onClick={() => toggleFaq(i)}
-                    className="w-full px-6 py-5 text-left flex justify-between items-center gap-4 hover:bg-[#1a1a25]/50 transition-colors duration-200 group"
+                    className="w-full px-4 sm:px-6 py-4 sm:py-5 text-left flex justify-between items-center gap-3 sm:gap-4 hover:bg-[#1a1a25]/50 transition-colors duration-200 group"
                   >
-                    <span className="font-semibold text-[#fafafa] group-hover:text-[#22d3ee] transition-colors duration-200">
+                    <span className="font-semibold text-sm sm:text-base text-[#fafafa] group-hover:text-[#22d3ee] transition-colors duration-200">
                       {faq.q}
                     </span>
                     <motion.div
                       animate={{ rotate: openFaq === i ? 180 : 0 }}
                       transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                     >
-                      <ChevronDown className="w-5 h-5 text-[#6366f1] flex-shrink-0" />
+                      <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-[#6366f1] flex-shrink-0" />
                     </motion.div>
                   </button>
-                  
+
                   <AnimatePresence initial={false}>
                     {openFaq === i && (
                       <motion.div
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ 
-                          duration: 0.3, 
+                        transition={{
+                          duration: 0.3,
                           ease: [0.16, 1, 0.3, 1]
                         }}
                         className="overflow-hidden"
                       >
-                        <motion.div 
-                          className="px-6 pb-5"
+                        <motion.div
+                          className="px-4 sm:px-6 pb-4 sm:pb-5"
                           initial={{ y: -10 }}
                           animate={{ y: 0 }}
                           exit={{ y: -10 }}
                           transition={{ duration: 0.2 }}
                         >
-                          <div className="h-px w-full bg-[#2a2a3a] mb-4" />
-                          <p className="text-[#a1a1aa] leading-relaxed">
+                          <div className="h-px w-full bg-[#2a2a3a] mb-3 sm:mb-4" />
+                          <p className="text-[#a1a1aa] text-sm leading-relaxed">
                             {faq.a}
                           </p>
                         </motion.div>
@@ -699,23 +700,23 @@ export default function Home() {
       </section>
 
       {/* Final CTA - Clean and purposeful */}
-      <section className="py-24 lg:py-32 border-t border-[#2a2a3a]">
+      <section className="py-16 sm:py-20 lg:py-24 xl:py-32 border-t border-[#2a2a3a]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#fafafa] mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#fafafa] mb-4 sm:mb-6">
             Ready to master your AI visibility?
           </h2>
-          <p className="text-lg sm:text-xl text-[#a1a1aa] mb-10 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg lg:text-xl text-[#a1a1aa] mb-8 sm:mb-10 max-w-2xl mx-auto leading-relaxed">
             Join thousands of brands already using SquidCrawl to monitor and improve their AI presence across all major platforms.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
             <Button
               onClick={handleStartAnalysis}
-              className="inline-flex items-center justify-center gap-2 rounded-lg text-base font-semibold h-12 px-8 bg-[#6366f1] text-white hover:bg-[#4f46e5] hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#6366f1]/25 active:translate-y-0 active:shadow-none transition-all duration-200 ease-out border border-[#6366f1]/50 cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 rounded-lg text-sm sm:text-base font-semibold h-11 sm:h-12 px-6 sm:px-8 bg-[#6366f1] text-white hover:bg-[#4f46e5] hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#6366f1]/25 active:translate-y-0 active:shadow-none transition-all duration-200 ease-out border border-[#6366f1]/50 cursor-pointer w-full sm:w-auto"
             >
               <Terminal className="w-4 h-4" />
               Start Free Analysis
             </Button>
-            <Button variant="outline" size="lg" className="text-white hover:text-black inline-flex items-center justify-center gap-2 rounded-lg text-base font-semibold h-12 px-8" asChild>
+            <Button variant="outline" size="lg" className="text-white hover:text-black inline-flex items-center justify-center gap-2 rounded-lg text-sm sm:text-base font-semibold h-11 sm:h-12 px-6 sm:px-8 w-full sm:w-auto" asChild>
               <Link href="/plans">
                 View Pricing
               </Link>

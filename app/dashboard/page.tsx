@@ -87,169 +87,170 @@ function DashboardContent({ session }: { session: any }) {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#0a0a0f] py-4 sm:py-6 lg:py-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-[#fafafa] mb-2">Dashboard</h1>
-          <p className="text-[#71717a]">Manage your account and monitor your AI brand visibility</p>
+        <div className="mb-4 sm:mb-6 lg:mb-8">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#fafafa] mb-1 sm:mb-2">Dashboard</h1>
+          <p className="text-xs sm:text-sm text-[#71717a]">Manage your account and monitor your AI brand visibility</p>
         </div>
 
-        {/* Tabs */}
-        <div className="flex gap-1 mb-8 p-1 bg-[#12121a] rounded-xl border border-[#2a2a3a] w-fit">
+        {/* Tabs - Scrollable on mobile */}
+        <div className="flex gap-1 mb-4 sm:mb-6 lg:mb-8 p-1 bg-[#12121a] rounded-lg sm:rounded-xl border border-[#2a2a3a] w-full sm:w-fit overflow-x-auto">
           {tabs.map((tab) => (
             <Button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
               variant={activeTab === tab.id ? 'indigo' : 'ghost'}
               size="sm"
-              className="flex items-center gap-2"
+              className="flex items-center gap-1.5 sm:gap-2 whitespace-nowrap flex-shrink-0 text-xs sm:text-sm"
             >
-              <tab.icon className="w-4 h-4" />
-              {tab.label}
+              <tab.icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span className="hidden sm:inline">{tab.label}</span>
+              <span className="sm:hidden">{tab.label}</span>
             </Button>
           ))}
         </div>
 
         {/* Overview Tab */}
         {activeTab === 'overview' && (
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             {/* Stats Row */}
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 lg:gap-4">
               {[
                 { label: 'Current Plan', value: activeProduct?.name || activeProduct?.id || 'Free', icon: CreditCard, color: '#6366f1' },
                 { label: 'Analyses Used', value: `${userFeatures.messages?.usage || 0} / ${userFeatures.messages?.included_usage || (userFeatures.messages?.balance || 0) + (userFeatures.messages?.usage || 0) || 'Unlimited'}`, icon: BarChart3, color: '#22d3ee' },
                 { label: 'Status', value: activeProduct ? 'Active' : 'Free Tier', icon: Shield, color: '#10b981' },
                 { label: 'Email', value: session.user?.email, icon: Mail, color: '#f59e0b' },
               ].map((stat, i) => (
-                <div key={i} className="card-intelligence p-5">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: `${stat.color}15` }}>
-                      <stat.icon className="w-5 h-5" style={{ color: stat.color }} />
+                <div key={i} className="card-intelligence p-3 sm:p-4 lg:p-5">
+                  <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-lg flex items-center justify-center flex-shrink-0" style={{ backgroundColor: `${stat.color}15` }}>
+                      <stat.icon className="w-4 h-4 sm:w-4.5 sm:h-4.5 lg:w-5 lg:h-5" style={{ color: stat.color }} />
                     </div>
-                    <span className="text-sm text-[#71717a]">{stat.label}</span>
+                    <span className="text-[10px] sm:text-xs lg:text-sm text-[#71717a] leading-tight">{stat.label}</span>
                   </div>
-                  <p className="text-lg font-semibold text-[#fafafa] truncate">{stat.value}</p>
+                  <p className="text-sm sm:text-base lg:text-lg font-semibold text-[#fafafa] truncate">{stat.value}</p>
                 </div>
               ))}
             </div>
 
             {/* Profile & Usage Grid */}
-            <div className="grid lg:grid-cols-2 gap-6">
+            <div className="grid lg:grid-cols-2 gap-4 sm:gap-6">
               {/* Profile Card */}
-              <div className="card-intelligence p-6">
-                <div className="flex justify-between items-center mb-6">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#6366f1]/20 to-[#22d3ee]/20 flex items-center justify-center">
-                      <User className="w-5 h-5 text-[#6366f1]" />
+              <div className="card-intelligence p-4 sm:p-5 lg:p-6">
+                <div className="flex justify-between items-center mb-4 sm:mb-6">
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-xl bg-gradient-to-br from-[#6366f1]/20 to-[#22d3ee]/20 flex items-center justify-center flex-shrink-0">
+                      <User className="w-4 h-4 sm:w-4.5 sm:h-4.5 lg:w-5 lg:h-5 text-[#6366f1]" />
                     </div>
-                    <h2 className="text-lg font-semibold text-[#fafafa]">Profile Information</h2>
+                    <h2 className="text-base sm:text-lg font-semibold text-[#fafafa]">Profile Information</h2>
                   </div>
                   {!isEditingProfile ? (
                     <button
                       onClick={() => setIsEditingProfile(true)}
-                      className="btn-ghost px-3 py-1.5 rounded-lg text-sm"
+                      className="btn-ghost px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs sm:text-sm"
                     >
-                      <Edit2 className="w-4 h-4" />
+                      <Edit2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                     </button>
                   ) : (
-                    <div className="flex gap-2">
+                    <div className="flex gap-1.5 sm:gap-2">
                       <button
                         onClick={handleSaveProfile}
                         disabled={updateProfile.isPending}
-                        className="btn-primary px-3 py-1.5 rounded-lg text-sm"
+                        className="btn-primary px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs sm:text-sm"
                       >
-                        <Save className="w-4 h-4" />
+                        <Save className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       </button>
                       <button
                         onClick={handleCancelEdit}
-                        className="btn-ghost px-3 py-1.5 rounded-lg text-sm"
+                        className="btn-ghost px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs sm:text-sm"
                       >
-                        <X className="w-4 h-4" />
+                        <X className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       </button>
                     </div>
                   )}
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
                   <div>
-                    <label className="block text-sm text-[#71717a] mb-1">Email</label>
-                    <p className="text-[#fafafa]">{session.user?.email}</p>
+                    <label className="block text-xs sm:text-sm text-[#71717a] mb-1">Email</label>
+                    <p className="text-sm sm:text-base text-[#fafafa] break-all">{session.user?.email}</p>
                   </div>
                   <div>
-                    <label className="block text-sm text-[#71717a] mb-1">Display Name</label>
+                    <label className="block text-xs sm:text-sm text-[#71717a] mb-1">Display Name</label>
                     {isEditingProfile ? (
                       <input
                         type="text"
                         value={profileForm.displayName}
                         onChange={(e) => setProfileForm({ ...profileForm, displayName: e.target.value })}
-                        className="input-intelligence w-full px-3 py-2"
+                        className="input-intelligence w-full px-2.5 sm:px-3 py-1.5 sm:py-2 text-sm"
                         placeholder="Enter your display name"
                       />
                     ) : (
-                      <p className="text-[#fafafa]">{profileData?.profile?.displayName || 'Not set'}</p>
+                      <p className="text-sm sm:text-base text-[#fafafa]">{profileData?.profile?.displayName || 'Not set'}</p>
                     )}
                   </div>
                   <div>
-                    <label className="block text-sm text-[#71717a] mb-1">Phone</label>
+                    <label className="block text-xs sm:text-sm text-[#71717a] mb-1">Phone</label>
                     {isEditingProfile ? (
                       <input
                         type="tel"
                         value={profileForm.phone}
                         onChange={(e) => setProfileForm({ ...profileForm, phone: e.target.value })}
-                        className="input-intelligence w-full px-3 py-2"
+                        className="input-intelligence w-full px-2.5 sm:px-3 py-1.5 sm:py-2 text-sm"
                         placeholder="Enter your phone number"
                       />
                     ) : (
-                      <p className="text-[#fafafa]">{profileData?.profile?.phone || 'Not set'}</p>
+                      <p className="text-sm sm:text-base text-[#fafafa]">{profileData?.profile?.phone || 'Not set'}</p>
                     )}
                   </div>
                   <div>
-                    <label className="block text-sm text-[#71717a] mb-1">Bio</label>
+                    <label className="block text-xs sm:text-sm text-[#71717a] mb-1">Bio</label>
                     {isEditingProfile ? (
                       <textarea
                         value={profileForm.bio}
                         onChange={(e) => setProfileForm({ ...profileForm, bio: e.target.value })}
-                        className="input-intelligence w-full px-3 py-2"
+                        className="input-intelligence w-full px-2.5 sm:px-3 py-1.5 sm:py-2 text-sm"
                         rows={3}
                         placeholder="Tell us about yourself"
                       />
                     ) : (
-                      <p className="text-[#fafafa]">{profileData?.profile?.bio || 'Not set'}</p>
+                      <p className="text-sm sm:text-base text-[#fafafa]">{profileData?.profile?.bio || 'Not set'}</p>
                     )}
                   </div>
                 </div>
               </div>
 
               {/* Usage Stats */}
-              <div className="card-intelligence p-6">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#22d3ee]/20 to-[#10b981]/20 flex items-center justify-center">
-                    <BarChart3 className="w-5 h-5 text-[#22d3ee]" />
+              <div className="card-intelligence p-4 sm:p-5 lg:p-6">
+                <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-xl bg-gradient-to-br from-[#22d3ee]/20 to-[#10b981]/20 flex items-center justify-center flex-shrink-0">
+                    <BarChart3 className="w-4 h-4 sm:w-4.5 sm:h-4.5 lg:w-5 lg:h-5 text-[#22d3ee]" />
                   </div>
-                  <h2 className="text-lg font-semibold text-[#fafafa]">Usage Statistics</h2>
+                  <h2 className="text-base sm:text-lg font-semibold text-[#fafafa]">Usage Statistics</h2>
                 </div>
 
                 {Object.keys(userFeatures).length > 0 ? (
-                  <div className="space-y-6">
+                  <div className="space-y-4 sm:space-y-6">
                     {Object.entries(userFeatures).map(([featureId, feature]: [string, any]) => (
                       <div key={featureId}>
-                        <div className="flex justify-between text-sm mb-2">
+                        <div className="flex justify-between text-xs sm:text-sm mb-2">
                           <span className="text-[#a1a1aa] capitalize">{featureId.replace(/_/g, ' ')}</span>
                           <span className="text-[#fafafa] font-medium">
                             {feature.usage || 0} / {feature.included_usage || feature.balance + (feature.usage || 0) || '∞'}
                           </span>
                         </div>
-                        <div className="w-full bg-[#1a1a25] rounded-full h-2.5">
+                        <div className="w-full bg-[#1a1a25] rounded-full h-2 sm:h-2.5">
                           <div
-                            className="h-2.5 rounded-full bg-gradient-to-r from-[#6366f1] to-[#22d3ee] transition-all"
+                            className="h-2 sm:h-2.5 rounded-full bg-gradient-to-r from-[#6366f1] to-[#22d3ee] transition-all"
                             style={{
                               width: `${Math.min(((feature.usage || 0) / (feature.included_usage || feature.balance + (feature.usage || 0) || 1)) * 100, 100)}%`
                             }}
                           />
                         </div>
                         {feature.next_reset_at && (
-                          <p className="text-xs text-[#71717a] mt-1">
+                          <p className="text-[10px] sm:text-xs text-[#71717a] mt-1">
                             Resets on {new Date(feature.next_reset_at).toLocaleDateString()}
                           </p>
                         )}
@@ -257,8 +258,8 @@ function DashboardContent({ session }: { session: any }) {
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center py-8">
-                    <p className="text-[#71717a]">No usage data available</p>
+                  <div className="text-center py-6 sm:py-8">
+                    <p className="text-sm text-[#71717a]">No usage data available</p>
                   </div>
                 )}
               </div>
@@ -268,26 +269,26 @@ function DashboardContent({ session }: { session: any }) {
 
         {/* Billing Tab */}
         {activeTab === 'billing' && (
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             {/* Current Plan */}
-            <div className="card-intelligence p-6">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#6366f1]/20 to-[#22d3ee]/20 flex items-center justify-center">
-                  <CreditCard className="w-5 h-5 text-[#6366f1]" />
+            <div className="card-intelligence p-4 sm:p-5 lg:p-6">
+              <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+                <div className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-xl bg-gradient-to-br from-[#6366f1]/20 to-[#22d3ee]/20 flex items-center justify-center flex-shrink-0">
+                  <CreditCard className="w-4 h-4 sm:w-4.5 sm:h-4.5 lg:w-5 lg:h-5 text-[#6366f1]" />
                 </div>
                 <div>
-                  <h2 className="text-lg font-semibold text-[#fafafa]">Current Plan</h2>
-                  <p className="text-sm text-[#71717a]">Manage your subscription</p>
+                  <h2 className="text-base sm:text-lg font-semibold text-[#fafafa]">Current Plan</h2>
+                  <p className="text-xs sm:text-sm text-[#71717a]">Manage your subscription</p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 mb-6">
-                <div className={`w-3 h-3 rounded-full ${activeProduct ? 'bg-[#10b981]' : 'bg-[#f59e0b]'}`} />
-                <span className="text-[#fafafa] font-medium">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+                <div className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full ${activeProduct ? 'bg-[#10b981]' : 'bg-[#f59e0b]'}`} />
+                <span className="text-sm sm:text-base text-[#fafafa] font-medium">
                   {activeProduct?.name || activeProduct?.id || 'Free Plan'}
                 </span>
                 {scheduledProduct && (
-                  <span className="text-sm text-[#71717a]">
+                  <span className="text-xs sm:text-sm text-[#71717a] w-full sm:w-auto mt-1 sm:mt-0">
                     (Changing to {scheduledProduct.name || scheduledProduct.id} on {new Date(scheduledProduct.started_at || scheduledProduct.current_period_end || Date.now()).toLocaleDateString()})
                   </span>
                 )}
@@ -295,15 +296,15 @@ function DashboardContent({ session }: { session: any }) {
             </div>
 
             {/* Available Plans */}
-            <div className="card-intelligence p-6">
-              <h2 className="text-lg font-semibold text-[#fafafa] mb-6">Available Plans</h2>
+            <div className="card-intelligence p-4 sm:p-5 lg:p-6">
+              <h2 className="text-base sm:text-lg font-semibold text-[#fafafa] mb-4 sm:mb-6">Available Plans</h2>
 
               {!products ? (
-                <div className="flex justify-center py-8">
-                  <Loader2 className="h-6 w-6 animate-spin text-[#6366f1]" />
+                <div className="flex justify-center py-6 sm:py-8">
+                  <Loader2 className="h-5 w-5 sm:h-6 sm:w-6 animate-spin text-[#6366f1]" />
                 </div>
               ) : (
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
                   {products.map((product: any) => {
                     const isCurrentPlan = activeProduct?.id === product.id;
                     const isScheduledPlan = scheduledProduct?.id === product.id;
@@ -312,37 +313,37 @@ function DashboardContent({ session }: { session: any }) {
                     return (
                       <div
                         key={product.id}
-                        className={`p-5 rounded-xl border ${
+                        className={`p-3 sm:p-4 lg:p-5 rounded-lg sm:rounded-xl border ${
                           isCurrentPlan
                             ? 'border-[#6366f1]/50 bg-[#6366f1]/5'
                             : 'border-[#2a2a3a] bg-[#0a0a0f]'
                         }`}
                       >
-                        <div className="flex justify-between items-start">
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-1">
-                              <h3 className="font-semibold text-[#fafafa]">
+                        <div className="flex flex-col sm:flex-row justify-between items-start gap-3 sm:gap-4">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-1">
+                              <h3 className="font-semibold text-sm sm:text-base text-[#fafafa]">
                                 {product.display?.name || product.name}
                               </h3>
                               {isCurrentPlan && (
-                                <span className="px-2 py-0.5 rounded-full bg-[#10b981]/20 text-[#10b981] text-xs font-medium">
+                                <span className="px-1.5 sm:px-2 py-0.5 rounded-full bg-[#10b981]/20 text-[#10b981] text-[10px] sm:text-xs font-medium">
                                   Current
                                 </span>
                               )}
                               {isScheduledPlan && (
-                                <span className="px-2 py-0.5 rounded-full bg-[#f59e0b]/20 text-[#f59e0b] text-xs font-medium">
+                                <span className="px-1.5 sm:px-2 py-0.5 rounded-full bg-[#f59e0b]/20 text-[#f59e0b] text-[10px] sm:text-xs font-medium">
                                   Scheduled
                                 </span>
                               )}
                             </div>
                             {product.display?.description && (
-                              <p className="text-sm text-[#71717a] mb-3">{product.display.description}</p>
+                              <p className="text-xs sm:text-sm text-[#71717a] mb-2 sm:mb-3">{product.display.description}</p>
                             )}
                             <ul className="space-y-1">
                               {features.slice(0, 3).map((item: any, index: number) => (
-                                <li key={index} className="flex items-center gap-2 text-sm text-[#a1a1aa]">
-                                  <CheckCircle className="w-4 h-4 text-[#6366f1]" />
-                                  {item.display?.primary_text}
+                                <li key={index} className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-[#a1a1aa]">
+                                  <CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#6366f1] flex-shrink-0" />
+                                  <span className="truncate">{item.display?.primary_text}</span>
                                 </li>
                               ))}
                             </ul>
@@ -351,14 +352,14 @@ function DashboardContent({ session }: { session: any }) {
                             <Button
                               onClick={() => handleUpgrade(product.id)}
                               size="sm"
-                              className={product.properties?.is_free
+                              className={`text-xs sm:text-sm whitespace-nowrap ${product.properties?.is_free
                                 ? 'btn-secondary'
                                 : 'btn-primary'
-                              }
+                              }`}
                               disabled={loadingProductId !== null}
                             >
                               {loadingProductId === product.id ? (
-                                <Loader2 className="h-4 w-4 animate-spin" />
+                                <Loader2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 animate-spin" />
                               ) : (
                                 product.properties?.is_free ? 'Downgrade' : 'Upgrade'
                               )}
@@ -376,40 +377,40 @@ function DashboardContent({ session }: { session: any }) {
 
         {/* Settings Tab */}
         {activeTab === 'settings' && (
-          <div className="card-intelligence p-6">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#f59e0b]/20 to-[#ef4444]/20 flex items-center justify-center">
-                <Settings className="w-5 h-5 text-[#f59e0b]" />
+          <div className="card-intelligence p-4 sm:p-5 lg:p-6">
+            <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-xl bg-gradient-to-br from-[#f59e0b]/20 to-[#ef4444]/20 flex items-center justify-center flex-shrink-0">
+                <Settings className="w-4 h-4 sm:w-4.5 sm:h-4.5 lg:w-5 lg:h-5 text-[#f59e0b]" />
               </div>
               <div>
-                <h2 className="text-lg font-semibold text-[#fafafa]">Preferences</h2>
-                <p className="text-sm text-[#71717a]">Manage your notification settings</p>
+                <h2 className="text-base sm:text-lg font-semibold text-[#fafafa]">Preferences</h2>
+                <p className="text-xs sm:text-sm text-[#71717a]">Manage your notification settings</p>
               </div>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {[
                 { key: 'emailNotifications', label: 'Email Notifications', description: 'Receive email notifications for important updates' },
                 { key: 'marketingEmails', label: 'Marketing Emails', description: 'Receive emails about new features and offers' },
               ].map((setting) => (
                 <div
                   key={setting.key}
-                  className="flex items-center justify-between p-4 rounded-xl bg-[#0a0a0f] border border-[#2a2a3a]"
+                  className="flex items-center justify-between p-3 sm:p-4 rounded-lg sm:rounded-xl bg-[#0a0a0f] border border-[#2a2a3a]"
                 >
-                  <div>
-                    <p className="font-medium text-[#fafafa]">{setting.label}</p>
-                    <p className="text-sm text-[#71717a]">{setting.description}</p>
+                  <div className="pr-3 sm:pr-4 min-w-0">
+                    <p className="font-medium text-sm sm:text-base text-[#fafafa]">{setting.label}</p>
+                    <p className="text-xs sm:text-sm text-[#71717a]">{setting.description}</p>
                   </div>
                   <button
                     onClick={() => handleSettingToggle(setting.key, !(settings as any)?.[setting.key])}
-                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                    className={`relative inline-flex h-5 sm:h-6 w-9 sm:w-11 items-center rounded-full transition-colors flex-shrink-0 ${
                       (settings as any)?.[setting.key] ? 'bg-[#6366f1]' : 'bg-[#3f3f46]'
                     }`}
                     disabled={updateSettings.isPending}
                   >
                     <span
-                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                        (settings as any)?.[setting.key] ? 'translate-x-6' : 'translate-x-1'
+                      className={`inline-block h-3 sm:h-4 w-3 sm:w-4 transform rounded-full bg-white transition-transform ${
+                        (settings as any)?.[setting.key] ? 'translate-x-5 sm:translate-x-6' : 'translate-x-0.5 sm:translate-x-1'
                       }`}
                     />
                   </button>

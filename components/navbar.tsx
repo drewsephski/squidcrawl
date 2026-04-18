@@ -5,7 +5,7 @@ import { useSession, signOut } from '@/lib/auth-client';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useCustomer } from '@/hooks/useAutumnCustomer';
-import { Zap } from 'lucide-react';
+import { Zap, Menu, X } from 'lucide-react';
 import { TentacleLogo } from '@/components/tentacle-logo';
 import { Button } from './ui/button';
 
@@ -27,6 +27,7 @@ function UserCredits() {
 export function Navbar() {
   const { data: session, isPending } = useSession();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -49,22 +50,22 @@ export function Navbar() {
         <div className="flex justify-between h-16 items-center">
           {/* Logo */}
           <div className="flex items-center">
-            <Link href="/" className="flex items-center gap-3 group">
+            <Link href="/" className="flex items-center gap-3 group" onClick={() => setMobileMenuOpen(false)}>
               <div className="relative w-8 h-8 flex items-center justify-center">
                 <TentacleLogo className="w-7 h-7 text-[#22d3ee] transition-all duration-300 group-hover:text-[#67e8f9]" />
                 <div className="absolute inset-0 bg-[#22d3ee]/10 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
               <div className="flex flex-col">
-                <span className="text-xl font-semibold tracking-tight text-[#fafafa] font-sans">
+                <span className="text-lg sm:text-xl font-semibold tracking-tight text-[#fafafa] font-sans">
                   Squid<span className="text-[#22d3ee]">Crawl</span>
                 </span>
-                <span className="text-[10px] text-[#71717a] -mt-0.5 tracking-widest uppercase font-medium">AI Web Intelligence</span>
+                <span className="text-[10px] text-[#71717a] -mt-0.5 tracking-widest uppercase font-medium hidden sm:block">AI Web Intelligence</span>
               </div>
             </Link>
           </div>
 
-          {/* Navigation */}
-          <div className="flex items-center gap-1">
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center gap-1">
             {session && (
               <>
                 <NavLink href="/chat">Chat</NavLink>
@@ -103,9 +104,73 @@ export function Navbar() {
               </div>
             )}
           </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="lg:hidden p-2 rounded-lg hover:bg-[#1a1a25] transition-colors duration-200"
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? (
+              <X className="w-6 h-6 text-[#a1a1aa]" />
+            ) : (
+              <Menu className="w-6 h-6 text-[#a1a1aa]" />
+            )}
+          </button>
         </div>
       </div>
 
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden bg-[#0a0a0f]/95 backdrop-blur-xl border-b border-[#2a2a3a]">
+          <div className="max-w-7xl mx-auto px-4 py-4 space-y-3">
+            {session && (
+              <>
+                <MobileNavLink href="/chat" onClick={() => setMobileMenuOpen(false)}>Chat</MobileNavLink>
+                <MobileNavLink href="/brand-monitor" onClick={() => setMobileMenuOpen(false)}>Monitor</MobileNavLink>
+              </>
+            )}
+            <MobileNavLink href="/plans" onClick={() => setMobileMenuOpen(false)}>Pricing</MobileNavLink>
+            
+            {session && (
+              <div className="py-2">
+                <UserCredits />
+              </div>
+            )}
+            
+            <div className="h-px bg-[#2a2a3a] my-3" />
+            
+            {isPending ? (
+              <div className="w-full h-10 rounded-lg bg-[#1a1a25] animate-pulse" />
+            ) : session ? (
+              <div className="space-y-2">
+                <Button variant="indigo" size="sm" className="w-full" asChild>
+                  <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)}>Dashboard</Link>
+                </Button>
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setMobileMenuOpen(false);
+                  }}
+                  disabled={isLoggingOut}
+                  className="w-full px-4 py-2 text-sm font-medium text-[#a1a1aa] hover:text-[#fafafa] hover:bg-[#1a1a25] rounded-lg transition-all duration-200 disabled:opacity-50"
+                >
+                  {isLoggingOut ? '...' : 'Logout'}
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <Button variant="ghost" size="sm" className="w-full" asChild>
+                  <Link href="/login" onClick={() => setMobileMenuOpen(false)}>Sign In</Link>
+                </Button>
+                <Button variant="indigo" size="sm" className="w-full" asChild>
+                  <Link href="/register" onClick={() => setMobileMenuOpen(false)}>Get Started</Link>
+                </Button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </nav>
   );
 }
@@ -115,6 +180,18 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
     <Link
       href={href}
       className="px-3 py-2 text-sm font-medium text-[#71717a] hover:text-[#fafafa] rounded-lg hover:bg-[#1a1a25] transition-all duration-200"
+    >
+      {children}
+    </Link>
+  );
+}
+
+function MobileNavLink({ href, children, onClick }: { href: string; children: React.ReactNode; onClick?: () => void }) {
+  return (
+    <Link
+      href={href}
+      onClick={onClick}
+      className="block px-4 py-3 text-base font-medium text-[#a1a1aa] hover:text-[#fafafa] hover:bg-[#1a1a25] rounded-lg transition-all duration-200"
     >
       {children}
     </Link>
