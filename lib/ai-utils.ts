@@ -359,6 +359,232 @@ async function detectIndustryFromContent(company: Company): Promise<string> {
   return 'technology';
 }
 
+// Sector types for tailored prompt generation
+type Sector = 'saas' | 'ecommerce' | 'outdoor_gear' | 'ai_ml' | 'fintech' | 'healthcare' | 'consumer_goods' | 'b2b_software' | 'general';
+
+/**
+ * Determine the sector based on company data
+ */
+function determineSector(
+  company: Company,
+  keywords: string[],
+  mainProducts: string[],
+  productContext: string,
+  categoryContext: string
+): Sector {
+  const allContext = `${company.industry || ''} ${productContext} ${categoryContext} ${keywords.join(' ')} ${mainProducts.join(' ')}`.toLowerCase();
+
+  // AI/ML sector detection
+  if (allContext.includes('artificial intelligence') ||
+      allContext.includes('machine learning') ||
+      allContext.includes('llm') ||
+      allContext.includes('ai model') ||
+      allContext.includes('generative ai') ||
+      allContext.includes('nlp') ||
+      allContext.includes('computer vision')) {
+    return 'ai_ml';
+  }
+
+  // SaaS / B2B Software detection
+  if (allContext.includes('saas') ||
+      allContext.includes('software as a service') ||
+      allContext.includes('api') ||
+      allContext.includes('platform') && allContext.includes('business')) {
+    return 'saas';
+  }
+
+  // E-commerce detection
+  if (allContext.includes('e-commerce') ||
+      allContext.includes('ecommerce') ||
+      allContext.includes('online store') ||
+      allContext.includes('marketplace') ||
+      allContext.includes('retail') && allContext.includes('online')) {
+    return 'ecommerce';
+  }
+
+  // Outdoor gear detection
+  if (allContext.includes('outdoor') ||
+      allContext.includes('camping') ||
+      allContext.includes('hiking') ||
+      allContext.includes('cooler') ||
+      allContext.includes('tumbler') ||
+      allContext.includes('drinkware') && allContext.includes('outdoor')) {
+    return 'outdoor_gear';
+  }
+
+  // Fintech detection
+  if (allContext.includes('fintech') ||
+      allContext.includes('payment') ||
+      allContext.includes('banking') ||
+      allContext.includes('financial') ||
+      allContext.includes('crypto') ||
+      allContext.includes('blockchain')) {
+    return 'fintech';
+  }
+
+  // Healthcare detection
+  if (allContext.includes('healthcare') ||
+      allContext.includes('medical') ||
+      allContext.includes('health') && allContext.includes('tech') ||
+      allContext.includes('telemedicine') ||
+      allContext.includes('electronic health')) {
+    return 'healthcare';
+  }
+
+  // Consumer goods detection
+  if (allContext.includes('consumer') ||
+      allContext.includes('lifestyle') ||
+      allContext.includes('apparel') ||
+      allContext.includes('fashion') ||
+      allContext.includes('beauty') ||
+      allContext.includes('home goods')) {
+    return 'consumer_goods';
+  }
+
+  // B2B Software detection (general business tools)
+  if (allContext.includes('b2b') ||
+      allContext.includes('enterprise') ||
+      allContext.includes('business tool') ||
+      allContext.includes('productivity') ||
+      allContext.includes('collaboration')) {
+    return 'b2b_software';
+  }
+
+  return 'general';
+}
+
+/**
+ * Generate sector-specific prompts tailored to industry features
+ */
+function generateSectorPrompts(
+  sector: Sector,
+  brandName: string,
+  productContext: string,
+  categoryContext: string,
+  mainProducts: string[],
+  keywords: string[],
+  competitors: string[]
+): Array<{ prompt: string; category: BrandPrompt['category'] }> {
+  const prompts: Array<{ prompt: string; category: BrandPrompt['category'] }> = [];
+
+  switch (sector) {
+    case 'saas':
+      prompts.push(
+        { prompt: `best ${productContext} for enterprise teams`, category: 'ranking' },
+        { prompt: `${brandName} vs ${competitors[0] || 'competitors'} feature comparison`, category: 'comparison' },
+        { prompt: `most secure ${productContext} solutions`, category: 'ranking' },
+        { prompt: `${brandName} API documentation and integration options`, category: 'recommendations' },
+        { prompt: `scalable ${productContext} for growing companies`, category: 'recommendations' },
+        { prompt: `${brandName} pricing vs competitors value analysis`, category: 'comparison' },
+        { prompt: `best ${productContext} with free trial period`, category: 'alternatives' },
+        { prompt: `${brandName} customer support quality compared to others`, category: 'comparison' }
+      );
+      break;
+
+    case 'ai_ml':
+      prompts.push(
+        { prompt: `most accurate ${productContext} models`, category: 'ranking' },
+        { prompt: `${brandName} vs ${competitors[0] || 'alternatives'} AI capabilities`, category: 'comparison' },
+        { prompt: `cost-effective ${productContext} APIs`, category: 'alternatives' },
+        { prompt: `best ${productContext} for developers`, category: 'ranking' },
+        { prompt: `${brandName} model performance benchmarks`, category: 'recommendations' },
+        { prompt: `enterprise-grade ${productContext} solutions`, category: 'ranking' },
+        { prompt: `${brandName} integration with existing ML pipelines`, category: 'recommendations' },
+        { prompt: `top ${productContext} by inference speed`, category: 'ranking' }
+      );
+      break;
+
+    case 'outdoor_gear':
+      prompts.push(
+        { prompt: `most durable ${productContext} for outdoor adventures`, category: 'ranking' },
+        { prompt: `${brandName} ${mainProducts[0] || 'products'} durability vs ${competitors[0] || 'competitors'}`, category: 'comparison' },
+        { prompt: `best ${productContext} for camping and hiking`, category: 'recommendations' },
+        { prompt: `${brandName} warranty and customer service reviews`, category: 'recommendations' },
+        { prompt: `high-quality ${productContext} under $200`, category: 'alternatives' },
+        { prompt: `${brandName} sustainability and eco-friendly practices`, category: 'comparison' },
+        { prompt: `best ${productContext} for extreme weather conditions`, category: 'ranking' },
+        { prompt: `${brandName} vs premium outdoor gear brands`, category: 'comparison' }
+      );
+      break;
+
+    case 'ecommerce':
+      prompts.push(
+        { prompt: `fastest ${productContext} for online sellers`, category: 'ranking' },
+        { prompt: `${brandName} vs ${competitors[0] || 'Shopify'} checkout conversion rates`, category: 'comparison' },
+        { prompt: `most affordable ${productContext} for small business`, category: 'alternatives' },
+        { prompt: `${brandName} payment processing and fees`, category: 'recommendations' },
+        { prompt: `best ${productContext} for international shipping`, category: 'ranking' },
+        { prompt: `${brandName} mobile shopping experience quality`, category: 'recommendations' },
+        { prompt: `top ${productContext} with best SEO features`, category: 'ranking' },
+        { prompt: `${brandName} vs competitors inventory management`, category: 'comparison' }
+      );
+      break;
+
+    case 'fintech':
+      prompts.push(
+        { prompt: `most secure ${productContext} for payments`, category: 'ranking' },
+        { prompt: `${brandName} vs ${competitors[0] || 'Stripe'} transaction fees`, category: 'comparison' },
+        { prompt: `compliant ${productContext} for international transfers`, category: 'alternatives' },
+        { prompt: `${brandName} fraud protection capabilities`, category: 'recommendations' },
+        { prompt: `fastest ${productContext} for instant payouts`, category: 'ranking' },
+        { prompt: `${brandName} developer documentation quality`, category: 'recommendations' },
+        { prompt: `best ${productContext} for subscription billing`, category: 'ranking' },
+        { prompt: `${brandName} vs competitors API reliability`, category: 'comparison' }
+      );
+      break;
+
+    case 'healthcare':
+      prompts.push(
+        { prompt: `HIPAA-compliant ${productContext} solutions`, category: 'ranking' },
+        { prompt: `${brandName} vs ${competitors[0] || 'competitors'} patient data security`, category: 'comparison' },
+        { prompt: `user-friendly ${productContext} for telemedicine`, category: 'alternatives' },
+        { prompt: `${brandName} integration with EHR systems`, category: 'recommendations' },
+        { prompt: `most reliable ${productContext} for healthcare providers`, category: 'ranking' },
+        { prompt: `${brandName} uptime and reliability statistics`, category: 'recommendations' },
+        { prompt: `best ${productContext} for remote patient monitoring`, category: 'ranking' },
+        { prompt: `${brandName} vs competitors regulatory compliance`, category: 'comparison' }
+      );
+      break;
+
+    case 'b2b_software':
+      prompts.push(
+        { prompt: `best ${productContext} for team collaboration`, category: 'ranking' },
+        { prompt: `${brandName} vs ${competitors[0] || 'competitors'} enterprise features`, category: 'comparison' },
+        { prompt: `affordable ${productContext} for startups`, category: 'alternatives' },
+        { prompt: `${brandName} onboarding and training resources`, category: 'recommendations' },
+        { prompt: `most integrated ${productContext} with Slack and Microsoft`, category: 'ranking' },
+        { prompt: `${brandName} customer success stories and case studies`, category: 'recommendations' },
+        { prompt: `top ${productContext} for remote teams`, category: 'ranking' },
+        { prompt: `${brandName} vs competitors SSO and security features`, category: 'comparison' }
+      );
+      break;
+
+    case 'consumer_goods':
+      prompts.push(
+        { prompt: `highest quality ${productContext} brands`, category: 'ranking' },
+        { prompt: `${brandName} vs ${competitors[0] || 'competitors'} material quality`, category: 'comparison' },
+        { prompt: `sustainable and ethical ${productContext} alternatives`, category: 'alternatives' },
+        { prompt: `${brandName} customer reviews and ratings`, category: 'recommendations' },
+        { prompt: `best value ${productContext} for money`, category: 'ranking' },
+        { prompt: `${brandName} shipping and return policy comparison`, category: 'comparison' },
+        { prompt: `most popular ${productContext} on social media`, category: 'ranking' },
+        { prompt: `${brandName} vs premium brand alternatives`, category: 'comparison' }
+      );
+      break;
+
+    default:
+      // General prompts for unrecognized sectors
+      prompts.push(
+        { prompt: `top rated ${productContext} providers`, category: 'ranking' },
+        { prompt: `${brandName} vs leading competitors`, category: 'comparison' },
+        { prompt: `best alternatives to ${brandName}`, category: 'alternatives' },
+        { prompt: `is ${brandName} worth the investment`, category: 'recommendations' }
+      );
+  }
+
+  return prompts;
+}
+
 export async function generatePromptsForCompany(company: Company, competitors: string[]): Promise<BrandPrompt[]> {
   const prompts: BrandPrompt[] = [];
   let promptId = 0;
@@ -439,7 +665,13 @@ export async function generatePromptsForCompany(company: Company, competitors: s
     categoryContext = 'outdoor equipment brands';
   }
 
-  // Generate contextually relevant prompts
+  // Determine sector for tailored prompts
+  const sector = determineSector(company, keywords, mainProducts, productContext, categoryContext);
+
+  // Generate sector-specific prompts
+  const sectorPrompts = generateSectorPrompts(sector, brandName, productContext, categoryContext, mainProducts, keywords, competitors);
+
+  // Generate contextually relevant prompts (base templates)
   const contextualTemplates = {
     ranking: [
       `best ${productContext} in 2024`,
@@ -465,14 +697,27 @@ export async function generatePromptsForCompany(company: Company, competitors: s
     ],
   };
 
-  // Generate prompts from contextual templates
+  // Add sector-specific prompts first (more targeted and relevant)
+  sectorPrompts.forEach(({ prompt, category }) => {
+    prompts.push({
+      id: (++promptId).toString(),
+      prompt,
+      category,
+    });
+  });
+
+  // Generate prompts from contextual templates (base templates as fallback/supplement)
   Object.entries(contextualTemplates).forEach(([category, templates]) => {
     templates.forEach(prompt => {
-      prompts.push({
-        id: (++promptId).toString(),
-        prompt,
-        category: category as BrandPrompt['category'],
-      });
+      // Skip if this prompt is already included from sector prompts
+      const isDuplicate = prompts.some(p => p.prompt.toLowerCase().trim() === prompt.toLowerCase().trim());
+      if (!isDuplicate && prompt) {
+        prompts.push({
+          id: (++promptId).toString(),
+          prompt,
+          category: category as BrandPrompt['category'],
+        });
+      }
     });
   });
 

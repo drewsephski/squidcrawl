@@ -132,39 +132,62 @@ export function HighlightedResponse({
   if (!showHighlighting) {
     if (renderMarkdown) {
       return (
-        <ReactMarkdown 
-          remarkPlugins={[remarkGfm]}
-          components={{
-            p: ({children}) => <p className="mb-2">{children}</p>,
-            ul: ({children}) => <ul className="list-disc pl-4 mb-2">{children}</ul>,
-            ol: ({children}) => <ol className="list-decimal pl-4 mb-2">{children}</ol>,
-            li: ({children}) => <li className="mb-1">{children}</li>,
-            strong: ({children}) => <strong className="font-semibold">{children}</strong>,
-            em: ({children}) => <em className="italic">{children}</em>,
-            table: ({children}) => (
-              <div className="overflow-x-auto my-4">
-                <table className="min-w-full border-collapse border border-gray-300 text-xs">
+        <div className="text-left">
+          <ReactMarkdown 
+            remarkPlugins={[remarkGfm]}
+            components={{
+              p: ({children}) => <p className="mb-3 leading-relaxed text-left text-[#d4d4d8]">{children}</p>,
+              ul: ({children}) => <ul className="list-disc pl-5 mb-3 space-y-1.5 text-left">{children}</ul>,
+              ol: ({children}) => <ol className="list-decimal pl-5 mb-3 space-y-1.5 text-left">{children}</ol>,
+              li: ({children}) => <li className="text-sm leading-relaxed text-left text-[#d4d4d8]">{children}</li>,
+              strong: ({children}) => <strong className="font-semibold text-[#fafafa]">{children}</strong>,
+              em: ({children}) => <em className="italic text-[#a1a1aa]">{children}</em>,
+              h1: ({children}) => <h1 className="text-xl font-bold mb-4 text-left text-[#fafafa] border-b border-[#3f3f46] pb-2">{children}</h1>,
+              h2: ({children}) => <h2 className="text-lg font-semibold mb-3 text-left text-[#fafafa]">{children}</h2>,
+              h3: ({children}) => <h3 className="text-base font-semibold mb-2 text-left text-[#e4e4e7]">{children}</h3>,
+              h4: ({children}) => <h4 className="text-sm font-semibold mb-2 text-left text-[#a1a1aa]">{children}</h4>,
+              table: ({children}) => (
+                <div className="overflow-x-auto my-4 rounded-lg border border-[#2a2a3a]">
+                  <table className="min-w-full border-collapse text-sm text-left">
+                    {children}
+                  </table>
+                </div>
+              ),
+              thead: ({children}) => <thead className="bg-[#1a1a24]">{children}</thead>,
+              tbody: ({children}) => <tbody className="bg-[#12121a]">{children}</tbody>,
+              tr: ({children}) => <tr className="border-b border-[#2a2a3a]">{children}</tr>,
+              th: ({children}) => (
+                <th className="px-4 py-2 text-left font-semibold text-[#fafafa] bg-[#1a1a24]">
                   {children}
-                </table>
-              </div>
-            ),
-            thead: ({children}) => <thead className="bg-gray-50">{children}</thead>,
-            tbody: ({children}) => <tbody>{children}</tbody>,
-            tr: ({children}) => <tr className="border-b border-gray-200">{children}</tr>,
-            th: ({children}) => (
-              <th className="border border-gray-300 px-2 py-1 text-left font-semibold bg-gray-100">
-                {children}
-              </th>
-            ),
-            td: ({children}) => (
-              <td className="border border-gray-300 px-2 py-1">
-                {children}
-              </td>
-            ),
-          }}
-        >
-          {cleanedResponse}
-        </ReactMarkdown>
+                </th>
+              ),
+              td: ({children}) => (
+                <td className="px-4 py-2 text-left text-[#d4d4d8]">
+                  {children}
+                </td>
+              ),
+              code: ({children, className}) => {
+                if (className?.includes('language-')) {
+                  return (
+                    <pre className="bg-[#0a0a0f] rounded-lg p-3 text-xs overflow-x-auto mb-3 border border-[#2a2a3a] text-left">
+                      <code className="text-[#d4d4d8]">{children}</code>
+                    </pre>
+                  );
+                }
+                return <code className="bg-[#1a1a24] px-1.5 py-0.5 rounded text-xs text-[#22d3ee]">{children}</code>;
+              },
+              blockquote: ({children}) => (
+                <blockquote className="border-l-4 border-[#6366f1] pl-4 italic text-[#a1a1aa] mb-3 text-left bg-[#1a1a24]/50 py-2 pr-2 rounded-r">
+                  {children}
+                </blockquote>
+              ),
+              hr: () => <hr className="my-4 border-[#2a2a3a]" />,
+              a: ({children, href}) => <a href={href} className="text-[#6366f1] hover:text-[#22d3ee] underline transition-colors" target="_blank" rel="noopener noreferrer">{children}</a>,
+            }}
+          >
+            {cleanedResponse}
+          </ReactMarkdown>
+        </div>
       );
     }
     return <>{cleanedResponse}</>;
@@ -173,56 +196,59 @@ export function HighlightedResponse({
   if (renderMarkdown) {
     // For markdown with highlighting, render markdown first, then apply highlights to the final text
     return (
-      <div className="prose prose-sm max-w-none prose-slate">
+      <div className="text-left">
         <ReactMarkdown 
           remarkPlugins={[remarkGfm]}
           components={{
-            p: ({children}) => <p className="mb-3 leading-relaxed">{children}</p>,
-            ul: ({children}) => <ul className="list-disc pl-5 mb-3 space-y-1">{children}</ul>,
-            ol: ({children}) => <ol className="list-decimal pl-5 mb-3 space-y-1">{children}</ol>,
-            li: ({children}) => <li className="text-sm">{children}</li>,
-            strong: ({children}) => <strong className="font-semibold text-gray-900">{children}</strong>,
-            em: ({children}) => <em className="italic">{children}</em>,
-            h1: ({children}) => <h1 className="text-lg font-bold mb-3 text-gray-900">{children}</h1>,
-            h2: ({children}) => <h2 className="text-base font-semibold mb-2 text-gray-900">{children}</h2>,
-            h3: ({children}) => <h3 className="text-sm font-semibold mb-2 text-gray-900">{children}</h3>,
-            // Proper table rendering
+            p: ({children}) => <p className="mb-3 leading-relaxed text-left text-[#d4d4d8]">{children}</p>,
+            ul: ({children}) => <ul className="list-disc pl-5 mb-3 space-y-1.5 text-left">{children}</ul>,
+            ol: ({children}) => <ol className="list-decimal pl-5 mb-3 space-y-1.5 text-left">{children}</ol>,
+            li: ({children}) => <li className="text-sm leading-relaxed text-left text-[#d4d4d8]">{children}</li>,
+            strong: ({children}) => <strong className="font-semibold text-[#fafafa]">{children}</strong>,
+            em: ({children}) => <em className="italic text-[#a1a1aa]">{children}</em>,
+            h1: ({children}) => <h1 className="text-xl font-bold mb-4 text-left text-[#fafafa] border-b border-[#3f3f46] pb-2">{children}</h1>,
+            h2: ({children}) => <h2 className="text-lg font-semibold mb-3 text-left text-[#fafafa]">{children}</h2>,
+            h3: ({children}) => <h3 className="text-base font-semibold mb-2 text-left text-[#e4e4e7]">{children}</h3>,
+            h4: ({children}) => <h4 className="text-sm font-semibold mb-2 text-left text-[#a1a1aa]">{children}</h4>,
+            // Proper table rendering with dark theme
             table: ({children}) => (
-              <div className="overflow-x-auto my-4">
-                <table className="min-w-full border-collapse border border-gray-300 text-xs">
+              <div className="overflow-x-auto my-4 rounded-lg border border-[#2a2a3a]">
+                <table className="min-w-full border-collapse text-sm text-left">
                   {children}
                 </table>
               </div>
             ),
-            thead: ({children}) => <thead className="bg-gray-50">{children}</thead>,
-            tbody: ({children}) => <tbody>{children}</tbody>,
-            tr: ({children}) => <tr className="border-b border-gray-200">{children}</tr>,
+            thead: ({children}) => <thead className="bg-[#1a1a24]">{children}</thead>,
+            tbody: ({children}) => <tbody className="bg-[#12121a]">{children}</tbody>,
+            tr: ({children}) => <tr className="border-b border-[#2a2a3a]">{children}</tr>,
             th: ({children}) => (
-              <th className="border border-gray-300 px-2 py-1 text-left font-semibold bg-gray-100">
+              <th className="px-4 py-2 text-left font-semibold text-[#fafafa] bg-[#1a1a24]">
                 {children}
               </th>
             ),
             td: ({children}) => (
-              <td className="border border-gray-300 px-2 py-1">
+              <td className="px-4 py-2 text-left text-[#d4d4d8]">
                 {children}
               </td>
             ),
-            // Add code block support
+            // Add code block support with dark theme
             code: ({children, className}) => {
               if (className?.includes('language-')) {
                 return (
-                  <pre className="bg-gray-100 rounded p-2 text-xs overflow-x-auto mb-3">
-                    <code>{children}</code>
+                  <pre className="bg-[#0a0a0f] rounded-lg p-3 text-xs overflow-x-auto mb-3 border border-[#2a2a3a] text-left">
+                    <code className="text-[#d4d4d8]">{children}</code>
                   </pre>
                 );
               }
-              return <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">{children}</code>;
+              return <code className="bg-[#1a1a24] px-1.5 py-0.5 rounded text-xs text-[#22d3ee]">{children}</code>;
             },
             blockquote: ({children}) => (
-              <blockquote className="border-l-4 border-gray-300 pl-4 italic text-gray-600 mb-3">
+              <blockquote className="border-l-4 border-[#6366f1] pl-4 italic text-[#a1a1aa] mb-3 text-left bg-[#1a1a24]/50 py-2 pr-2 rounded-r">
                 {children}
               </blockquote>
             ),
+            hr: () => <hr className="my-4 border-[#2a2a3a]" />,
+            a: ({children, href}) => <a href={href} className="text-[#6366f1] hover:text-[#22d3ee] underline transition-colors" target="_blank" rel="noopener noreferrer">{children}</a>,
           }}
         >
           {cleanedResponse}
