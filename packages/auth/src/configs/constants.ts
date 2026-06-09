@@ -72,8 +72,12 @@ export const API_KEY_CACHE_CONFIG = {
   KEY_PREFIX: 'api_key_session:',
 } as const;
 
-// BUG: OAUTH PROXY CURRENTLY DOES NOT WORK IN LOCALHOST WITH AUTH WORKER
-export const USE_OAUTH_PROXY = true;
+// The OAuth proxy is NOT needed in our architecture:
+// - The auth worker handles OAuth callbacks directly at /api/auth/callback/{provider}
+// - The callbackURL param in signIn.social() handles post-auth redirects
+// - Cross-subdomain cookies are handled by the crossSubDomainCookies config
+// - The proxy breaks OAuth in localhost with auth worker (and is unnecessary everywhere)
+export const USE_OAUTH_PROXY = false;
 
 export const LAST_USED_LOGIN_METHOD_COOKIE_NAME =
   'deepcrawl.last_used_login_method';
