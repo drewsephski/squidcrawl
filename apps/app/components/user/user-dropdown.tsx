@@ -317,7 +317,7 @@ export function UserDropdown({
         </Link>
 
         <a
-          href="https://github.com/lumpinif/deepcrawl"
+          href="https://github.com/drewsephski/squidcrawl"
           rel="noopener noreferrer"
           target="_blank"
         >

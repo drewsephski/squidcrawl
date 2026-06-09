@@ -29,7 +29,7 @@ Please read the [contributing guide](./CONTRIBUTING.md).
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-Open Source. Open Code - built with ❤️ by [@drewsephski](https://x.com/felixlu1018).
+Open Source. Open Code - built with ❤️ by [Drew Sepeczi](https://instagram.com/drew.sepeczi).
 
 ## Star History
 

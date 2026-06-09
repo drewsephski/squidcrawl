@@ -2,7 +2,7 @@
   "name": "@deepcrawl/types",
   "version": "0.0.1",
   "description": "TypeScript types and schemas for the @deepcrawl API",
-  "author": "deepcrawl.ai - Felix",
+  "author": "deepcrawl.ai - Drew Sepeczi",
   "private": true,
   "types": "./src/index.ts",
   "exports": {

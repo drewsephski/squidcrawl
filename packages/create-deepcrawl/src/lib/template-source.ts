@@ -3,7 +3,7 @@ import { homedir } from 'node:os';
 import { isAbsolute, resolve } from 'node:path';
 
 export const DEFAULT_TEMPLATE_REPO =
-  'https://github.com/lumpinif/deepcrawl.git' as const;
+  'https://github.com/drewsephski/squidcrawl.git' as const;
 export const DEFAULT_TEMPLATE_BRANCH = 'template/main' as const;
 
 export type TemplateSourceConfig = {

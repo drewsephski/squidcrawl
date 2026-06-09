@@ -8,7 +8,7 @@ export const siteConfig = {
   // ogImage: "https://squidcrawl.dev/og.jpg",
   description: `${brandName} is a 100% free, no-pricing, and fully open-source toolkit for agents to make any website data AI ready.`,
   links: {
-    twitter: 'https://twitter.com/felixlu1018',
+    instagram: 'https://instagram.com/drew.sepeczi',
     github: 'https://github.com/drewsephski/squidcrawl',
   },
   navItems: NAVIGATION_ITEMS,

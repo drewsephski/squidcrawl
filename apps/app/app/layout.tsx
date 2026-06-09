@@ -29,11 +29,11 @@ export const metadata: Metadata = {
   keywords: [siteConfig.name, 'AI', 'Open Source', 'Toolkit', 'Agents'],
   authors: [
     {
-      name: 'Felix Lu',
-      url: 'https://x.com/felixlu1018',
+      name: 'Drew Sepeczi',
+      url: 'https://instagram.com/drew.sepeczi',
     },
   ],
-  creator: 'felixlu1018',
+  creator: 'drew.sepeczi',
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     title: siteConfig.name,
     description: siteConfig.description,
     // images: [`${process.env.NEXT_PUBLIC_APP_URL}/opengraph-image.png`],
-    creator: '@felixlu1018',
+    creator: '@drew.sepeczi',
   },
   // icons: {
   //   icon: "/favicon.ico",

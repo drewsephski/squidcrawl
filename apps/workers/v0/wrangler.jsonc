@@ -33,7 +33,7 @@
   "services": [
     {
       "binding": "AUTH_WORKER",
-      "service": "deepcrawl-worker-auth"
+      "service": "deepcrawl-worker-auth-production"
     }
   ],
   "vars": {
@@ -55,22 +55,20 @@
     {
       "remote": true,
       "binding": "DEEPCRAWL_V0_LINKS_STORE",
-      "id": "0c344c2052234f0d96e3a99a3e6b43ba",
-      "preview_id": "2f7ff57f058748eea8ba5c02876a8eae"
+      "id": "57966dd605b24c29a5d2eff79cf424f6"
     },
     {
       "remote": true,
       "binding": "DEEPCRAWL_V0_READ_STORE",
-      "id": "1dd4e23d3db2409ab2fa401cac8efad0",
-      "preview_id": "812d7fc53b5a47438054c749ec3d505a"
+      "id": "b7921ef3448743e9bd8972910499300b"
     }
   ],
   "d1_databases": [
     {
       "binding": "DB_V0",
       "remote": true,
-      "database_name": "prod-deepcrawl-worker-v0",
-      "database_id": "7bfe7ce7-268a-4b5f-ba4c-0acb1c61e54b",
+      "database_name": "squidcrawl-v0-db",
+      "database_id": "6941f7cb-6a8d-4de8-9513-131cbf846682",
       "migrations_dir": "../../../packages/db/db-d1/drizzle"
     }
   ],
@@ -94,8 +92,8 @@
       "d1_databases": [
         {
           "binding": "DB_V0",
-          "database_name": "prod-deepcrawl-worker-v0",
-          "database_id": "7bfe7ce7-268a-4b5f-ba4c-0acb1c61e54b",
+          "database_name": "squidcrawl-v0-db",
+          "database_id": "6941f7cb-6a8d-4de8-9513-131cbf846682",
           "migrations_dir": "../../../packages/db/db-d1/drizzle"
         }
       ],
@@ -108,13 +106,11 @@
       "kv_namespaces": [
         {
           "binding": "DEEPCRAWL_V0_LINKS_STORE",
-          "id": "0c344c2052234f0d96e3a99a3e6b43ba",
-          "preview_id": "2f7ff57f058748eea8ba5c02876a8eae"
+          "id": "57966dd605b24c29a5d2eff79cf424f6"
         },
         {
           "binding": "DEEPCRAWL_V0_READ_STORE",
-          "id": "1dd4e23d3db2409ab2fa401cac8efad0",
-          "preview_id": "812d7fc53b5a47438054c749ec3d505a"
+          "id": "b7921ef3448743e9bd8972910499300b"
         }
       ]
     }

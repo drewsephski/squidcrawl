@@ -86,19 +86,19 @@
     "javascript"
   ],
   "author": {
-    "name": "Felix Lu",
-    "url": "https://x.com/felixlu1018"
+    "name": "Drew Sepeczi",
+    "url": "https://instagram.com/drew.sepeczi"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lumpinif/deepcrawl",
+    "url": "git+https://github.com/drewsephski/squidcrawl",
     "directory": "packages/sdks/js-ts"
   },
   "bugs": {
-    "url": "https://github.com/lumpinif/deepcrawl/issues"
+    "url": "https://github.com/drewsephski/squidcrawl/issues"
   },
-  "homepage": "https://github.com/lumpinif/deepcrawl#readme",
+  "homepage": "https://github.com/drewsephski/squidcrawl#readme",
   "publishConfig": {
     "access": "public"
   },

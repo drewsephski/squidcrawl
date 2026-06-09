@@ -4,7 +4,7 @@
   "description": "D1 Database package for @deepcrawl data preservation",
   "private": true,
   "main": "index.ts",
-  "author": "deepcrawl.ai - Felix",
+  "author": "deepcrawl.ai - Drew Sepeczi",
   "scripts": {
     "typecheck": "tsc --noEmit",
     "check": "pnpm typecheck && biome ci .",

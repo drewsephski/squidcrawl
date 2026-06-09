@@ -8,11 +8,11 @@ export function Footer() {
           Built by{' '}
           <Link
             className="underline underline-offset-4"
-            href="https://x.com/felixlu1018"
+            href="https://instagram.com/drew.sepeczi"
             rel="noopener noreferrer"
             target="_blank"
           >
-            Felix Lu
+            Drew Sepeczi
           </Link>{' '}
           with ❤️. The source code is available on{' '}
           <Link

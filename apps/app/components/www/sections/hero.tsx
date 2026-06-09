@@ -33,7 +33,7 @@ export const Hero = () => (
             gridGap={8}
             maxOpacity={0.2}
             squareSize={3}
-            text="npm i deepcrawl"
+            text="npm i squidcrawl"
             textOffsetY={260}
           />
         </Suspense>

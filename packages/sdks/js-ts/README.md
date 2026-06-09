@@ -626,4 +626,4 @@ MIT - see [LICENSE](LICENSE) for details.
 
 ---
 
-**Built with ❤️ by the [@felixLu](https://x.com/felixlu1018)**
+**Built with ❤️ by [Drew Sepeczi](https://instagram.com/drew.sepeczi)**

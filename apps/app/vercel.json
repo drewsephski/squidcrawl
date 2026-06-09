@@ -1,6 +1,7 @@
 {
-  "outputDirectory": ".next",
+  "outputDirectory": "apps/app/.next",
   "regions": ["sfo1"],
   "framework": "nextjs",
-  "installCommand": "pnpm install --frozen-lockfile"
+  "installCommand": "pnpm install",
+  "buildCommand": "cd apps/app && next build"
 }

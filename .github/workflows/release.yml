@@ -10,7 +10,7 @@ env:
 
 jobs:
   release:
-    if: ${{ github.repository_owner == 'lumpinif' }}
+    if: ${{ github.repository_owner == 'drewsephski' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write

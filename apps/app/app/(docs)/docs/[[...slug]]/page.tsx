@@ -58,7 +58,7 @@ export async function generateMetadata(props: {
       //     )}&description=${encodeURIComponent(doc.description)}`,
       //   },
       // ],
-      creator: '@felixlu1018',
+      creator: '@drew.sepeczi',
     },
   };
 }
@@ -75,14 +75,14 @@ export default async function Page(props: {
   const MDX = page.data.body;
   const pageUrl = absoluteUrl(page.url);
   const markdownUrl = `${page.url}.mdx`;
-  const githubUrl = `https://github.com/lumpinif/deepcrawl/blob/main/apps/app/content/docs/${page.path}`;
+  const githubUrl = `https://github.com/drewsephski/squidcrawl/blob/main/apps/app/content/docs/${page.path}`;
 
   return (
     <DocsPage
       breadcrumb={{ enabled: true }}
       editOnGithub={{
-        owner: 'lumpinif',
-        repo: 'deepcrawl',
+        owner: 'drewsephski',
+        repo: 'squidcrawl',
         sha: 'main',
         path: `/apps/app/content/docs/${page.path}`,
       }}
