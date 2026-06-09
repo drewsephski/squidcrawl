@@ -92,3 +92,6 @@ tsconfig.tsbuildinfo
 .specify
 # next-agents-md
 .next-docs/
+.env.vercel
+.env.vercel.prod
+scrape.png
