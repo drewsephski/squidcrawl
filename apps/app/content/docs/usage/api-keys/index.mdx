@@ -1,6 +1,6 @@
 ---
 title: API Keys
-description: Create, rotate, and manage Deepcrawl API keys for secure integrations.
+description: Create, rotate, and manage Squidcrawl API keys for secure integrations.
 ---
 
 API keys authenticate any non-session client (SDKs, REST calls, automation scripts). The dashboard gives you full lifecycle management—create, rotate, disable, and audit usage—without touching the database.
@@ -14,7 +14,7 @@ API keys authenticate any non-session client (SDKs, REST calls, automation scrip
 
 <Steps>
   <Step>
-    Open the dashboard at <Link href="https://deepcrawl.dev/app/api-keys">API Keys</Link> and click <code>New API Key</code>.
+    Open the dashboard at <Link href="https://squidcrawl.dev/app/api-keys">API Keys</Link> and click <code>New API Key</code>.
   </Step>
   <Step>
     Choose an expiration (never, 30/60/90 days, 6 months, 1 year) and name the key so teammates recognize its purpose.
@@ -103,5 +103,5 @@ export async function run() {
 ```bash
 curl \
   -H "Authorization: Bearer $DEEPCRAWL_API_KEY" \
-  "https://api.deepcrawl.dev/read?url=https://example.com"
+  "https://api.squidcrawl.dev/read?url=https://example.com"
 ```

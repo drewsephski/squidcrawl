@@ -11,8 +11,8 @@ process.stdout.write(
     '',
     renderDeepcrawlHeader(),
     '',
-    'Create and deploy Deepcrawl from your terminal.',
-    'Tip: run npm create deepcrawl ../my-app to skip the folder questions.',
+    'Create and deploy Squidcrawl from your terminal.',
+    'Tip: run npm create squidcrawl ../my-app to skip the folder questions.',
     '',
   ].join('\n'),
 );

@@ -1,4 +1,4 @@
-# 🔐 Deepcrawl Auth Worker
+# 🔐 Squidcrawl Auth Worker
 
 Authentication service powered by Better Auth and Cloudflare Workers.
 
@@ -51,7 +51,7 @@ pnpm preview
 
 ### **Session Management**
 - 🏢 **Multi-Session Support** - Up to 2 concurrent sessions per user
-- 🍪 **Cross-Domain Cookies** - Works across `deepcrawl.dev` subdomains
+- 🍪 **Cross-Domain Cookies** - Works across `squidcrawl.dev` subdomains
 - 🔐 **API Key Authentication** - Primary method for API access
 - 🍪 **Cookie Fallback** - Dashboard authentication
 - 🛡️ **Secure Headers** - CSRF protection and security headers
@@ -63,7 +63,7 @@ pnpm preview
 - 👥 **Organization Invitations** - Team invitation system
 
 ### **Additional Features**
-- 🔗 **Service Bindings** - Communication with main Deepcrawl worker
+- 🔗 **Service Bindings** - Communication with main Squidcrawl worker
 - 🌍 **Environment Aware** - Development and production configurations
 - 📊 **Rate Limiting** - Protection against abuse
 
@@ -84,7 +84,7 @@ GOOGLE_CLIENT_SECRET=your_google_client_secret
 
 # Email service (optional)
 RESEND_API_KEY=re_your_resend_api_key
-FROM_EMAIL="Deepcrawl <noreply@deepcrawl.dev>"
+FROM_EMAIL="Squidcrawl <noreply@squidcrawl.dev>"
 ```
 
 ## 🏗️ Architecture
@@ -92,5 +92,5 @@ FROM_EMAIL="Deepcrawl <noreply@deepcrawl.dev>"
 Built on Better Auth with:
 - **Database Integration** - PostgreSQL with Drizzle ORM
 - **Email Templates** - React components with universal rendering
-- **Service Communication** - Bindings to main Deepcrawl worker
+- **Service Communication** - Bindings to main Squidcrawl worker
 - **Multi-Environment** - Development and production configurations

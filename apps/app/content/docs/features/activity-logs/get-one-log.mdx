@@ -5,12 +5,12 @@ description: Get a single activity log with original response by ID.
 
 Use this endpoint to inspect the full details of a single crawl request. It
 returns the original request options and the original response so you can
-debug exactly what Deepcrawl processed.
+debug exactly what Squidcrawl processed.
 
 
 ## Endpoint
 
-- `GET https://api.deepcrawl.dev/logs?id={requestId}`
+- `GET https://api.squidcrawl.dev/logs?id={requestId}`
 - Requires authentication header (`Authorization: Bearer <token>` when calling the worker directly).
 
 ## Request Options – `GetOneLogOptions`
@@ -20,12 +20,12 @@ debug exactly what Deepcrawl processed.
   name="GetOneLogOptions"
 />
 
-- `id` *(string, required)* — Request/response identifier returned by any Deepcrawl operation.
+- `id` *(string, required)* — Request/response identifier returned by any Squidcrawl operation.
 
 ## Example Request
 
 ```bash
-curl "https://api.deepcrawl.dev/logs?id=log_123" \
+curl "https://api.squidcrawl.dev/logs?id=log_123" \
   -H "Authorization: Bearer $DEEPCRAWL_API_KEY"
 ```
 

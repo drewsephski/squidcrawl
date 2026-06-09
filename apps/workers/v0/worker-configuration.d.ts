@@ -9,10 +9,10 @@ declare namespace Cloudflare {
 		DEEPCRAWL_V0_LINKS_STORE: KVNamespace;
 		DEEPCRAWL_V0_READ_STORE: KVNamespace;
 		DB_V0: D1Database;
-		NEXT_PUBLIC_APP_URL: "https://deepcrawl.dev";
-		BETTER_AUTH_URL: "https://auth.deepcrawl.dev";
+		NEXT_PUBLIC_APP_URL: "https://squidcrawl.dev";
+		BETTER_AUTH_URL: "https://auth.squidcrawl.dev";
 		AUTH_MODE: "better-auth";
-		API_URL: "https://api.deepcrawl.dev";
+		API_URL: "https://api.squidcrawl.dev";
 		ENABLE_ACTIVITY_LOGS: true;
 		WORKER_NODE_ENV: "production";
 		GITHUB_CLIENT_ID: "Ov23litNP2YxhipDUMUJ";
@@ -48,10 +48,10 @@ declare namespace Cloudflare {
 		DEEPCRAWL_V0_LINKS_STORE: KVNamespace;
 		DEEPCRAWL_V0_READ_STORE: KVNamespace;
 		DB_V0: D1Database;
-		NEXT_PUBLIC_APP_URL: "https://deepcrawl.dev" | "http://localhost:3000";
-		BETTER_AUTH_URL: "https://auth.deepcrawl.dev" | "http://localhost:8787";
+		NEXT_PUBLIC_APP_URL: "https://squidcrawl.dev" | "http://localhost:3000";
+		BETTER_AUTH_URL: "https://auth.squidcrawl.dev" | "http://localhost:8787";
 		AUTH_MODE: "better-auth";
-		API_URL: "https://api.deepcrawl.dev" | "http://localhost:8080";
+		API_URL: "https://api.squidcrawl.dev" | "http://localhost:8080";
 		ENABLE_ACTIVITY_LOGS: true;
 		WORKER_NODE_ENV: "production" | "development";
 		GITHUB_CLIENT_ID: "Ov23litNP2YxhipDUMUJ";

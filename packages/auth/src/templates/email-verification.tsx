@@ -84,6 +84,6 @@ export default function EmailVerification({
 // Preview props for development server
 EmailVerification.PreviewProps = {
   username: 'John Doe',
-  verificationUrl: 'https://auth.deepcrawl.dev/verify?token=abc123def456',
+  verificationUrl: 'https://auth.squidcrawl.dev/verify?token=abc123def456',
   brandName: 'Deepcrawl',
 } as EmailVerificationProps;

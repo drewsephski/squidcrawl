@@ -1,6 +1,6 @@
 # @deepcrawl/eslint-config
 
-**Shared ESLint configuration** for the Deepcrawl monorepo workspace.
+**Shared ESLint configuration** for the Squidcrawl monorepo workspace.
 
 ## Features
 

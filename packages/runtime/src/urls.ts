@@ -8,9 +8,9 @@
  * Prefer `ensureAbsoluteUrl()` / `toOrigin()` from this module instead, so we
  * don't re-implement URL normalization in multiple places.
  */
-export const OFFICIAL_APP_URL = 'https://deepcrawl.dev';
-export const OFFICIAL_API_URL = 'https://api.deepcrawl.dev';
-export const OFFICIAL_AUTH_URL = 'https://auth.deepcrawl.dev';
+export const OFFICIAL_APP_URL = 'https://squidcrawl.dev';
+export const OFFICIAL_API_URL = 'https://api.squidcrawl.dev';
+export const OFFICIAL_AUTH_URL = 'https://auth.squidcrawl.dev';
 
 export function stripTrailingSlashes(value: string): string {
   return value.replace(/\/+$/, '');

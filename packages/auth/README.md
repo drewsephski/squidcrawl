@@ -1,6 +1,6 @@
 # @deepcrawl/auth
 
-Authentication package for Deepcrawl using Better Auth with email functionality powered by Resend and React Email.
+Authentication package for Squidcrawl using Better Auth with email functionality powered by Resend and React Email.
 
 ## Features
 
@@ -9,7 +9,7 @@ Authentication package for Deepcrawl using Better Auth with email functionality 
 - ✅ **Password reset** - Password reset flow with styled emails  
 - ✅ **Magic link authentication** - Passwordless login via email
 - ✅ **Organization invitations** - Team invitation emails
-- ✅ **Cross-domain cookies** - Works across deepcrawl.dev subdomains
+- ✅ **Cross-domain cookies** - Works across squidcrawl.dev subdomains
 - ✅ **Social auth** - GitHub and Google OAuth
 - ✅ **Passkeys** - WebAuthn passwordless authentication
 - ✅ **Universal email support** - Works in both Next.js and Cloudflare Workers
@@ -39,7 +39,7 @@ GOOGLE_CLIENT_SECRET=your_google_client_secret
 
 # Email (optional - emails will be logged if not provided)
 RESEND_API_KEY=re_your_resend_api_key
-FROM_EMAIL="Deepcrawl <noreply@deepcrawl.dev>"
+FROM_EMAIL="Squidcrawl <noreply@squidcrawl.dev>"
 ```
 
 ## Basic Usage
@@ -181,7 +181,7 @@ Used for organization/team invitations.
 
 ### Production  
 - Emails are sent via Resend (requires `RESEND_API_KEY`)
-- Cross-domain cookies enabled for `.deepcrawl.dev`
+- Cross-domain cookies enabled for `.squidcrawl.dev`
 - Secure, partitioned cookies for cross-site compatibility
 
 ## Multi-Session Configuration
@@ -229,7 +229,7 @@ packages/auth/
 
 ### Cookie issues in production
 
-1. Verify domains match exactly (`.deepcrawl.dev`)
+1. Verify domains match exactly (`.squidcrawl.dev`)
 2. Check that `secure: true` and `sameSite: 'none'` are set
 3. Consider removing `partitioned: true` if having cross-site issues
 

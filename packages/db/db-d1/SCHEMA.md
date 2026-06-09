@@ -1,4 +1,4 @@
-# Deepcrawl D1 Database Schema
+# Squidcrawl D1 Database Schema
 
 This document describes the D1 database schema for storing API activity logs and response data with content deduplication.
 

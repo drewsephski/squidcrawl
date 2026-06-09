@@ -17,7 +17,7 @@ export function Footer() {
           with ❤️. The source code is available on{' '}
           <Link
             className="underline underline-offset-4"
-            href="https://github.com/lumpinif/deepcrawl"
+            href="https://github.com/drewsephski/squidcrawl"
             rel="noopener noreferrer"
             target="_blank"
           >

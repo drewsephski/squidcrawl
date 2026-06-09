@@ -1,6 +1,7 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
+
 - Monorepo managed with `pnpm` and `turbo`.
 - Apps:
   - Next.js dashboard in `apps/app`
@@ -13,6 +14,7 @@
 - Feature tests live next to source or under `src/__tests__/`.
 
 ## Build, Test, and Development Commands
+
 - `pnpm install` — install dependencies (Node >= 20).
 - `pnpm dev` — run the whole workspace.
 - `pnpm -C apps/app dev` — run dashboard only.
@@ -24,6 +26,7 @@
 - `pnpm test:coverage` — SDK coverage run.
 
 ## Coding Style & Naming Conventions
+
 - Formatter: Biome (2-space indent, single quotes, semicolons, trailing commas, max width 80).
 - React components: PascalCase filenames.
 - Hooks: `use-*.ts`.
@@ -31,16 +34,19 @@
 - Respect shared TS configs in `packages/typescript-config` and resolve lint warnings before commit.
 
 ## Testing Guidelines
+
 - Framework: Vitest (SDK).
 - Test names: `*.test.ts` next to source or in `src/__tests__/`.
 - Add coverage for client logic and shared types when changing APIs.
 
 ## Commit & Pull Request Guidelines
+
 - Conventional commits like `app:feat`, `pkg:ui:ref`, `workers:v0:chore`.
 - Keep subjects imperative and <= 72 chars; reference issues when relevant (e.g., `#123`).
 - PRs should include a concise summary, linked issue, UI screenshots for dashboard changes, and confirmation that `pnpm check` succeeded.
 
 ## Security & Configuration Tips
+
 - Never commit secrets. Use `apps/app/.env.example`, worker `.dev.vars.*`, and Wrangler `wrangler.jsonc`.
 - Run DB scripts from `packages/db/db-auth` (e.g., `pnpm db:sync`), not manual SQL.
 - Review Wrangler config before deploying with:

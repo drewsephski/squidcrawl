@@ -135,7 +135,7 @@ export function CreateApiKeyDialog({
           <ResponsiveDialogHeader>
             <ResponsiveDialogTitle>Create API Key</ResponsiveDialogTitle>
             <ResponsiveDialogDescription>
-              Create a new API key to access Deepcrawl services.
+              Create a new API key to access Squidcrawl services.
             </ResponsiveDialogDescription>
           </ResponsiveDialogHeader>
           <form className="space-y-4" onSubmit={handleSubmit}>

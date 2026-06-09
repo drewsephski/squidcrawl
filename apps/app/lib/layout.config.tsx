@@ -25,7 +25,7 @@ export const docsOptions: DocsLayoutProps = {
   links: [
     // {
     //   type: 'icon',
-    //   url: 'https://github.com/lumpinif/deepcrawl',
+    //   url: 'https://github.com/drewsephski/squidcrawl',
     //   text: 'Github',
     //   icon: (
     //     <div>

@@ -22,7 +22,7 @@ export function FreeTag() {
         <span>Free to anyone</span>
         <Link
           className="flex items-center gap-2 underline underline-offset-4"
-          href="https://github.com/lumpinif/deepcrawl"
+          href="https://github.com/drewsephski/squidcrawl"
           rel="noopener noreferrer"
           target="_blank"
         >

@@ -1,15 +1,15 @@
 ---
-title: Deploy with npm create deepcrawl
-description: Launch your own Deepcrawl API Worker on Cloudflare with one command.
+title: Deploy with npm create squidcrawl
+description: Launch your own Squidcrawl API Worker on Cloudflare with one command.
 ---
 
-`npm create deepcrawl` is the fastest way to launch your own Deepcrawl API on
+`npm create squidcrawl` is the fastest way to launch your own Squidcrawl API on
 Cloudflare. It asks a few simple questions, creates the required Cloudflare
 resources, applies D1 migrations, and deploys the Worker for you.
 
 ## Prerequisites
 
-Before you run `npm create deepcrawl`, make sure you have:
+Before you run `npm create squidcrawl`, make sure you have:
 
 - A free [Cloudflare account](https://www.cloudflare.com/plans/free/). The CLI
   creates Worker, D1, and KV resources in your Cloudflare account.
@@ -40,16 +40,16 @@ custom domains are not included yet.
 ## Run it
 
 ```bash
-npm create deepcrawl
+npm create squidcrawl
 ```
 
-Want a safe preview first? Run `npm create deepcrawl -- --dry-run` to
+Want a safe preview first? Run `npm create squidcrawl -- --dry-run` to
 rehearse the full setup before you deploy.
 
 You can also pass the target folder up front:
 
 ```bash
-npm create deepcrawl ../my-app
+npm create squidcrawl ../my-app
 ```
 
 ## What the CLI asks
@@ -74,7 +74,7 @@ and shows it once after deployment so you can copy it before it disappears.
 The CLI will:
 
 1. Check that `git`, `pnpm`, and `wrangler` are ready
-2. Clone the Deepcrawl template
+2. Clone the Squidcrawl template
 3. Install dependencies
 4. Create the Cloudflare D1 and KV resources
 5. Apply remote D1 migrations
@@ -83,7 +83,7 @@ The CLI will:
 ## After deployment
 
 The success screen highlights four things: the deployed Worker URL, a link to
-[the `npm create deepcrawl` docs](https://deepcrawl.dev/docs/reference/self-hosting/create-deepcrawl),
+[the `npm create squidcrawl` docs](https://squidcrawl.dev/docs/reference/self-hosting/create-squidcrawl),
 the two gitignored files where your JWT secret lives (`apps/workers/v0/.dev.vars`
 and `apps/workers/v0/.dev.vars.production`), and a short recap of what the CLI
 just provisioned.

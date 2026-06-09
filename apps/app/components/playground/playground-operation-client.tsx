@@ -125,7 +125,7 @@ export const PlaygroundOperationClientContent = ({
         titleSize="3xl"
       >
         <span className="text-muted-foreground">
-          API Playground for Deepcrawl
+          API Playground for Squidcrawl
         </span>
       </PageTitle>
       <div className="mx-auto mb-10 flex w-full flex-col gap-4 sm:max-w-4/5">

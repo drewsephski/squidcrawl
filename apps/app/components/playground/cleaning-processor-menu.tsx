@@ -28,7 +28,7 @@ const CLEANING_PROCESSOR_OPTIONS = [
   {
     value: 'html-rewriter',
     label: 'HTML Rewriter',
-    description: 'Deepcrawl custom processor, used for GitHub URLs',
+    description: 'Squidcrawl custom processor, used for GitHub URLs',
   },
 ] as const;
 

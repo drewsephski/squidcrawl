@@ -54,7 +54,7 @@ import {
   type OptionsWithoutUrl,
 } from './_types';
 
-const DEFAULT_API_BASE_URL = 'https://api.deepcrawl.dev';
+const DEFAULT_API_BASE_URL = 'https://api.squidcrawl.dev';
 
 /**
  * Type guard to check if error is an ORPCError instance
@@ -339,7 +339,7 @@ export class DeepcrawlApp {
 
     if (!(hasApiKey || hasHeaders)) {
       throw new DeepcrawlAuthError(
-        '[DEEPCRAWL_AUTH] Please provide a valid API key. Get one from: deepcrawl.dev/app/api-keys.',
+        '[DEEPCRAWL_AUTH] Please provide a valid API key. Get one from: squidcrawl.dev/app/api-keys.',
       );
     }
 

@@ -1,20 +1,20 @@
 ---
 title: Online Playground
-description: Learn how to drive the Deepcrawl dashboard, configure options, and validate operations before automating them.
+description: Learn how to drive the Squidcrawl dashboard, configure options, and validate operations before automating them.
 ---
 
-![Deepcrawl Playground](../assets/playground-client-example.png)
+![Squidcrawl Playground](../assets/playground-client-example.png)
 
 
-Deepcrawl ships with a production-grade dashboard that mirrors everything exposed by the API and SDK. The playground lets you experiment with `getMarkdown`, `readUrl`, or `extractLinks`, tune advanced options, and inspect responses side-by-side before wiring them into code.
+Squidcrawl ships with a production-grade dashboard that mirrors everything exposed by the API and SDK. The playground lets you experiment with `getMarkdown`, `readUrl`, or `extractLinks`, tune advanced options, and inspect responses side-by-side before wiring them into code.
 
 <Callout type="success">
-Deepcrawl online playground: https://deepcrawl.dev/app
+Squidcrawl online playground: https://squidcrawl.dev/app
 </Callout>
 
 ## Before you begin
-- Sign in at <Link href="https://deepcrawl.dev/app">Deepcrawl dashboard</Link> using the organization credentials you created in the Quick Start.
-- Create or reuse an API key from <Link href="https://deepcrawl.dev/app/api-keys">API Keys</Link>. Dashboard calls run server-side, so the key stays in Deepcrawl’s backend—no need to paste it every time.
+- Sign in at <Link href="https://squidcrawl.dev/app">Squidcrawl dashboard</Link> using the organization credentials you created in the Quick Start.
+- Create or reuse an API key from <Link href="https://squidcrawl.dev/app/api-keys">API Keys</Link>. Dashboard calls run server-side, so the key stays in Squidcrawl’s backend—no need to paste it every time.
 - Optional: Inspect activity logs details, API keys, or account management supporting multiple user sessions.
 
 ## Dashboard layout
@@ -41,7 +41,7 @@ Deepcrawl online playground: https://deepcrawl.dev/app
 </Steps>
 
 <Callout type="warn" title="About response times">
-The time you see in the browser includes the round-trip from your device to the dashboard and then to the Deepcrawl API. The actual **API response time** is typically much **faster**. Check the **Metrics** card in the response panel to see the true server-side execution time, which reflects what your production code will experience when calling the API directly.
+The time you see in the browser includes the round-trip from your device to the dashboard and then to the Squidcrawl API. The actual **API response time** is typically much **faster**. Check the **Metrics** card in the response panel to see the true server-side execution time, which reflects what your production code will experience when calling the API directly.
 </Callout>
 
 ## Configure options for your use case
@@ -61,7 +61,7 @@ The time you see in the browser includes the round-trip from your device to the 
     - Provide newline-separated patterns (regex or path fragments) to exclude login areas or marketing parameters from the graph.
   </Accordion>
   <Accordion value="processor" title="Cleaning processor">
-    - Swap between **Cheerio Reader** (default) and the Deepcrawl **HTML Rewriter**. The rewriter is tuned for GitHub and other script-heavy sites.
+    - Swap between **Cheerio Reader** (default) and the Squidcrawl **HTML Rewriter**. The rewriter is tuned for GitHub and other script-heavy sites.
     - Useful when the default output misses dynamic content—switch processors and re-run to compare.
   </Accordion>
   <Accordion value="cache" title="Cache behaviour">

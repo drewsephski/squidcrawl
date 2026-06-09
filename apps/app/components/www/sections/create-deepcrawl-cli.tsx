@@ -69,19 +69,19 @@ export function CreateDeepcrawlCliSection() {
             <div className="flex justify-start pt-2">
               <CommandInstaller
                 className="w-fit max-w-full"
-                code="npm create deepcrawl"
+                code="npm create squidcrawl"
                 compact
               />
             </div>
 
             <div className="space-y-3">
               <H2 className="my-1 mt-2 text-balance">
-                Deploy your own Deepcrawl with one command
+                Deploy your own Squidcrawl with one command
               </H2>
             </div>
 
             <p className="text-base text-muted-foreground md:text-lg">
-              Imagine deploying a fullstack Deepcrawl like adding a{' '}
+              Imagine deploying a fullstack Squidcrawl like adding a{' '}
               <span className="relative isolate mx-0.5 inline-flex px-1">
                 <span className="relative z-10 text-foreground">shadcn/ui</span>
                 {highlightPlaybackId > 0 ? (
@@ -112,7 +112,7 @@ export function CreateDeepcrawlCliSection() {
             </p>
             <div className="mt-6">
               <Button asChild className="gap-2">
-                <Link href="/docs/reference/self-hosting/create-deepcrawl">
+                <Link href="/docs/reference/self-hosting/create-squidcrawl">
                   Read the guide
                   <ArrowRight className="size-4" />
                 </Link>

@@ -107,7 +107,7 @@ export async function patchV0WranglerConfigForDeployment({
     update: (source) => {
       let next = source;
 
-      // v0-only: do not ship Deepcrawl's custom domain or auth worker bindings.
+      // v0-only: do not ship Squidcrawl's custom domain or auth worker bindings.
       next = setJsoncPath(next, ['routes'], undefined);
       next = setJsoncPath(next, ['services'], undefined);
       next = setJsoncPath(next, ['env', 'production', 'services'], undefined);
@@ -133,12 +133,12 @@ export async function patchV0WranglerConfigForDeployment({
       });
 
       // Rebuild root vars too so local Wrangler config stays aligned with the
-      // generated production environment and does not inherit Deepcrawl's
+      // generated production environment and does not inherit Squidcrawl's
       // official public URLs or OAuth identifiers.
       next = setJsoncPath(next, ['vars'], rootVars);
 
       // Rebuild production vars from an allowlist so template defaults never leak
-      // Deepcrawl's official URLs or OAuth public identifiers into user deployments.
+      // Squidcrawl's official URLs or OAuth public identifiers into user deployments.
       next = setJsoncPath(next, ['env', 'production', 'vars'], deploymentVars);
 
       if (resources) {

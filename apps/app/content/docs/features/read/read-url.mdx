@@ -3,7 +3,7 @@ title: Read URL
 description: Capture full page context, metadata, and logs via the POST /read endpoint.
 ---
 
-`readUrl` is Deepcrawl’s full-fidelity page fetcher. It returns structured metadata, cleaned/markdown/HTML variants, optional metrics, robots data, and more—perfect for agents that need the entire page context in one call.
+`readUrl` is Squidcrawl’s full-fidelity page fetcher. It returns structured metadata, cleaned/markdown/HTML variants, optional metrics, robots data, and more—perfect for agents that need the entire page context in one call.
 
 
 ## Real screenshot of `readUrl` from playground
@@ -11,7 +11,7 @@ description: Capture full page context, metadata, and logs via the POST /read en
 
 ## When to use this endpoint
 - You need metadata, cleaned HTML, markdown, or robots manifest as `JSON` in addition to plain text.
-- You want Deepcrawl to capture metrics and logging info for debugging or analytics.
+- You want Squidcrawl to capture metrics and logging info for debugging or analytics.
 - You plan to export or replay responses later via the logs API.
 
 If you only need markdown, the lighter [`getMarkdown`](/docs/features/read/getMarkdown) endpoint is faster and cheaper on token cost for agent integration. For link trees or maps, use the [links endpoints](/docs/features/links).
@@ -24,7 +24,7 @@ If you only need markdown, the lighter [`getMarkdown`](/docs/features/read/getMa
 curl \
   -H "Authorization: Bearer $DEEPCRAWL_API_KEY" \
   -H "Content-Type: application/json" \
-  -X POST "https://api.deepcrawl.dev/read" \
+  -X POST "https://api.squidcrawl.dev/read" \
   -d '{
     "url": "https://example.com",
     ...readUrlOptions, // see below

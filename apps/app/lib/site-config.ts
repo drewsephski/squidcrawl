@@ -5,11 +5,11 @@ import { NAVIGATION_ITEMS } from './navigation-config';
 export const siteConfig = {
   name: brandName,
   url: process.env.NEXT_PUBLIC_APP_URL ?? OFFICIAL_APP_URL,
-  // ogImage: "https://deepcrawl.dev/og.jpg",
+  // ogImage: "https://squidcrawl.dev/og.jpg",
   description: `${brandName} is a 100% free, no-pricing, and fully open-source toolkit for agents to make any website data AI ready.`,
   links: {
     twitter: 'https://twitter.com/felixlu1018',
-    github: 'https://github.com/lumpinif/deepcrawl',
+    github: 'https://github.com/drewsephski/squidcrawl',
   },
   navItems: NAVIGATION_ITEMS,
 };

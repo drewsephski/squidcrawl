@@ -24,7 +24,7 @@ export const WRANGLER_VARS: readonly WranglerVar[] = [
     targets: ['worker-auth', 'worker-v0'],
     description: 'Public app URL (used for navigation and auth callbacks).',
     localDefault: 'http://localhost:3000',
-    productionDefault: 'https://deepcrawl.dev',
+    productionDefault: 'https://squidcrawl.dev',
   },
   {
     key: 'BETTER_AUTH_URL',
@@ -33,7 +33,7 @@ export const WRANGLER_VARS: readonly WranglerVar[] = [
     targets: ['worker-auth', 'worker-v0'],
     description: 'Auth base URL.',
     localDefault: 'http://localhost:8787',
-    productionDefault: 'https://auth.deepcrawl.dev',
+    productionDefault: 'https://auth.squidcrawl.dev',
   },
   {
     key: 'AUTH_MODE',
@@ -51,7 +51,7 @@ export const WRANGLER_VARS: readonly WranglerVar[] = [
     targets: ['worker-v0'],
     description: 'Public API base URL (used for links and OpenAPI metadata).',
     localDefault: 'http://localhost:8080',
-    productionDefault: 'https://api.deepcrawl.dev',
+    productionDefault: 'https://api.squidcrawl.dev',
   },
   {
     key: 'ENABLE_ACTIVITY_LOGS',

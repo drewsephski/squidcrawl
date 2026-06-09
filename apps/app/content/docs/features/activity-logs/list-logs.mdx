@@ -3,7 +3,7 @@ title: List Logs
 description: Paginated activity log history with filters for path, status, and dates.
 ---
 
-List historic Deepcrawl requests with filters for time range, endpoint, success
+List historic Squidcrawl requests with filters for time range, endpoint, success
 status, and pagination. This endpoint is optimised for quick scans—it returns
 metadata about each run without replaying the stored response payloads.
 
@@ -16,7 +16,7 @@ metadata about each run without replaying the stored response payloads.
 
 ## Endpoint
 
-- `POST https://api.deepcrawl.dev/logs`
+- `POST https://api.squidcrawl.dev/logs`
 - Body accepts JSON options; authentication uses bearer tokens.
 
 ## Request Options – `ListLogsOptions`
@@ -31,7 +31,7 @@ Any missing fields are normalized via `resolveListLogsOptions`, so you can send 
 ## Example Request
 
 ```bash
-curl "https://api.deepcrawl.dev/logs" \
+curl "https://api.squidcrawl.dev/logs" \
   -H "Authorization: Bearer $DEEPCRAWL_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{

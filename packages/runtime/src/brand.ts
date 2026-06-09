@@ -1,4 +1,4 @@
-export const DEFAULT_BRAND_NAME = 'Deepcrawl';
+export const DEFAULT_BRAND_NAME = 'Squidcrawl';
 
 export type BrandConfig = {
   name: string;

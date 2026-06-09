@@ -99,8 +99,8 @@ export default function OrganizationInvitation({
 OrganizationInvitation.PreviewProps = {
   invitedEmail: 'newmember@example.com',
   inviterName: 'Sarah Johnson',
-  inviterEmail: 'sarah@deepcrawl.dev',
+  inviterEmail: 'sarah@squidcrawl.dev',
   organizationName: 'Deepcrawl Team',
-  invitationUrl: 'https://auth.deepcrawl.dev/accept-invitation/inv_123456789',
+  invitationUrl: 'https://auth.squidcrawl.dev/accept-invitation/inv_123456789',
   brandName: 'Deepcrawl',
 } as OrganizationInvitationProps;

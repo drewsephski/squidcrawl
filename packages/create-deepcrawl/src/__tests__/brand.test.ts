@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { renderDeepcrawlHeader, renderDeepcrawlLogo } from '../ui/brand.js';
 
-test('renderDeepcrawlLogo returns the Deepcrawl ASCII logo', () => {
+test('renderDeepcrawlLogo returns the Squidcrawl ASCII logo', () => {
   assert.equal(
     renderDeepcrawlLogo(),
     [
@@ -19,8 +19,8 @@ test('renderDeepcrawlHeader reuses the logo block', () => {
     [
       renderDeepcrawlLogo(),
       '',
-      'deepcrawl.dev',
-      'one command to deploy deepcrawl fullstack yourself',
+      'squidcrawl.dev',
+      'one command to deploy squidcrawl fullstack yourself',
     ].join('\n'),
   );
 });

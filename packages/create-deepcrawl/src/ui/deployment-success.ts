@@ -11,7 +11,7 @@ import {
 } from './terminal-style.js';
 
 export const CREATE_DEEPCRAWL_DOCS_URL =
-  'https://deepcrawl.dev/docs/reference/self-hosting/create-deepcrawl';
+  'https://squidcrawl.dev/docs/reference/self-hosting/create-deepcrawl';
 
 type BuildDeploymentSuccessCardInput = {
   projectDir: string;

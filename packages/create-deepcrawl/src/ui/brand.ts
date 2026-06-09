@@ -14,7 +14,7 @@ export function renderDeepcrawlHeader(): string {
   return [
     renderDeepcrawlLogo(),
     '',
-    'deepcrawl.dev',
-    dimText('one command to deploy deepcrawl fullstack yourself'),
+    'squidcrawl.dev',
+    dimText('one command to deploy squidcrawl fullstack yourself'),
   ].join('\n');
 }

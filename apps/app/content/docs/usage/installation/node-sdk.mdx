@@ -1,13 +1,13 @@
 ---
 title: Node.js SDK
-description: Install and use the official Deepcrawl JavaScript/TypeScript SDK client in Node runtimes.
+description: Install and use the official Squidcrawl JavaScript/TypeScript SDK client in Node runtimes.
 ---
 
-Deepcrawl’s SDK wraps every API endpoint with typed methods, retry helpers, and structured errors. Use it anywhere you can run server-side JavaScript—Next.js route handlers, serverless functions, edge workers (Node-compatible), CLI tools, or background jobs.
+Squidcrawl’s SDK wraps every API endpoint with typed methods, retry helpers, and structured errors. Use it anywhere you can run server-side JavaScript—Next.js route handlers, serverless functions, edge workers (Node-compatible), CLI tools, or background jobs.
 
 ## Requirements
 - Node.js 18.17+ (Node 20+ recommended for built-in `fetch` and `AbortController`).
-- Access to a Deepcrawl API key (see [Quick Start](/docs/overview/quick-start)).
+- Access to a Squidcrawl API key (see [Quick Start](/docs/overview/quick-start)).
 - Environment variables stored securely (local `.env`, platform secrets, etc.).
 
 <Callout type="warn">
@@ -55,7 +55,7 @@ bun add deepcrawl
     Choose where to persist your API key (shell export, `.env` file, secret manager). For Next.js, use `.env.local` and access via `process.env` in server code.
   </Step>
   <Step>
-    Optional: declare a custom `DEEPCRAWL_API_URL` if you self-host the workers. Leave it unset to use `https://api.deepcrawl.dev`.
+    Optional: declare a custom `DEEPCRAWL_API_URL` if you self-host the workers. Leave it unset to use `https://api.squidcrawl.dev`.
   </Step>
   <Step>
     Restart your dev server so the new environment variables load.
@@ -160,7 +160,7 @@ export async function safeGetMarkdown(url: string) {
   } catch (error) {
     if (error instanceof DeepcrawlAuthError) {
       // Missing/invalid API key
-      throw new Error('Check Deepcrawl credentials');
+      throw new Error('Check Squidcrawl credentials');
     }
 
     if (error instanceof DeepcrawlRateLimitError) {
@@ -331,7 +331,7 @@ you need custom agents, proxies, or tracing metadata.
 
 ## Base Hosts & Authentication
 
-- **Production host**: `https://api.deepcrawl.dev`.
+- **Production host**: `https://api.squidcrawl.dev`.
 - **Self-hosted Worker**: pass `baseUrl` to `new DeepcrawlApp({ baseUrl })` or
   send requests directly to your Worker origin.
 - **Authentication**: send `Authorization: Bearer <DEEPCRAWL_API_KEY>` or

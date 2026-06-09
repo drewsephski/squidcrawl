@@ -53,14 +53,14 @@ export const ENV_VARS: readonly EnvVar[] = [
     targets: ['dashboard', 'worker-auth', 'worker-v0'],
     description:
       'Public brand name used for UI, emails, and API surface display (template-friendly).',
-    example: 'Deepcrawl',
+    example: 'Squidcrawl',
   },
   {
     key: 'NEXT_PUBLIC_DEEPCRAWL_API_URL',
     group: 'App',
     targets: ['dashboard'],
     description: 'Public API base URL for the dashboard server to call.',
-    example: 'https://api.deepcrawl.dev',
+    example: 'https://api.squidcrawl.dev',
   },
 
   {
@@ -84,8 +84,8 @@ export const ENV_VARS: readonly EnvVar[] = [
     group: 'Auth',
     targets: ['dashboard', 'worker-auth'],
     description:
-      'Cookie domain for cross-subdomain sessions (optional). Set to a parent domain like "deepcrawl.dev" to share cookies across subdomains. You only need to set this if you are using a custom domain with same apex domain, and you want the cross-subdomain sessions to work. e.g. "deepcrawl.dev" and "api.deepcrawl.dev".',
-    example: 'deepcrawl.dev',
+      'Cookie domain for cross-subdomain sessions (optional). Set to a parent domain like "squidcrawl.dev" to share cookies across subdomains. You only need to set this if you are using a custom domain with same apex domain, and you want the cross-subdomain sessions to work. e.g. "squidcrawl.dev" and "api.squidcrawl.dev".',
+    example: 'squidcrawl.dev',
   },
   {
     key: 'PASSKEY_RP_ID',
@@ -93,7 +93,7 @@ export const ENV_VARS: readonly EnvVar[] = [
     targets: ['dashboard', 'worker-auth'],
     description:
       'WebAuthn passkey rpID override (optional). Defaults to AUTH_COOKIE_DOMAIN or NEXT_PUBLIC_APP_URL hostname.',
-    example: 'deepcrawl.dev',
+    example: 'squidcrawl.dev',
   },
   {
     key: 'NEXT_PUBLIC_BETTER_AUTH_URL',

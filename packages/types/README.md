@@ -1,6 +1,6 @@
 # @deepcrawl/types
 
-TypeScript types and Zod schemas for the Deepcrawl API ecosystem.
+TypeScript types and Zod schemas for the Squidcrawl API ecosystem.
 
 ## Features
 
@@ -475,7 +475,7 @@ pnpm check
 
 ## Architecture
 
-This package serves as the central source of truth for all type definitions used across the Deepcrawl ecosystem, ensuring type safety and consistency between:
+This package serves as the central source of truth for all type definitions used across the Squidcrawl ecosystem, ensuring type safety and consistency between:
 
 - **oRPC contracts** - Type-safe API definitions
 - **Service implementations** - Business logic validation

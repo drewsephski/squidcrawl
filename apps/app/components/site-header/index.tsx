@@ -149,7 +149,7 @@ export function SiteHeader({
                   >
                     <Link
                       className="font-medium text-muted-foreground text-sm hover:text-foreground"
-                      href="https://github.com/lumpinif/deepcrawl/issues/new"
+                      href="https://github.com/drewsephski/squidcrawl/issues/new"
                       rel="noopener noreferrer"
                       target="_blank"
                     >
@@ -173,7 +173,7 @@ export function SiteHeader({
               >
                 <Link
                   className="font-medium text-muted-foreground text-sm hover:text-foreground"
-                  href="https://github.com/lumpinif/deepcrawl"
+                  href="https://github.com/drewsephski/squidcrawl"
                   rel="noopener noreferrer"
                   target="_blank"
                 >

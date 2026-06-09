@@ -1,6 +1,6 @@
-# 📊 Deepcrawl Dashboard
+# 📊 Squidcrawl Dashboard
 
-Management interface for the Deepcrawl service built with Next.js 16 and modern web technologies.
+Management interface for the Squidcrawl service built with Next.js 16 and modern web technologies.
 
 [![Next.js](https://img.shields.io/badge/Next.js-16-black.svg)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19-blue.svg)](https://reactjs.org/)
@@ -13,7 +13,7 @@ Management interface for the Deepcrawl service built with Next.js 16 and modern 
 # Start development server with Turbopack
 pnpm dev
 
-# Start with all workers (dashboard + auth + deepcrawl)
+# Start with all workers (dashboard + auth + squidcrawl)
 pnpm dev:workers
 
 # Start with auth worker only
@@ -34,7 +34,7 @@ pnpm check
 - 🔑 **API Key Management** - Generate, manage, and monitor API keys
 - 📊 **Usage Analytics** - Real-time monitoring and analytics dashboard
 - 👥 **Multi-Session Support** - Manage multiple accounts simultaneously
-- 🌍 **Universal SDK Integration** - Built-in Deepcrawl TypeScript SDK
+- 🌍 **Universal SDK Integration** - Built-in Squidcrawl TypeScript SDK
 
 ### **Technical Stack**
 - ⚡ **Next.js 16** - App Router with React 19
@@ -93,8 +93,8 @@ BETTER_AUTH_SECRET=your_secret_key
 # Database
 DATABASE_URL=your_postgres_url
 
-# Deepcrawl API
-DEEPCRAWL_API_URL=https://api.deepcrawl.dev
+# Squidcrawl API
+DEEPCRAWL_API_URL=https://api.squidcrawl.dev
 ```
 
 ## 🏗️ Architecture

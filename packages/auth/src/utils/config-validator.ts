@@ -4,7 +4,7 @@
  * Important:
  * - This must work for Deepcrawl official domains AND for self-hosted/template
  *   deployments (custom domains, free domains, etc).
- * - Validation should be helpful, but not hardcode deepcrawl.dev patterns.
+ * - Validation should be helpful, but not hardcode squidcrawl.dev patterns.
  */
 
 import {

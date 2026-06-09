@@ -6,12 +6,12 @@ description: Fetch extracted links for a page via GET /links.
 `getLinks` is the identical companion to `extractLinks` but with quick access support directly from your browser URL bar. It shares the same schema but is accessible through a GET request, making it ideal for quick lookups or copy-paste-ready results where you don't need to POST a body.
 
 <Callout type="success" title="No prerequisites required">
-Link extraction works by parsing the actual HTML content of your target page—no sitemap.xml, robots.txt, or other configuration files needed. Deepcrawl intelligently discovers links by analyzing the page structure, making it work on any website regardless of their SEO setup.
+Link extraction works by parsing the actual HTML content of your target page—no sitemap.xml, robots.txt, or other configuration files needed. Squidcrawl intelligently discovers links by analyzing the page structure, making it work on any website regardless of their SEO setup.
 </Callout>
 
 ## How does `Links Tree` look like in real usage?
 
-This abbreviated snapshot comes from a real crawl of `hono.dev`, if you are logged into the dashboard already [click this url](https://api.deepcrawl.dev/links?url=hono.dev) from your browser to see the raw response, or you can try it out from [here in playground](http://deepcrawl.dev/app?op=extractLinks&url=hono.dev).
+This abbreviated snapshot comes from a real crawl of `hono.dev`, if you are logged into the dashboard already [click this url](https://api.squidcrawl.dev/links?url=hono.dev) from your browser to see the raw response, or you can try it out from [here in playground](http://squidcrawl.dev/app?op=extractLinks&url=hono.dev).
 
 ```files
 hono.dev
@@ -44,7 +44,7 @@ For deeper customization (tree generation, exclusion patterns, metadata, metrics
 ```bash
 curl \
   -H "Authorization: Bearer $DEEPCRAWL_API_KEY" \
-  "https://api.deepcrawl.dev/links?url=https://example.com"
+  "https://api.squidcrawl.dev/links?url=https://example.com"
 ```
   - Optionally, add query parameters mirroring the POST options (tree, metadata, cleanedHtml, link extraction toggles, etc.).
 

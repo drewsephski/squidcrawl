@@ -10,12 +10,12 @@
 # App
 # Public app URL (used for navigation and auth callbacks).
 NEXT_PUBLIC_APP_URL=http://localhost:3000
-PRODUCTION__NEXT_PUBLIC_APP_URL=https://deepcrawl.dev
+PRODUCTION__NEXT_PUBLIC_APP_URL=https://squidcrawl.dev
 
 # Auth
 # Auth base URL.
 BETTER_AUTH_URL=http://localhost:8787
-PRODUCTION__BETTER_AUTH_URL=https://auth.deepcrawl.dev
+PRODUCTION__BETTER_AUTH_URL=https://auth.squidcrawl.dev
 
 # Auth mode: better-auth | jwt | none.
 AUTH_MODE=better-auth
@@ -33,7 +33,7 @@ PRODUCTION__JWT_AUDIENCE=
 # Workers
 # Public API base URL (used for links and OpenAPI metadata).
 API_URL=http://localhost:8080
-PRODUCTION__API_URL=https://api.deepcrawl.dev
+PRODUCTION__API_URL=https://api.squidcrawl.dev
 
 # Node env for the API worker.
 WORKER_NODE_ENV=development

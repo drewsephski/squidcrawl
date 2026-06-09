@@ -16,7 +16,7 @@ This is a monorepo containing a web scraping and crawling service with the follo
   - `@deepcrawl/types`: Shared TypeScript types and schemas (includes metrics types)
   - `@deepcrawl/contracts`: API contract definitions for oRPC
   - `@deepcrawl/ui`: shadcn/ui component library
-  - `deepcrawl`: TypeScript SDK for Deepcrawl API
+  - `deepcrawl`: TypeScript SDK for Squidcrawl API
 
 ## Common Commands
 
@@ -28,13 +28,13 @@ All commands should be run from the repository root unless otherwise specified.
 # Start all services in development mode
 pnpm dev
 
-# Start dashboard with workers (dashboard + auth + deepcrawl)
+# Start dashboard with workers (dashboard + auth + squidcrawl)
 cd apps/app && pnpm dev:workers
 
 # Start dashboard with auth worker only
 cd apps/app && pnpm dev:auth-worker
 
-# Start deepcrawl worker in development mode
+# Start squidcrawl worker in development mode
 cd apps/workers/v0 && pnpm dev
 
 # Start auth worker in development mode
@@ -53,7 +53,7 @@ pnpm typecheck
 # Run all checks (type checking, linting, formatting)
 pnpm check
 
-# Deploy deepcrawl worker to production
+# Deploy squidcrawl worker to production
 cd apps/workers/v0 && pnpm deploy
 ```
 
@@ -66,7 +66,7 @@ pnpm sherif
 # Fix sherif issues automatically (ignores @types/node)
 pnpm sherif:fix
 
-# Format and lint deepcrawl worker
+# Format and lint squidcrawl worker
 cd apps/workers/v0 && pnpm check
 
 # Format and lint dashboard app
@@ -82,7 +82,7 @@ pnpm clean
 ### OpenAPI and Types
 
 ```bash
-# Generate OpenAPI YAML for deepcrawl worker
+# Generate OpenAPI YAML for squidcrawl worker
 cd apps/workers/v0 && pnpm gen:openapi
 
 # Generate Cloudflare Worker types
@@ -186,7 +186,7 @@ tsx src/test.ts
 
 ## Architecture Overview
 
-### Deepcrawl Worker (apps/workers/v0/)
+### Squidcrawl Worker (apps/workers/v0/)
 
 - **Framework**: Hono.js with Cloudflare Workers
 - **API Pattern**: Dual API approach using both oRPC and Hono/Zod-OpenAPI
@@ -337,7 +337,7 @@ The TypeScript SDK has a complete test suite using Vitest:
 
 The TypeScript SDK (`deepcrawl`) provides:
 
-- **Client library** for Deepcrawl API
+- **Client library** for Squidcrawl API
 - **Methods**: `getMarkdown()`, `readUrl()`, `getLinks()`, `extractLinks()`, `listLogs()`, `getOneLog()`
 - **Built with tsup** for both CommonJS and ESM formats
 - **Published to npm** with version management
@@ -382,7 +382,7 @@ import { formatDuration, getMetrics } from "deepcrawl/utils";
 
 ## Worker Development
 
-### Deepcrawl Worker Development
+### Squidcrawl Worker Development
 
 ```bash
 # Development with remote Cloudflare environment
@@ -414,7 +414,7 @@ pnpm deploy
 cd apps/app
 pnpm dev
 
-# Development with workers (dashboard + auth + deepcrawl)
+# Development with workers (dashboard + auth + squidcrawl)
 pnpm dev:workers
 
 # Development with auth worker only
@@ -459,8 +459,8 @@ Based on `.claude/CLAUDE.md` (Ultracite/Biome rules):
   - Markdown linting with markdownlint-cli2
   - Automatic Cloudflare Worker types generation
 - **Environment URLs**:
-  - Development: `http://localhost:8080` (Deepcrawl Worker)
-  - Production: `https://api.deepcrawl.dev`
+  - Development: `http://localhost:8080` (Squidcrawl Worker)
+  - Production: `https://api.squidcrawl.dev`
 - **Worker Configuration**:
   - Smart Placement enabled for optimal performance
   - Observability enabled for production monitoring

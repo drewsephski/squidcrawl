@@ -1,6 +1,7 @@
 {
   "extends": "@deepcrawl/typescript-config/nextjs.json",
   "compilerOptions": {
+    "moduleResolution": "bundler",
     "baseUrl": ".",
     "paths": {
       "@/.source": ["./.source/index.ts"],

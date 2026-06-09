@@ -4,7 +4,7 @@ info:
 security:
   - bearerAuth: []
 servers:
-  - url: https://api.deepcrawl.dev
+  - url: https://api.squidcrawl.dev
     description: Deepcrawl Official API server
 tags:
   - name: Read URL
@@ -334,7 +334,7 @@ components:
           examples:
             - method: GET
               headers:
-                User-Agent: Deepcrawl-Bot/1.0 (+https://deepcrawl.dev)
+                User-Agent: Mozilla/5.0 (compatible; Bot/1.0)
                 Accept: >-
                   text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
                 Accept-Language: en-US,en;q=0.5
@@ -704,7 +704,7 @@ components:
           examples:
             - method: GET
               headers:
-                User-Agent: Deepcrawl-Bot/1.0 (+https://deepcrawl.dev)
+                User-Agent: Mozilla/5.0 (compatible; Bot/1.0)
                 Accept: >-
                   text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
                 Accept-Language: en-US,en;q=0.5
@@ -1146,7 +1146,7 @@ components:
           examples:
             - method: GET
               headers:
-                User-Agent: Deepcrawl-Bot/1.0 (+https://deepcrawl.dev)
+                User-Agent: Mozilla/5.0 (compatible; Bot/1.0)
                 Accept: >-
                   text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
                 Accept-Language: en-US,en;q=0.5
@@ -1326,7 +1326,7 @@ components:
           examples:
             - method: GET
               headers:
-                User-Agent: Deepcrawl-Bot/1.0 (+https://deepcrawl.dev)
+                User-Agent: Mozilla/5.0 (compatible; Bot/1.0)
                 Accept: >-
                   text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
                 Accept-Language: en-US,en;q=0.5
@@ -1506,7 +1506,7 @@ components:
           examples:
             - method: GET
               headers:
-                User-Agent: Deepcrawl-Bot/1.0 (+https://deepcrawl.dev)
+                User-Agent: Mozilla/5.0 (compatible; Bot/1.0)
                 Accept: >-
                   text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
                 Accept-Language: en-US,en;q=0.5
@@ -1865,353 +1865,8 @@ components:
         - cached
     LinksSuccessResponse:
       anyOf:
-        - type: object
-          properties:
-            success:
-              const: true
-              description: Indicates that the operation was successful
-              examples:
-                - true
-            targetUrl:
-              type: string
-              description: The URL that was requested to be processed
-              examples:
-                - https://example.com
-            timestamp:
-              type: string
-              description: ISO timestamp when the request was processed
-              examples:
-                - '2024-01-15T10:30:00.000Z'
-            requestId:
-              type: string
-              description: Unique identifier (request ID) for the activity log entry
-              examples:
-                - 123e4567-e89b-12d3-a456-426614174000
-            cached:
-              type: boolean
-              description: Whether the result was returned from cache
-              examples:
-                - false
-            ancestors:
-              type: array
-              items:
-                type: string
-              description: Array of parent URLs leading to this URL
-              examples:
-                - https://example.com
-            metrics:
-              type: object
-              properties:
-                readableDuration:
-                  type: string
-                  description: Human-readable representation of the operation duration
-                  examples:
-                    - 0.2s
-                durationMs:
-                  type: number
-                  description: Duration of the operation in milliseconds
-                  examples:
-                    - 200
-                startTimeMs:
-                  type: number
-                  description: Timestamp in milliseconds when the operation started
-                  examples:
-                    - 1704067800000
-                endTimeMs:
-                  type: number
-                  description: Timestamp in milliseconds when the operation finished
-                  examples:
-                    - 1704067800200
-              required:
-                - readableDuration
-                - durationMs
-                - startTimeMs
-                - endTimeMs
-              title: Metrics
-              description: Metrics for the links extraction operation
-              examples:
-                - readableDuration: 0.2s
-                  durationMs: 200
-                  startTimeMs: 1704067800000
-                  endTimeMs: 1704067800200
-            tree:
-              type: object
-              properties:
-                url:
-                  type: string
-                  description: The URL of this page
-                  examples:
-                    - https://example.com/about
-                rootUrl:
-                  type: string
-                  description: The root URL of the website being crawled
-                  examples:
-                    - https://example.com
-                name:
-                  type: string
-                  description: The display name or title of this page
-                  examples:
-                    - About Us
-                totalUrls:
-                  type: number
-                  description: Total number of URLs discovered in the entire tree
-                  examples:
-                    - 150
-                lastUpdated:
-                  type: string
-                  description: ISO timestamp when this page was last crawled
-                  examples:
-                    - '2024-01-15T10:30:00.000Z'
-                lastVisited:
-                  anyOf:
-                    - type: string
-                    - type: 'null'
-                  description: >-
-                    ISO timestamp when this page was last visited (null if never
-                    visited)
-                  examples:
-                    - '2024-01-15T10:30:00.000Z'
-                error:
-                  type: string
-                  description: Error message if there was an issue processing this page
-                  examples:
-                    - 'Failed to fetch: 404 Not Found'
-                metadata:
-                  $ref: '#/components/schemas/PageMetadata'
-                  title: PageMetadata
-                  description: Extracted metadata from the page (title, description, etc.)
-                cleanedHtml:
-                  type: string
-                  description: Cleaned HTML content of the page
-                extractedLinks:
-                  $ref: '#/components/schemas/ExtractedLinks'
-                  title: ExtractedLinks
-                  description: Links found on this page, categorized by type
-                skippedUrls:
-                  $ref: '#/components/schemas/SkippedLinks'
-                  title: SkippedLinks
-                  description: URLs that were skipped during processing with reasons
-                children:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/LinksTree'
-                  title: LinksTree
-                  description: >-
-                    Array of child LinksTree nodes, each representing a page
-                    found under this URL. This creates a recursive tree
-                    structure for the entire website hierarchy.
-                  examples:
-                    - url: https://example.com/about/team
-                      name: Team
-                      lastUpdated: '2024-01-15T10:35:00.000Z'
-                      children: []
-                    - url: https://example.com/about/history
-                      name: History
-                      lastUpdated: '2024-01-15T10:36:00.000Z'
-                      children:
-                        - url: https://example.com/about/history/founding
-                          name: Company Founding
-                          lastUpdated: '2024-01-15T10:37:00.000Z'
-              required:
-                - url
-                - lastUpdated
-              title: LinksTree
-              description: >-
-                Site map tree starting from the root URL (required when tree
-                generation is enabled)
-              examples:
-                - url: https://example.com/about
-                  rootUrl: https://example.com
-                  name: About Us
-                  totalUrls: 150
-                  lastUpdated: '2024-01-15T10:30:00.000Z'
-                  lastVisited: '2024-01-15T10:30:00.000Z'
-                  metadata:
-                    title: About Us - Example Company
-                    description: Learn more about our company history and mission.
-                    language: en
-                    canonical: https://example.com/about
-                    robots: index,follow
-                    author: Example Company
-                    keywords:
-                      - about
-                      - company
-                      - history
-                    favicon: https://example.com/favicon.ico
-                    ogTitle: About Us - Example Company
-                    ogDescription: Learn more about our company history and mission.
-                    ogImage: https://example.com/og-about.jpg
-                    ogUrl: https://example.com/about
-                    twitterCard: summary_large_image
-                    twitterTitle: About Us - Example Company
-                    twitterDescription: Learn more about our company history and mission.
-                    twitterImage: https://example.com/twitter-about.jpg
-                    isIframeAllowed: true
-                  extractedLinks:
-                    internal:
-                      - https://example.com/about/team
-                      - https://example.com/about/history
-                      - https://example.com/contact
-                    external:
-                      - https://partner-company.com
-                      - https://industry-association.org
-                    media:
-                      images:
-                        - https://example.com/images/office-photo.jpg
-                        - https://example.com/images/team-photo.jpg
-                      videos:
-                        - https://example.com/videos/company-intro.mp4
-                      documents:
-                        - https://example.com/files/company-brochure.pdf
-                  children:
-                    - url: https://example.com/about/team
-                      name: Our Team
-                      lastUpdated: '2024-01-15T10:35:00.000Z'
-                      children: []
-                    - url: https://example.com/about/history
-                      name: Company History
-                      lastUpdated: '2024-01-15T10:36:00.000Z'
-                      children:
-                        - url: https://example.com/about/history/founding
-                          name: Company Founding
-                          lastUpdated: '2024-01-15T10:37:00.000Z'
-                          children: []
-          required:
-            - success
-            - targetUrl
-            - timestamp
-            - requestId
-            - cached
-            - tree
-        - type: object
-          properties:
-            success:
-              const: true
-              description: Indicates that the operation was successful
-              examples:
-                - true
-            targetUrl:
-              type: string
-              description: The URL that was requested to be processed
-              examples:
-                - https://example.com
-            timestamp:
-              type: string
-              description: ISO timestamp when the request was processed
-              examples:
-                - '2024-01-15T10:30:00.000Z'
-            requestId:
-              type: string
-              description: Unique identifier (request ID) for the activity log entry
-              examples:
-                - 123e4567-e89b-12d3-a456-426614174000
-            cached:
-              type: boolean
-              description: Whether the result was returned from cache
-              examples:
-                - false
-            ancestors:
-              type: array
-              items:
-                type: string
-              description: Array of parent URLs leading to this URL
-              examples:
-                - https://example.com
-            metrics:
-              type: object
-              properties:
-                readableDuration:
-                  type: string
-                  description: Human-readable representation of the operation duration
-                  examples:
-                    - 0.2s
-                durationMs:
-                  type: number
-                  description: Duration of the operation in milliseconds
-                  examples:
-                    - 200
-                startTimeMs:
-                  type: number
-                  description: Timestamp in milliseconds when the operation started
-                  examples:
-                    - 1704067800000
-                endTimeMs:
-                  type: number
-                  description: Timestamp in milliseconds when the operation finished
-                  examples:
-                    - 1704067800200
-              required:
-                - readableDuration
-                - durationMs
-                - startTimeMs
-                - endTimeMs
-              title: Metrics
-              description: Metrics for the links extraction operation
-              examples:
-                - readableDuration: 0.2s
-                  durationMs: 200
-                  startTimeMs: 1704067800000
-                  endTimeMs: 1704067800200
-            title:
-              type: string
-              description: >-
-                The title of the webpage (optional, may be missing for some
-                pages)
-              examples:
-                - Example Website - Home Page
-            description:
-              type: string
-              description: The meta description of the webpage
-              examples:
-                - >-
-                  This is an example website demonstrating web scraping
-                  capabilities.
-            metadata:
-              $ref: '#/components/schemas/PageMetadata'
-              title: PageMetadata
-              description: Extracted metadata from the page (title, description, etc.)
-            cleanedHtml:
-              type: string
-              description: >-
-                The sanitized version of the HTML with unnecessary elements
-                removed
-              examples:
-                - <div><h1>Example Website</h1><p>Main content...</p></div>
-            metaFiles:
-              type: object
-              properties:
-                robots:
-                  type: string
-                  description: Content of the robots.txt file
-                  examples:
-                    - |-
-                      User-agent: *
-                      Allow: /
-                sitemapXML:
-                  type: string
-                  description: Content of the sitemap.xml file
-                  examples:
-                    - >-
-                      <?xml version="1.0" encoding="UTF-8"?>
-
-                      <urlset
-                      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">...</urlset>
-              title: MetaFiles
-              description: The metadata files like robots.txt and sitemap.xml
-            skippedUrls:
-              $ref: '#/components/schemas/SkippedLinks'
-              title: SkippedLinks
-              description: URLs that were skipped during processing with reasons
-            extractedLinks:
-              $ref: '#/components/schemas/ExtractedLinks'
-              title: ExtractedLinks
-              description: Links found on this page, categorized by type
-          required:
-            - success
-            - targetUrl
-            - timestamp
-            - requestId
-            - cached
+        - $ref: '#/components/schemas/LinksSuccessResponseWithTree'
+        - $ref: '#/components/schemas/LinksSuccessResponseWithoutTree'
       title: LinksSuccessResponse
       description: >-
         Successful response from the links extraction operation. Response
@@ -2627,7 +2282,8 @@ components:
           type: object
           properties:
             baseURI:
-              type: string
+              anyOf:
+                - type: string
               description: >-
                 The base URI for the document. Used to resolve href and src
                 props.
@@ -2973,7 +2629,7 @@ components:
           redirect: follow
         - method: HEAD
           headers:
-            User-Agent: Deepcrawl-Bot/1.0 (+https://deepcrawl.dev)
+            User-Agent: Mozilla/5.0 (compatible; Bot/1.0)
             Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
             Accept-Language: en-US,en;q=0.5
           redirect: manual
@@ -3073,7 +2729,7 @@ components:
           examples:
             - method: GET
               headers:
-                User-Agent: Deepcrawl-Bot/1.0 (+https://deepcrawl.dev)
+                User-Agent: Mozilla/5.0 (compatible; Bot/1.0)
                 Accept: >-
                   text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
                 Accept-Language: en-US,en;q=0.5
@@ -3889,7 +3545,7 @@ components:
           type: integer
           minimum: 1
           maximum: 100
-          default: 5
+          default: 10
           description: Maximum number of logs to return
         offset:
           type: integer
@@ -4343,7 +3999,7 @@ paths:
       operationId: read.getMarkdown
       summary: Get page markdown content
       description: >-
-        Endpoint: GET `api.deepcrawl.dev/read?url=example.com`
+        Endpoint: GET `/read?url=example.com`
 
 
         Directly return page markdown content from the request URL as a string
@@ -4700,7 +4356,7 @@ paths:
       operationId: read.readUrl
       summary: Read a URL
       description: >-
-        Endpoint: POST `api.deepcrawl.dev/read`
+        Endpoint: POST `/read`
 
 
         Read a URL and return the full detailed result object. This is a POST
@@ -4812,7 +4468,7 @@ paths:
       operationId: links.getLinks
       summary: Get page links
       description: |-
-        Endpoint: GET `api.deepcrawl.dev/links?url=example.com`
+        Endpoint: GET `/links?url=example.com`
 
         Directly return page links from the request URL as a string response.
       tags:
@@ -5093,7 +4749,7 @@ paths:
             examples:
               - method: GET
                 headers:
-                  User-Agent: Deepcrawl-Bot/1.0 (+https://deepcrawl.dev)
+                  User-Agent: Mozilla/5.0 (compatible; Bot/1.0)
                   Accept: >-
                     text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
                   Accept-Language: en-US,en;q=0.5
@@ -5471,103 +5127,18 @@ paths:
                                               items:
                                                 type: object
                                                 properties:
-                                                  url:
-                                                    type: string
-                                                    description: The URL of this page
-                                                    examples:
-                                                      - https://example.com/about
-                                                  rootUrl:
-                                                    type: string
-                                                    description: >-
-                                                      The root URL of the website being
-                                                      crawled
-                                                    examples:
-                                                      - https://example.com
-                                                  name:
-                                                    type: string
-                                                    description: The display name or title of this page
-                                                    examples:
-                                                      - About Us
-                                                  totalUrls:
-                                                    type: number
-                                                    description: >-
-                                                      Total number of URLs discovered in the
-                                                      entire tree
-                                                    examples:
-                                                      - 150
-                                                  lastUpdated:
-                                                    type: string
-                                                    description: >-
-                                                      ISO timestamp when this page was last
-                                                      crawled
-                                                    examples:
-                                                      - '2024-01-15T10:30:00.000Z'
-                                                  lastVisited:
-                                                    anyOf:
-                                                      - type: string
-                                                      - type: 'null'
-                                                    description: >-
-                                                      ISO timestamp when this page was last
-                                                      visited (null if never visited)
-                                                    examples:
-                                                      - '2024-01-15T10:30:00.000Z'
-                                                  error:
-                                                    type: string
-                                                    description: >-
-                                                      Error message if there was an issue
-                                                      processing this page
-                                                    examples:
-                                                      - 'Failed to fetch: 404 Not Found'
-                                                  metadata:
-                                                    $ref: '#/components/schemas/PageMetadata'
-                                                    title: PageMetadata
-                                                    description: >-
-                                                      Extracted metadata from the page (title,
-                                                      description, etc.)
-                                                  cleanedHtml:
-                                                    type: string
-                                                    description: Cleaned HTML content of the page
-                                                  extractedLinks:
-                                                    $ref: '#/components/schemas/ExtractedLinks'
-                                                    title: ExtractedLinks
-                                                    description: >-
-                                                      Links found on this page, categorized by
-                                                      type
-                                                  skippedUrls:
-                                                    $ref: '#/components/schemas/SkippedLinks'
-                                                    title: SkippedLinks
-                                                    description: >-
-                                                      URLs that were skipped during processing
-                                                      with reasons
-                                                  children:
-                                                    type: array
-                                                    items:
-                                                      anyOf:
-                                                        - {}
-                                                        - type: 'null'
-                                                    title: LinksTree
-                                                    description: >-
-                                                      Array of child LinksTree nodes, each
-                                                      representing a page found under this
-                                                      URL. This creates a recursive tree
-                                                      structure for the entire website
-                                                      hierarchy.
-                                                    examples:
-                                                      - url: https://example.com/about/team
-                                                        name: Team
-                                                        lastUpdated: '2024-01-15T10:35:00.000Z'
-                                                        children: []
-                                                      - url: https://example.com/about/history
-                                                        name: History
-                                                        lastUpdated: '2024-01-15T10:36:00.000Z'
-                                                        children:
-                                                          - url: >-
-                                                              https://example.com/about/history/founding
-                                                            name: Company Founding
-                                                            lastUpdated: '2024-01-15T10:37:00.000Z'
-                                                required:
-                                                  - url
-                                                  - lastUpdated
+                                                  url: {}
+                                                  rootUrl: {}
+                                                  name: {}
+                                                  totalUrls: {}
+                                                  lastUpdated: {}
+                                                  lastVisited: {}
+                                                  error: {}
+                                                  metadata: {}
+                                                  cleanedHtml: {}
+                                                  extractedLinks: {}
+                                                  skippedUrls: {}
+                                                  children: {}
                                                 title: LinksTree
                                                 description: >-
                                                   A node in the site map tree representing
@@ -6985,7 +6556,7 @@ paths:
       operationId: links.extractLinks
       summary: Extract links from a URL
       description: >-
-        Endpoint: POST `api.deepcrawl.dev/links`
+        Endpoint: POST `/links`
 
 
         Extract links from a URL and return the full detailed result object.
@@ -7367,103 +6938,18 @@ paths:
                                               items:
                                                 type: object
                                                 properties:
-                                                  url:
-                                                    type: string
-                                                    description: The URL of this page
-                                                    examples:
-                                                      - https://example.com/about
-                                                  rootUrl:
-                                                    type: string
-                                                    description: >-
-                                                      The root URL of the website being
-                                                      crawled
-                                                    examples:
-                                                      - https://example.com
-                                                  name:
-                                                    type: string
-                                                    description: The display name or title of this page
-                                                    examples:
-                                                      - About Us
-                                                  totalUrls:
-                                                    type: number
-                                                    description: >-
-                                                      Total number of URLs discovered in the
-                                                      entire tree
-                                                    examples:
-                                                      - 150
-                                                  lastUpdated:
-                                                    type: string
-                                                    description: >-
-                                                      ISO timestamp when this page was last
-                                                      crawled
-                                                    examples:
-                                                      - '2024-01-15T10:30:00.000Z'
-                                                  lastVisited:
-                                                    anyOf:
-                                                      - type: string
-                                                      - type: 'null'
-                                                    description: >-
-                                                      ISO timestamp when this page was last
-                                                      visited (null if never visited)
-                                                    examples:
-                                                      - '2024-01-15T10:30:00.000Z'
-                                                  error:
-                                                    type: string
-                                                    description: >-
-                                                      Error message if there was an issue
-                                                      processing this page
-                                                    examples:
-                                                      - 'Failed to fetch: 404 Not Found'
-                                                  metadata:
-                                                    $ref: '#/components/schemas/PageMetadata'
-                                                    title: PageMetadata
-                                                    description: >-
-                                                      Extracted metadata from the page (title,
-                                                      description, etc.)
-                                                  cleanedHtml:
-                                                    type: string
-                                                    description: Cleaned HTML content of the page
-                                                  extractedLinks:
-                                                    $ref: '#/components/schemas/ExtractedLinks'
-                                                    title: ExtractedLinks
-                                                    description: >-
-                                                      Links found on this page, categorized by
-                                                      type
-                                                  skippedUrls:
-                                                    $ref: '#/components/schemas/SkippedLinks'
-                                                    title: SkippedLinks
-                                                    description: >-
-                                                      URLs that were skipped during processing
-                                                      with reasons
-                                                  children:
-                                                    type: array
-                                                    items:
-                                                      anyOf:
-                                                        - {}
-                                                        - type: 'null'
-                                                    title: LinksTree
-                                                    description: >-
-                                                      Array of child LinksTree nodes, each
-                                                      representing a page found under this
-                                                      URL. This creates a recursive tree
-                                                      structure for the entire website
-                                                      hierarchy.
-                                                    examples:
-                                                      - url: https://example.com/about/team
-                                                        name: Team
-                                                        lastUpdated: '2024-01-15T10:35:00.000Z'
-                                                        children: []
-                                                      - url: https://example.com/about/history
-                                                        name: History
-                                                        lastUpdated: '2024-01-15T10:36:00.000Z'
-                                                        children:
-                                                          - url: >-
-                                                              https://example.com/about/history/founding
-                                                            name: Company Founding
-                                                            lastUpdated: '2024-01-15T10:37:00.000Z'
-                                                required:
-                                                  - url
-                                                  - lastUpdated
+                                                  url: {}
+                                                  rootUrl: {}
+                                                  name: {}
+                                                  totalUrls: {}
+                                                  lastUpdated: {}
+                                                  lastVisited: {}
+                                                  error: {}
+                                                  metadata: {}
+                                                  cleanedHtml: {}
+                                                  extractedLinks: {}
+                                                  skippedUrls: {}
+                                                  children: {}
                                                 title: LinksTree
                                                 description: >-
                                                   A node in the site map tree representing
@@ -8882,7 +8368,7 @@ paths:
       operationId: logs.getOne
       summary: Get a single activity log
       description: |-
-        Endpoint: GET `api.deepcrawl.dev/logs?id={requestId}`
+        Endpoint: GET `/logs?id={requestId}`
 
         Retrieve a single activity log with original response by ID.
       tags:
@@ -9704,7 +9190,7 @@ paths:
                             examples:
                               - method: GET
                                 headers:
-                                  User-Agent: Deepcrawl-Bot/1.0 (+https://deepcrawl.dev)
+                                  User-Agent: Mozilla/5.0 (compatible; Bot/1.0)
                                   Accept: >-
                                     text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
                                   Accept-Language: en-US,en;q=0.5
@@ -10156,7 +9642,7 @@ paths:
                             examples:
                               - method: GET
                                 headers:
-                                  User-Agent: Deepcrawl-Bot/1.0 (+https://deepcrawl.dev)
+                                  User-Agent: Mozilla/5.0 (compatible; Bot/1.0)
                                   Accept: >-
                                     text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
                                   Accept-Language: en-US,en;q=0.5
@@ -10474,260 +9960,9 @@ paths:
                                                   children:
                                                     type: array
                                                     items:
-                                                      type: object
-                                                      properties:
-                                                        url:
-                                                          type: string
-                                                          description: The URL of this page
-                                                          examples:
-                                                            - https://example.com/about
-                                                        rootUrl:
-                                                          type: string
-                                                          description: >-
-                                                            The root URL of the website being
-                                                            crawled
-                                                          examples:
-                                                            - https://example.com
-                                                        name:
-                                                          type: string
-                                                          description: The display name or title of this page
-                                                          examples:
-                                                            - About Us
-                                                        totalUrls:
-                                                          type: number
-                                                          description: >-
-                                                            Total number of URLs discovered in the
-                                                            entire tree
-                                                          examples:
-                                                            - 150
-                                                        lastUpdated:
-                                                          type: string
-                                                          description: >-
-                                                            ISO timestamp when this page was last
-                                                            crawled
-                                                          examples:
-                                                            - '2024-01-15T10:30:00.000Z'
-                                                        lastVisited:
-                                                          anyOf:
-                                                            - type: string
-                                                            - type: 'null'
-                                                          description: >-
-                                                            ISO timestamp when this page was last
-                                                            visited (null if never visited)
-                                                          examples:
-                                                            - '2024-01-15T10:30:00.000Z'
-                                                        error:
-                                                          type: string
-                                                          description: >-
-                                                            Error message if there was an issue
-                                                            processing this page
-                                                          examples:
-                                                            - 'Failed to fetch: 404 Not Found'
-                                                        metadata:
-                                                          $ref: '#/components/schemas/PageMetadata'
-                                                          title: PageMetadata
-                                                          description: >-
-                                                            Extracted metadata from the page (title,
-                                                            description, etc.)
-                                                        cleanedHtml:
-                                                          type: string
-                                                          description: Cleaned HTML content of the page
-                                                        extractedLinks:
-                                                          $ref: '#/components/schemas/ExtractedLinks'
-                                                          title: ExtractedLinks
-                                                          description: >-
-                                                            Links found on this page, categorized by
-                                                            type
-                                                        skippedUrls:
-                                                          $ref: '#/components/schemas/SkippedLinks'
-                                                          title: SkippedLinks
-                                                          description: >-
-                                                            URLs that were skipped during processing
-                                                            with reasons
-                                                        children:
-                                                          type: array
-                                                          items:
-                                                            type: object
-                                                            properties:
-                                                              url: {}
-                                                              rootUrl: {}
-                                                              name: {}
-                                                              totalUrls: {}
-                                                              lastUpdated: {}
-                                                              lastVisited: {}
-                                                              error: {}
-                                                              metadata: {}
-                                                              cleanedHtml: {}
-                                                              extractedLinks: {}
-                                                              skippedUrls: {}
-                                                              children: {}
-                                                            title: LinksTree
-                                                            description: >-
-                                                              A node in the site map tree representing
-                                                              a webpage and its children
-                                                            examples:
-                                                              - url: https://example.com/about
-                                                                rootUrl: https://example.com
-                                                                name: About Us
-                                                                totalUrls: 150
-                                                                lastUpdated: '2024-01-15T10:30:00.000Z'
-                                                                lastVisited: '2024-01-15T10:30:00.000Z'
-                                                                metadata:
-                                                                  title: About Us - Example Company
-                                                                  description: >-
-                                                                    Learn more about our company history and
-                                                                    mission.
-                                                                  language: en
-                                                                  canonical: https://example.com/about
-                                                                  robots: index,follow
-                                                                  author: Example Company
-                                                                  keywords:
-                                                                    - about
-                                                                    - company
-                                                                    - history
-                                                                  favicon: https://example.com/favicon.ico
-                                                                  ogTitle: About Us - Example Company
-                                                                  ogDescription: >-
-                                                                    Learn more about our company history and
-                                                                    mission.
-                                                                  ogImage: https://example.com/og-about.jpg
-                                                                  ogUrl: https://example.com/about
-                                                                  twitterCard: summary_large_image
-                                                                  twitterTitle: About Us - Example Company
-                                                                  twitterDescription: >-
-                                                                    Learn more about our company history and
-                                                                    mission.
-                                                                  twitterImage: https://example.com/twitter-about.jpg
-                                                                  isIframeAllowed: true
-                                                                extractedLinks:
-                                                                  internal:
-                                                                    - https://example.com/about/team
-                                                                    - https://example.com/about/history
-                                                                    - https://example.com/contact
-                                                                  external:
-                                                                    - https://partner-company.com
-                                                                    - https://industry-association.org
-                                                                  media:
-                                                                    images:
-                                                                      - >-
-                                                                        https://example.com/images/office-photo.jpg
-                                                                      - >-
-                                                                        https://example.com/images/team-photo.jpg
-                                                                    videos:
-                                                                      - >-
-                                                                        https://example.com/videos/company-intro.mp4
-                                                                    documents:
-                                                                      - >-
-                                                                        https://example.com/files/company-brochure.pdf
-                                                                children:
-                                                                  - url: https://example.com/about/team
-                                                                    name: Our Team
-                                                                    lastUpdated: '2024-01-15T10:35:00.000Z'
-                                                                    children: []
-                                                                  - url: https://example.com/about/history
-                                                                    name: Company History
-                                                                    lastUpdated: '2024-01-15T10:36:00.000Z'
-                                                                    children:
-                                                                      - url: >-
-                                                                          https://example.com/about/history/founding
-                                                                        name: Company Founding
-                                                                        lastUpdated: '2024-01-15T10:37:00.000Z'
-                                                                        children: []
-                                                          title: LinksTree
-                                                          description: >-
-                                                            Array of child LinksTree nodes, each
-                                                            representing a page found under this
-                                                            URL. This creates a recursive tree
-                                                            structure for the entire website
-                                                            hierarchy.
-                                                          examples:
-                                                            - url: https://example.com/about/team
-                                                              name: Team
-                                                              lastUpdated: '2024-01-15T10:35:00.000Z'
-                                                              children: []
-                                                            - url: https://example.com/about/history
-                                                              name: History
-                                                              lastUpdated: '2024-01-15T10:36:00.000Z'
-                                                              children:
-                                                                - url: >-
-                                                                    https://example.com/about/history/founding
-                                                                  name: Company Founding
-                                                                  lastUpdated: '2024-01-15T10:37:00.000Z'
-                                                      required:
-                                                        - url
-                                                        - lastUpdated
-                                                      title: LinksTree
-                                                      description: >-
-                                                        A node in the site map tree representing
-                                                        a webpage and its children
-                                                      examples:
-                                                        - url: https://example.com/about
-                                                          rootUrl: https://example.com
-                                                          name: About Us
-                                                          totalUrls: 150
-                                                          lastUpdated: '2024-01-15T10:30:00.000Z'
-                                                          lastVisited: '2024-01-15T10:30:00.000Z'
-                                                          metadata:
-                                                            title: About Us - Example Company
-                                                            description: >-
-                                                              Learn more about our company history and
-                                                              mission.
-                                                            language: en
-                                                            canonical: https://example.com/about
-                                                            robots: index,follow
-                                                            author: Example Company
-                                                            keywords:
-                                                              - about
-                                                              - company
-                                                              - history
-                                                            favicon: https://example.com/favicon.ico
-                                                            ogTitle: About Us - Example Company
-                                                            ogDescription: >-
-                                                              Learn more about our company history and
-                                                              mission.
-                                                            ogImage: https://example.com/og-about.jpg
-                                                            ogUrl: https://example.com/about
-                                                            twitterCard: summary_large_image
-                                                            twitterTitle: About Us - Example Company
-                                                            twitterDescription: >-
-                                                              Learn more about our company history and
-                                                              mission.
-                                                            twitterImage: https://example.com/twitter-about.jpg
-                                                            isIframeAllowed: true
-                                                          extractedLinks:
-                                                            internal:
-                                                              - https://example.com/about/team
-                                                              - https://example.com/about/history
-                                                              - https://example.com/contact
-                                                            external:
-                                                              - https://partner-company.com
-                                                              - https://industry-association.org
-                                                            media:
-                                                              images:
-                                                                - >-
-                                                                  https://example.com/images/office-photo.jpg
-                                                                - >-
-                                                                  https://example.com/images/team-photo.jpg
-                                                              videos:
-                                                                - >-
-                                                                  https://example.com/videos/company-intro.mp4
-                                                              documents:
-                                                                - >-
-                                                                  https://example.com/files/company-brochure.pdf
-                                                          children:
-                                                            - url: https://example.com/about/team
-                                                              name: Our Team
-                                                              lastUpdated: '2024-01-15T10:35:00.000Z'
-                                                              children: []
-                                                            - url: https://example.com/about/history
-                                                              name: Company History
-                                                              lastUpdated: '2024-01-15T10:36:00.000Z'
-                                                              children:
-                                                                - url: >-
-                                                                    https://example.com/about/history/founding
-                                                                  name: Company Founding
-                                                                  lastUpdated: '2024-01-15T10:37:00.000Z'
-                                                                  children: []
+                                                      anyOf:
+                                                        - {}
+                                                        - type: 'null'
                                                     title: LinksTree
                                                     description: >-
                                                       Array of child LinksTree nodes, each
@@ -11348,186 +10583,18 @@ paths:
                                                 items:
                                                   type: object
                                                   properties:
-                                                    url:
-                                                      type: string
-                                                      description: The URL of this page
-                                                      examples:
-                                                        - https://example.com/about
-                                                    rootUrl:
-                                                      type: string
-                                                      description: >-
-                                                        The root URL of the website being
-                                                        crawled
-                                                      examples:
-                                                        - https://example.com
-                                                    name:
-                                                      type: string
-                                                      description: The display name or title of this page
-                                                      examples:
-                                                        - About Us
-                                                    totalUrls:
-                                                      type: number
-                                                      description: >-
-                                                        Total number of URLs discovered in the
-                                                        entire tree
-                                                      examples:
-                                                        - 150
-                                                    lastUpdated:
-                                                      type: string
-                                                      description: >-
-                                                        ISO timestamp when this page was last
-                                                        crawled
-                                                      examples:
-                                                        - '2024-01-15T10:30:00.000Z'
-                                                    lastVisited:
-                                                      anyOf:
-                                                        - type: string
-                                                        - type: 'null'
-                                                      description: >-
-                                                        ISO timestamp when this page was last
-                                                        visited (null if never visited)
-                                                      examples:
-                                                        - '2024-01-15T10:30:00.000Z'
-                                                    error:
-                                                      type: string
-                                                      description: >-
-                                                        Error message if there was an issue
-                                                        processing this page
-                                                      examples:
-                                                        - 'Failed to fetch: 404 Not Found'
-                                                    metadata:
-                                                      $ref: '#/components/schemas/PageMetadata'
-                                                      title: PageMetadata
-                                                      description: >-
-                                                        Extracted metadata from the page (title,
-                                                        description, etc.)
-                                                    cleanedHtml:
-                                                      type: string
-                                                      description: Cleaned HTML content of the page
-                                                    extractedLinks:
-                                                      $ref: '#/components/schemas/ExtractedLinks'
-                                                      title: ExtractedLinks
-                                                      description: >-
-                                                        Links found on this page, categorized by
-                                                        type
-                                                    skippedUrls:
-                                                      $ref: '#/components/schemas/SkippedLinks'
-                                                      title: SkippedLinks
-                                                      description: >-
-                                                        URLs that were skipped during processing
-                                                        with reasons
-                                                    children:
-                                                      type: array
-                                                      items:
-                                                        type: object
-                                                        properties:
-                                                          url: {}
-                                                          rootUrl: {}
-                                                          name: {}
-                                                          totalUrls: {}
-                                                          lastUpdated: {}
-                                                          lastVisited: {}
-                                                          error: {}
-                                                          metadata: {}
-                                                          cleanedHtml: {}
-                                                          extractedLinks: {}
-                                                          skippedUrls: {}
-                                                          children: {}
-                                                        title: LinksTree
-                                                        description: >-
-                                                          A node in the site map tree representing
-                                                          a webpage and its children
-                                                        examples:
-                                                          - url: https://example.com/about
-                                                            rootUrl: https://example.com
-                                                            name: About Us
-                                                            totalUrls: 150
-                                                            lastUpdated: '2024-01-15T10:30:00.000Z'
-                                                            lastVisited: '2024-01-15T10:30:00.000Z'
-                                                            metadata:
-                                                              title: About Us - Example Company
-                                                              description: >-
-                                                                Learn more about our company history and
-                                                                mission.
-                                                              language: en
-                                                              canonical: https://example.com/about
-                                                              robots: index,follow
-                                                              author: Example Company
-                                                              keywords:
-                                                                - about
-                                                                - company
-                                                                - history
-                                                              favicon: https://example.com/favicon.ico
-                                                              ogTitle: About Us - Example Company
-                                                              ogDescription: >-
-                                                                Learn more about our company history and
-                                                                mission.
-                                                              ogImage: https://example.com/og-about.jpg
-                                                              ogUrl: https://example.com/about
-                                                              twitterCard: summary_large_image
-                                                              twitterTitle: About Us - Example Company
-                                                              twitterDescription: >-
-                                                                Learn more about our company history and
-                                                                mission.
-                                                              twitterImage: https://example.com/twitter-about.jpg
-                                                              isIframeAllowed: true
-                                                            extractedLinks:
-                                                              internal:
-                                                                - https://example.com/about/team
-                                                                - https://example.com/about/history
-                                                                - https://example.com/contact
-                                                              external:
-                                                                - https://partner-company.com
-                                                                - https://industry-association.org
-                                                              media:
-                                                                images:
-                                                                  - >-
-                                                                    https://example.com/images/office-photo.jpg
-                                                                  - >-
-                                                                    https://example.com/images/team-photo.jpg
-                                                                videos:
-                                                                  - >-
-                                                                    https://example.com/videos/company-intro.mp4
-                                                                documents:
-                                                                  - >-
-                                                                    https://example.com/files/company-brochure.pdf
-                                                            children:
-                                                              - url: https://example.com/about/team
-                                                                name: Our Team
-                                                                lastUpdated: '2024-01-15T10:35:00.000Z'
-                                                                children: []
-                                                              - url: https://example.com/about/history
-                                                                name: Company History
-                                                                lastUpdated: '2024-01-15T10:36:00.000Z'
-                                                                children:
-                                                                  - url: >-
-                                                                      https://example.com/about/history/founding
-                                                                    name: Company Founding
-                                                                    lastUpdated: '2024-01-15T10:37:00.000Z'
-                                                                    children: []
-                                                      title: LinksTree
-                                                      description: >-
-                                                        Array of child LinksTree nodes, each
-                                                        representing a page found under this
-                                                        URL. This creates a recursive tree
-                                                        structure for the entire website
-                                                        hierarchy.
-                                                      examples:
-                                                        - url: https://example.com/about/team
-                                                          name: Team
-                                                          lastUpdated: '2024-01-15T10:35:00.000Z'
-                                                          children: []
-                                                        - url: https://example.com/about/history
-                                                          name: History
-                                                          lastUpdated: '2024-01-15T10:36:00.000Z'
-                                                          children:
-                                                            - url: >-
-                                                                https://example.com/about/history/founding
-                                                              name: Company Founding
-                                                              lastUpdated: '2024-01-15T10:37:00.000Z'
-                                                  required:
-                                                    - url
-                                                    - lastUpdated
+                                                    url: {}
+                                                    rootUrl: {}
+                                                    name: {}
+                                                    totalUrls: {}
+                                                    lastUpdated: {}
+                                                    lastVisited: {}
+                                                    error: {}
+                                                    metadata: {}
+                                                    cleanedHtml: {}
+                                                    extractedLinks: {}
+                                                    skippedUrls: {}
+                                                    children: {}
                                                   title: LinksTree
                                                   description: >-
                                                     A node in the site map tree representing
@@ -12159,92 +11226,9 @@ paths:
                                                 children:
                                                   type: array
                                                   items:
-                                                    type: object
-                                                    properties:
-                                                      url: {}
-                                                      rootUrl: {}
-                                                      name: {}
-                                                      totalUrls: {}
-                                                      lastUpdated: {}
-                                                      lastVisited: {}
-                                                      error: {}
-                                                      metadata: {}
-                                                      cleanedHtml: {}
-                                                      extractedLinks: {}
-                                                      skippedUrls: {}
-                                                      children: {}
-                                                    title: LinksTree
-                                                    description: >-
-                                                      A node in the site map tree representing
-                                                      a webpage and its children
-                                                    examples:
-                                                      - url: https://example.com/about
-                                                        rootUrl: https://example.com
-                                                        name: About Us
-                                                        totalUrls: 150
-                                                        lastUpdated: '2024-01-15T10:30:00.000Z'
-                                                        lastVisited: '2024-01-15T10:30:00.000Z'
-                                                        metadata:
-                                                          title: About Us - Example Company
-                                                          description: >-
-                                                            Learn more about our company history and
-                                                            mission.
-                                                          language: en
-                                                          canonical: https://example.com/about
-                                                          robots: index,follow
-                                                          author: Example Company
-                                                          keywords:
-                                                            - about
-                                                            - company
-                                                            - history
-                                                          favicon: https://example.com/favicon.ico
-                                                          ogTitle: About Us - Example Company
-                                                          ogDescription: >-
-                                                            Learn more about our company history and
-                                                            mission.
-                                                          ogImage: https://example.com/og-about.jpg
-                                                          ogUrl: https://example.com/about
-                                                          twitterCard: summary_large_image
-                                                          twitterTitle: About Us - Example Company
-                                                          twitterDescription: >-
-                                                            Learn more about our company history and
-                                                            mission.
-                                                          twitterImage: https://example.com/twitter-about.jpg
-                                                          isIframeAllowed: true
-                                                        extractedLinks:
-                                                          internal:
-                                                            - https://example.com/about/team
-                                                            - https://example.com/about/history
-                                                            - https://example.com/contact
-                                                          external:
-                                                            - https://partner-company.com
-                                                            - https://industry-association.org
-                                                          media:
-                                                            images:
-                                                              - >-
-                                                                https://example.com/images/office-photo.jpg
-                                                              - >-
-                                                                https://example.com/images/team-photo.jpg
-                                                            videos:
-                                                              - >-
-                                                                https://example.com/videos/company-intro.mp4
-                                                            documents:
-                                                              - >-
-                                                                https://example.com/files/company-brochure.pdf
-                                                        children:
-                                                          - url: https://example.com/about/team
-                                                            name: Our Team
-                                                            lastUpdated: '2024-01-15T10:35:00.000Z'
-                                                            children: []
-                                                          - url: https://example.com/about/history
-                                                            name: Company History
-                                                            lastUpdated: '2024-01-15T10:36:00.000Z'
-                                                            children:
-                                                              - url: >-
-                                                                  https://example.com/about/history/founding
-                                                                name: Company Founding
-                                                                lastUpdated: '2024-01-15T10:37:00.000Z'
-                                                                children: []
+                                                    anyOf:
+                                                      - {}
+                                                      - type: 'null'
                                                   title: LinksTree
                                                   description: >-
                                                     Array of child LinksTree nodes, each
@@ -12964,7 +11948,7 @@ paths:
                             examples:
                               - method: GET
                                 headers:
-                                  User-Agent: Deepcrawl-Bot/1.0 (+https://deepcrawl.dev)
+                                  User-Agent: Mozilla/5.0 (compatible; Bot/1.0)
                                   Accept: >-
                                     text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
                                   Accept-Language: en-US,en;q=0.5
@@ -13282,260 +12266,9 @@ paths:
                                                   children:
                                                     type: array
                                                     items:
-                                                      type: object
-                                                      properties:
-                                                        url:
-                                                          type: string
-                                                          description: The URL of this page
-                                                          examples:
-                                                            - https://example.com/about
-                                                        rootUrl:
-                                                          type: string
-                                                          description: >-
-                                                            The root URL of the website being
-                                                            crawled
-                                                          examples:
-                                                            - https://example.com
-                                                        name:
-                                                          type: string
-                                                          description: The display name or title of this page
-                                                          examples:
-                                                            - About Us
-                                                        totalUrls:
-                                                          type: number
-                                                          description: >-
-                                                            Total number of URLs discovered in the
-                                                            entire tree
-                                                          examples:
-                                                            - 150
-                                                        lastUpdated:
-                                                          type: string
-                                                          description: >-
-                                                            ISO timestamp when this page was last
-                                                            crawled
-                                                          examples:
-                                                            - '2024-01-15T10:30:00.000Z'
-                                                        lastVisited:
-                                                          anyOf:
-                                                            - type: string
-                                                            - type: 'null'
-                                                          description: >-
-                                                            ISO timestamp when this page was last
-                                                            visited (null if never visited)
-                                                          examples:
-                                                            - '2024-01-15T10:30:00.000Z'
-                                                        error:
-                                                          type: string
-                                                          description: >-
-                                                            Error message if there was an issue
-                                                            processing this page
-                                                          examples:
-                                                            - 'Failed to fetch: 404 Not Found'
-                                                        metadata:
-                                                          $ref: '#/components/schemas/PageMetadata'
-                                                          title: PageMetadata
-                                                          description: >-
-                                                            Extracted metadata from the page (title,
-                                                            description, etc.)
-                                                        cleanedHtml:
-                                                          type: string
-                                                          description: Cleaned HTML content of the page
-                                                        extractedLinks:
-                                                          $ref: '#/components/schemas/ExtractedLinks'
-                                                          title: ExtractedLinks
-                                                          description: >-
-                                                            Links found on this page, categorized by
-                                                            type
-                                                        skippedUrls:
-                                                          $ref: '#/components/schemas/SkippedLinks'
-                                                          title: SkippedLinks
-                                                          description: >-
-                                                            URLs that were skipped during processing
-                                                            with reasons
-                                                        children:
-                                                          type: array
-                                                          items:
-                                                            type: object
-                                                            properties:
-                                                              url: {}
-                                                              rootUrl: {}
-                                                              name: {}
-                                                              totalUrls: {}
-                                                              lastUpdated: {}
-                                                              lastVisited: {}
-                                                              error: {}
-                                                              metadata: {}
-                                                              cleanedHtml: {}
-                                                              extractedLinks: {}
-                                                              skippedUrls: {}
-                                                              children: {}
-                                                            title: LinksTree
-                                                            description: >-
-                                                              A node in the site map tree representing
-                                                              a webpage and its children
-                                                            examples:
-                                                              - url: https://example.com/about
-                                                                rootUrl: https://example.com
-                                                                name: About Us
-                                                                totalUrls: 150
-                                                                lastUpdated: '2024-01-15T10:30:00.000Z'
-                                                                lastVisited: '2024-01-15T10:30:00.000Z'
-                                                                metadata:
-                                                                  title: About Us - Example Company
-                                                                  description: >-
-                                                                    Learn more about our company history and
-                                                                    mission.
-                                                                  language: en
-                                                                  canonical: https://example.com/about
-                                                                  robots: index,follow
-                                                                  author: Example Company
-                                                                  keywords:
-                                                                    - about
-                                                                    - company
-                                                                    - history
-                                                                  favicon: https://example.com/favicon.ico
-                                                                  ogTitle: About Us - Example Company
-                                                                  ogDescription: >-
-                                                                    Learn more about our company history and
-                                                                    mission.
-                                                                  ogImage: https://example.com/og-about.jpg
-                                                                  ogUrl: https://example.com/about
-                                                                  twitterCard: summary_large_image
-                                                                  twitterTitle: About Us - Example Company
-                                                                  twitterDescription: >-
-                                                                    Learn more about our company history and
-                                                                    mission.
-                                                                  twitterImage: https://example.com/twitter-about.jpg
-                                                                  isIframeAllowed: true
-                                                                extractedLinks:
-                                                                  internal:
-                                                                    - https://example.com/about/team
-                                                                    - https://example.com/about/history
-                                                                    - https://example.com/contact
-                                                                  external:
-                                                                    - https://partner-company.com
-                                                                    - https://industry-association.org
-                                                                  media:
-                                                                    images:
-                                                                      - >-
-                                                                        https://example.com/images/office-photo.jpg
-                                                                      - >-
-                                                                        https://example.com/images/team-photo.jpg
-                                                                    videos:
-                                                                      - >-
-                                                                        https://example.com/videos/company-intro.mp4
-                                                                    documents:
-                                                                      - >-
-                                                                        https://example.com/files/company-brochure.pdf
-                                                                children:
-                                                                  - url: https://example.com/about/team
-                                                                    name: Our Team
-                                                                    lastUpdated: '2024-01-15T10:35:00.000Z'
-                                                                    children: []
-                                                                  - url: https://example.com/about/history
-                                                                    name: Company History
-                                                                    lastUpdated: '2024-01-15T10:36:00.000Z'
-                                                                    children:
-                                                                      - url: >-
-                                                                          https://example.com/about/history/founding
-                                                                        name: Company Founding
-                                                                        lastUpdated: '2024-01-15T10:37:00.000Z'
-                                                                        children: []
-                                                          title: LinksTree
-                                                          description: >-
-                                                            Array of child LinksTree nodes, each
-                                                            representing a page found under this
-                                                            URL. This creates a recursive tree
-                                                            structure for the entire website
-                                                            hierarchy.
-                                                          examples:
-                                                            - url: https://example.com/about/team
-                                                              name: Team
-                                                              lastUpdated: '2024-01-15T10:35:00.000Z'
-                                                              children: []
-                                                            - url: https://example.com/about/history
-                                                              name: History
-                                                              lastUpdated: '2024-01-15T10:36:00.000Z'
-                                                              children:
-                                                                - url: >-
-                                                                    https://example.com/about/history/founding
-                                                                  name: Company Founding
-                                                                  lastUpdated: '2024-01-15T10:37:00.000Z'
-                                                      required:
-                                                        - url
-                                                        - lastUpdated
-                                                      title: LinksTree
-                                                      description: >-
-                                                        A node in the site map tree representing
-                                                        a webpage and its children
-                                                      examples:
-                                                        - url: https://example.com/about
-                                                          rootUrl: https://example.com
-                                                          name: About Us
-                                                          totalUrls: 150
-                                                          lastUpdated: '2024-01-15T10:30:00.000Z'
-                                                          lastVisited: '2024-01-15T10:30:00.000Z'
-                                                          metadata:
-                                                            title: About Us - Example Company
-                                                            description: >-
-                                                              Learn more about our company history and
-                                                              mission.
-                                                            language: en
-                                                            canonical: https://example.com/about
-                                                            robots: index,follow
-                                                            author: Example Company
-                                                            keywords:
-                                                              - about
-                                                              - company
-                                                              - history
-                                                            favicon: https://example.com/favicon.ico
-                                                            ogTitle: About Us - Example Company
-                                                            ogDescription: >-
-                                                              Learn more about our company history and
-                                                              mission.
-                                                            ogImage: https://example.com/og-about.jpg
-                                                            ogUrl: https://example.com/about
-                                                            twitterCard: summary_large_image
-                                                            twitterTitle: About Us - Example Company
-                                                            twitterDescription: >-
-                                                              Learn more about our company history and
-                                                              mission.
-                                                            twitterImage: https://example.com/twitter-about.jpg
-                                                            isIframeAllowed: true
-                                                          extractedLinks:
-                                                            internal:
-                                                              - https://example.com/about/team
-                                                              - https://example.com/about/history
-                                                              - https://example.com/contact
-                                                            external:
-                                                              - https://partner-company.com
-                                                              - https://industry-association.org
-                                                            media:
-                                                              images:
-                                                                - >-
-                                                                  https://example.com/images/office-photo.jpg
-                                                                - >-
-                                                                  https://example.com/images/team-photo.jpg
-                                                              videos:
-                                                                - >-
-                                                                  https://example.com/videos/company-intro.mp4
-                                                              documents:
-                                                                - >-
-                                                                  https://example.com/files/company-brochure.pdf
-                                                          children:
-                                                            - url: https://example.com/about/team
-                                                              name: Our Team
-                                                              lastUpdated: '2024-01-15T10:35:00.000Z'
-                                                              children: []
-                                                            - url: https://example.com/about/history
-                                                              name: Company History
-                                                              lastUpdated: '2024-01-15T10:36:00.000Z'
-                                                              children:
-                                                                - url: >-
-                                                                    https://example.com/about/history/founding
-                                                                  name: Company Founding
-                                                                  lastUpdated: '2024-01-15T10:37:00.000Z'
-                                                                  children: []
+                                                      anyOf:
+                                                        - {}
+                                                        - type: 'null'
                                                     title: LinksTree
                                                     description: >-
                                                       Array of child LinksTree nodes, each
@@ -14156,186 +12889,18 @@ paths:
                                                 items:
                                                   type: object
                                                   properties:
-                                                    url:
-                                                      type: string
-                                                      description: The URL of this page
-                                                      examples:
-                                                        - https://example.com/about
-                                                    rootUrl:
-                                                      type: string
-                                                      description: >-
-                                                        The root URL of the website being
-                                                        crawled
-                                                      examples:
-                                                        - https://example.com
-                                                    name:
-                                                      type: string
-                                                      description: The display name or title of this page
-                                                      examples:
-                                                        - About Us
-                                                    totalUrls:
-                                                      type: number
-                                                      description: >-
-                                                        Total number of URLs discovered in the
-                                                        entire tree
-                                                      examples:
-                                                        - 150
-                                                    lastUpdated:
-                                                      type: string
-                                                      description: >-
-                                                        ISO timestamp when this page was last
-                                                        crawled
-                                                      examples:
-                                                        - '2024-01-15T10:30:00.000Z'
-                                                    lastVisited:
-                                                      anyOf:
-                                                        - type: string
-                                                        - type: 'null'
-                                                      description: >-
-                                                        ISO timestamp when this page was last
-                                                        visited (null if never visited)
-                                                      examples:
-                                                        - '2024-01-15T10:30:00.000Z'
-                                                    error:
-                                                      type: string
-                                                      description: >-
-                                                        Error message if there was an issue
-                                                        processing this page
-                                                      examples:
-                                                        - 'Failed to fetch: 404 Not Found'
-                                                    metadata:
-                                                      $ref: '#/components/schemas/PageMetadata'
-                                                      title: PageMetadata
-                                                      description: >-
-                                                        Extracted metadata from the page (title,
-                                                        description, etc.)
-                                                    cleanedHtml:
-                                                      type: string
-                                                      description: Cleaned HTML content of the page
-                                                    extractedLinks:
-                                                      $ref: '#/components/schemas/ExtractedLinks'
-                                                      title: ExtractedLinks
-                                                      description: >-
-                                                        Links found on this page, categorized by
-                                                        type
-                                                    skippedUrls:
-                                                      $ref: '#/components/schemas/SkippedLinks'
-                                                      title: SkippedLinks
-                                                      description: >-
-                                                        URLs that were skipped during processing
-                                                        with reasons
-                                                    children:
-                                                      type: array
-                                                      items:
-                                                        type: object
-                                                        properties:
-                                                          url: {}
-                                                          rootUrl: {}
-                                                          name: {}
-                                                          totalUrls: {}
-                                                          lastUpdated: {}
-                                                          lastVisited: {}
-                                                          error: {}
-                                                          metadata: {}
-                                                          cleanedHtml: {}
-                                                          extractedLinks: {}
-                                                          skippedUrls: {}
-                                                          children: {}
-                                                        title: LinksTree
-                                                        description: >-
-                                                          A node in the site map tree representing
-                                                          a webpage and its children
-                                                        examples:
-                                                          - url: https://example.com/about
-                                                            rootUrl: https://example.com
-                                                            name: About Us
-                                                            totalUrls: 150
-                                                            lastUpdated: '2024-01-15T10:30:00.000Z'
-                                                            lastVisited: '2024-01-15T10:30:00.000Z'
-                                                            metadata:
-                                                              title: About Us - Example Company
-                                                              description: >-
-                                                                Learn more about our company history and
-                                                                mission.
-                                                              language: en
-                                                              canonical: https://example.com/about
-                                                              robots: index,follow
-                                                              author: Example Company
-                                                              keywords:
-                                                                - about
-                                                                - company
-                                                                - history
-                                                              favicon: https://example.com/favicon.ico
-                                                              ogTitle: About Us - Example Company
-                                                              ogDescription: >-
-                                                                Learn more about our company history and
-                                                                mission.
-                                                              ogImage: https://example.com/og-about.jpg
-                                                              ogUrl: https://example.com/about
-                                                              twitterCard: summary_large_image
-                                                              twitterTitle: About Us - Example Company
-                                                              twitterDescription: >-
-                                                                Learn more about our company history and
-                                                                mission.
-                                                              twitterImage: https://example.com/twitter-about.jpg
-                                                              isIframeAllowed: true
-                                                            extractedLinks:
-                                                              internal:
-                                                                - https://example.com/about/team
-                                                                - https://example.com/about/history
-                                                                - https://example.com/contact
-                                                              external:
-                                                                - https://partner-company.com
-                                                                - https://industry-association.org
-                                                              media:
-                                                                images:
-                                                                  - >-
-                                                                    https://example.com/images/office-photo.jpg
-                                                                  - >-
-                                                                    https://example.com/images/team-photo.jpg
-                                                                videos:
-                                                                  - >-
-                                                                    https://example.com/videos/company-intro.mp4
-                                                                documents:
-                                                                  - >-
-                                                                    https://example.com/files/company-brochure.pdf
-                                                            children:
-                                                              - url: https://example.com/about/team
-                                                                name: Our Team
-                                                                lastUpdated: '2024-01-15T10:35:00.000Z'
-                                                                children: []
-                                                              - url: https://example.com/about/history
-                                                                name: Company History
-                                                                lastUpdated: '2024-01-15T10:36:00.000Z'
-                                                                children:
-                                                                  - url: >-
-                                                                      https://example.com/about/history/founding
-                                                                    name: Company Founding
-                                                                    lastUpdated: '2024-01-15T10:37:00.000Z'
-                                                                    children: []
-                                                      title: LinksTree
-                                                      description: >-
-                                                        Array of child LinksTree nodes, each
-                                                        representing a page found under this
-                                                        URL. This creates a recursive tree
-                                                        structure for the entire website
-                                                        hierarchy.
-                                                      examples:
-                                                        - url: https://example.com/about/team
-                                                          name: Team
-                                                          lastUpdated: '2024-01-15T10:35:00.000Z'
-                                                          children: []
-                                                        - url: https://example.com/about/history
-                                                          name: History
-                                                          lastUpdated: '2024-01-15T10:36:00.000Z'
-                                                          children:
-                                                            - url: >-
-                                                                https://example.com/about/history/founding
-                                                              name: Company Founding
-                                                              lastUpdated: '2024-01-15T10:37:00.000Z'
-                                                  required:
-                                                    - url
-                                                    - lastUpdated
+                                                    url: {}
+                                                    rootUrl: {}
+                                                    name: {}
+                                                    totalUrls: {}
+                                                    lastUpdated: {}
+                                                    lastVisited: {}
+                                                    error: {}
+                                                    metadata: {}
+                                                    cleanedHtml: {}
+                                                    extractedLinks: {}
+                                                    skippedUrls: {}
+                                                    children: {}
                                                   title: LinksTree
                                                   description: >-
                                                     A node in the site map tree representing
@@ -14967,92 +13532,9 @@ paths:
                                                 children:
                                                   type: array
                                                   items:
-                                                    type: object
-                                                    properties:
-                                                      url: {}
-                                                      rootUrl: {}
-                                                      name: {}
-                                                      totalUrls: {}
-                                                      lastUpdated: {}
-                                                      lastVisited: {}
-                                                      error: {}
-                                                      metadata: {}
-                                                      cleanedHtml: {}
-                                                      extractedLinks: {}
-                                                      skippedUrls: {}
-                                                      children: {}
-                                                    title: LinksTree
-                                                    description: >-
-                                                      A node in the site map tree representing
-                                                      a webpage and its children
-                                                    examples:
-                                                      - url: https://example.com/about
-                                                        rootUrl: https://example.com
-                                                        name: About Us
-                                                        totalUrls: 150
-                                                        lastUpdated: '2024-01-15T10:30:00.000Z'
-                                                        lastVisited: '2024-01-15T10:30:00.000Z'
-                                                        metadata:
-                                                          title: About Us - Example Company
-                                                          description: >-
-                                                            Learn more about our company history and
-                                                            mission.
-                                                          language: en
-                                                          canonical: https://example.com/about
-                                                          robots: index,follow
-                                                          author: Example Company
-                                                          keywords:
-                                                            - about
-                                                            - company
-                                                            - history
-                                                          favicon: https://example.com/favicon.ico
-                                                          ogTitle: About Us - Example Company
-                                                          ogDescription: >-
-                                                            Learn more about our company history and
-                                                            mission.
-                                                          ogImage: https://example.com/og-about.jpg
-                                                          ogUrl: https://example.com/about
-                                                          twitterCard: summary_large_image
-                                                          twitterTitle: About Us - Example Company
-                                                          twitterDescription: >-
-                                                            Learn more about our company history and
-                                                            mission.
-                                                          twitterImage: https://example.com/twitter-about.jpg
-                                                          isIframeAllowed: true
-                                                        extractedLinks:
-                                                          internal:
-                                                            - https://example.com/about/team
-                                                            - https://example.com/about/history
-                                                            - https://example.com/contact
-                                                          external:
-                                                            - https://partner-company.com
-                                                            - https://industry-association.org
-                                                          media:
-                                                            images:
-                                                              - >-
-                                                                https://example.com/images/office-photo.jpg
-                                                              - >-
-                                                                https://example.com/images/team-photo.jpg
-                                                            videos:
-                                                              - >-
-                                                                https://example.com/videos/company-intro.mp4
-                                                            documents:
-                                                              - >-
-                                                                https://example.com/files/company-brochure.pdf
-                                                        children:
-                                                          - url: https://example.com/about/team
-                                                            name: Our Team
-                                                            lastUpdated: '2024-01-15T10:35:00.000Z'
-                                                            children: []
-                                                          - url: https://example.com/about/history
-                                                            name: Company History
-                                                            lastUpdated: '2024-01-15T10:36:00.000Z'
-                                                            children:
-                                                              - url: >-
-                                                                  https://example.com/about/history/founding
-                                                                name: Company Founding
-                                                                lastUpdated: '2024-01-15T10:37:00.000Z'
-                                                                children: []
+                                                    anyOf:
+                                                      - {}
+                                                      - type: 'null'
                                                   title: LinksTree
                                                   description: >-
                                                     Array of child LinksTree nodes, each
@@ -15562,7 +14044,7 @@ paths:
       operationId: logs.listLogs
       summary: List activity logs
       description: >-
-        Endpoint: POST `api.deepcrawl.dev/logs`
+        Endpoint: POST `/logs`
 
 
         Retrieve activity logs with request options but no response
@@ -16406,9 +14888,7 @@ paths:
                                   examples:
                                     - method: GET
                                       headers:
-                                        User-Agent: >-
-                                          Deepcrawl-Bot/1.0
-                                          (+https://deepcrawl.dev)
+                                        User-Agent: Mozilla/5.0 (compatible; Bot/1.0)
                                         Accept: >-
                                           text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
                                         Accept-Language: en-US,en;q=0.5
@@ -16872,9 +15352,7 @@ paths:
                                   examples:
                                     - method: GET
                                       headers:
-                                        User-Agent: >-
-                                          Deepcrawl-Bot/1.0
-                                          (+https://deepcrawl.dev)
+                                        User-Agent: Mozilla/5.0 (compatible; Bot/1.0)
                                         Accept: >-
                                           text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
                                         Accept-Language: en-US,en;q=0.5
@@ -17148,92 +15626,9 @@ paths:
                                                 children:
                                                   type: array
                                                   items:
-                                                    type: object
-                                                    properties:
-                                                      url: {}
-                                                      rootUrl: {}
-                                                      name: {}
-                                                      totalUrls: {}
-                                                      lastUpdated: {}
-                                                      lastVisited: {}
-                                                      error: {}
-                                                      metadata: {}
-                                                      cleanedHtml: {}
-                                                      extractedLinks: {}
-                                                      skippedUrls: {}
-                                                      children: {}
-                                                    title: LinksTree
-                                                    description: >-
-                                                      A node in the site map tree representing
-                                                      a webpage and its children
-                                                    examples:
-                                                      - url: https://example.com/about
-                                                        rootUrl: https://example.com
-                                                        name: About Us
-                                                        totalUrls: 150
-                                                        lastUpdated: '2024-01-15T10:30:00.000Z'
-                                                        lastVisited: '2024-01-15T10:30:00.000Z'
-                                                        metadata:
-                                                          title: About Us - Example Company
-                                                          description: >-
-                                                            Learn more about our company history and
-                                                            mission.
-                                                          language: en
-                                                          canonical: https://example.com/about
-                                                          robots: index,follow
-                                                          author: Example Company
-                                                          keywords:
-                                                            - about
-                                                            - company
-                                                            - history
-                                                          favicon: https://example.com/favicon.ico
-                                                          ogTitle: About Us - Example Company
-                                                          ogDescription: >-
-                                                            Learn more about our company history and
-                                                            mission.
-                                                          ogImage: https://example.com/og-about.jpg
-                                                          ogUrl: https://example.com/about
-                                                          twitterCard: summary_large_image
-                                                          twitterTitle: About Us - Example Company
-                                                          twitterDescription: >-
-                                                            Learn more about our company history and
-                                                            mission.
-                                                          twitterImage: https://example.com/twitter-about.jpg
-                                                          isIframeAllowed: true
-                                                        extractedLinks:
-                                                          internal:
-                                                            - https://example.com/about/team
-                                                            - https://example.com/about/history
-                                                            - https://example.com/contact
-                                                          external:
-                                                            - https://partner-company.com
-                                                            - https://industry-association.org
-                                                          media:
-                                                            images:
-                                                              - >-
-                                                                https://example.com/images/office-photo.jpg
-                                                              - >-
-                                                                https://example.com/images/team-photo.jpg
-                                                            videos:
-                                                              - >-
-                                                                https://example.com/videos/company-intro.mp4
-                                                            documents:
-                                                              - >-
-                                                                https://example.com/files/company-brochure.pdf
-                                                        children:
-                                                          - url: https://example.com/about/team
-                                                            name: Our Team
-                                                            lastUpdated: '2024-01-15T10:35:00.000Z'
-                                                            children: []
-                                                          - url: https://example.com/about/history
-                                                            name: Company History
-                                                            lastUpdated: '2024-01-15T10:36:00.000Z'
-                                                            children:
-                                                              - url: >-
-                                                                  https://example.com/about/history/founding
-                                                                name: Company Founding
-                                                                lastUpdated: '2024-01-15T10:37:00.000Z'
-                                                                children: []
+                                                    anyOf:
+                                                      - {}
+                                                      - type: 'null'
                                                   title: LinksTree
                                                   description: >-
                                                     Array of child LinksTree nodes, each
@@ -17878,9 +16273,7 @@ paths:
                                   examples:
                                     - method: GET
                                       headers:
-                                        User-Agent: >-
-                                          Deepcrawl-Bot/1.0
-                                          (+https://deepcrawl.dev)
+                                        User-Agent: Mozilla/5.0 (compatible; Bot/1.0)
                                         Accept: >-
                                           text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
                                         Accept-Language: en-US,en;q=0.5
@@ -18154,92 +16547,9 @@ paths:
                                                 children:
                                                   type: array
                                                   items:
-                                                    type: object
-                                                    properties:
-                                                      url: {}
-                                                      rootUrl: {}
-                                                      name: {}
-                                                      totalUrls: {}
-                                                      lastUpdated: {}
-                                                      lastVisited: {}
-                                                      error: {}
-                                                      metadata: {}
-                                                      cleanedHtml: {}
-                                                      extractedLinks: {}
-                                                      skippedUrls: {}
-                                                      children: {}
-                                                    title: LinksTree
-                                                    description: >-
-                                                      A node in the site map tree representing
-                                                      a webpage and its children
-                                                    examples:
-                                                      - url: https://example.com/about
-                                                        rootUrl: https://example.com
-                                                        name: About Us
-                                                        totalUrls: 150
-                                                        lastUpdated: '2024-01-15T10:30:00.000Z'
-                                                        lastVisited: '2024-01-15T10:30:00.000Z'
-                                                        metadata:
-                                                          title: About Us - Example Company
-                                                          description: >-
-                                                            Learn more about our company history and
-                                                            mission.
-                                                          language: en
-                                                          canonical: https://example.com/about
-                                                          robots: index,follow
-                                                          author: Example Company
-                                                          keywords:
-                                                            - about
-                                                            - company
-                                                            - history
-                                                          favicon: https://example.com/favicon.ico
-                                                          ogTitle: About Us - Example Company
-                                                          ogDescription: >-
-                                                            Learn more about our company history and
-                                                            mission.
-                                                          ogImage: https://example.com/og-about.jpg
-                                                          ogUrl: https://example.com/about
-                                                          twitterCard: summary_large_image
-                                                          twitterTitle: About Us - Example Company
-                                                          twitterDescription: >-
-                                                            Learn more about our company history and
-                                                            mission.
-                                                          twitterImage: https://example.com/twitter-about.jpg
-                                                          isIframeAllowed: true
-                                                        extractedLinks:
-                                                          internal:
-                                                            - https://example.com/about/team
-                                                            - https://example.com/about/history
-                                                            - https://example.com/contact
-                                                          external:
-                                                            - https://partner-company.com
-                                                            - https://industry-association.org
-                                                          media:
-                                                            images:
-                                                              - >-
-                                                                https://example.com/images/office-photo.jpg
-                                                              - >-
-                                                                https://example.com/images/team-photo.jpg
-                                                            videos:
-                                                              - >-
-                                                                https://example.com/videos/company-intro.mp4
-                                                            documents:
-                                                              - >-
-                                                                https://example.com/files/company-brochure.pdf
-                                                        children:
-                                                          - url: https://example.com/about/team
-                                                            name: Our Team
-                                                            lastUpdated: '2024-01-15T10:35:00.000Z'
-                                                            children: []
-                                                          - url: https://example.com/about/history
-                                                            name: Company History
-                                                            lastUpdated: '2024-01-15T10:36:00.000Z'
-                                                            children:
-                                                              - url: >-
-                                                                  https://example.com/about/history/founding
-                                                                name: Company Founding
-                                                                lastUpdated: '2024-01-15T10:37:00.000Z'
-                                                                children: []
+                                                    anyOf:
+                                                      - {}
+                                                      - type: 'null'
                                                   title: LinksTree
                                                   description: >-
                                                     Array of child LinksTree nodes, each
@@ -18729,17 +17039,12 @@ paths:
     get:
       operationId: logs.exportResponse
       summary: Export response by request ID
-      description: >-
-        Endpoint: GET
-        `api.deepcrawl.dev/logs/export?id={requestId}&format={format}`
-
+      description: |-
+        Endpoint: GET `/logs/export?id={requestId}&format={format}`
 
         Export the response data from a specific request. Choose format:
-
         - `json`: Full response object
-
         - `markdown`: Markdown string (from getMarkdown or readUrl)
-
         - `links`: Links tree data (from getLinks or extractLinks)
       tags:
         - Activity Logs
@@ -19130,92 +17435,9 @@ paths:
                                               children:
                                                 type: array
                                                 items:
-                                                  type: object
-                                                  properties:
-                                                    url: {}
-                                                    rootUrl: {}
-                                                    name: {}
-                                                    totalUrls: {}
-                                                    lastUpdated: {}
-                                                    lastVisited: {}
-                                                    error: {}
-                                                    metadata: {}
-                                                    cleanedHtml: {}
-                                                    extractedLinks: {}
-                                                    skippedUrls: {}
-                                                    children: {}
-                                                  title: LinksTree
-                                                  description: >-
-                                                    A node in the site map tree representing
-                                                    a webpage and its children
-                                                  examples:
-                                                    - url: https://example.com/about
-                                                      rootUrl: https://example.com
-                                                      name: About Us
-                                                      totalUrls: 150
-                                                      lastUpdated: '2024-01-15T10:30:00.000Z'
-                                                      lastVisited: '2024-01-15T10:30:00.000Z'
-                                                      metadata:
-                                                        title: About Us - Example Company
-                                                        description: >-
-                                                          Learn more about our company history and
-                                                          mission.
-                                                        language: en
-                                                        canonical: https://example.com/about
-                                                        robots: index,follow
-                                                        author: Example Company
-                                                        keywords:
-                                                          - about
-                                                          - company
-                                                          - history
-                                                        favicon: https://example.com/favicon.ico
-                                                        ogTitle: About Us - Example Company
-                                                        ogDescription: >-
-                                                          Learn more about our company history and
-                                                          mission.
-                                                        ogImage: https://example.com/og-about.jpg
-                                                        ogUrl: https://example.com/about
-                                                        twitterCard: summary_large_image
-                                                        twitterTitle: About Us - Example Company
-                                                        twitterDescription: >-
-                                                          Learn more about our company history and
-                                                          mission.
-                                                        twitterImage: https://example.com/twitter-about.jpg
-                                                        isIframeAllowed: true
-                                                      extractedLinks:
-                                                        internal:
-                                                          - https://example.com/about/team
-                                                          - https://example.com/about/history
-                                                          - https://example.com/contact
-                                                        external:
-                                                          - https://partner-company.com
-                                                          - https://industry-association.org
-                                                        media:
-                                                          images:
-                                                            - >-
-                                                              https://example.com/images/office-photo.jpg
-                                                            - >-
-                                                              https://example.com/images/team-photo.jpg
-                                                          videos:
-                                                            - >-
-                                                              https://example.com/videos/company-intro.mp4
-                                                          documents:
-                                                            - >-
-                                                              https://example.com/files/company-brochure.pdf
-                                                      children:
-                                                        - url: https://example.com/about/team
-                                                          name: Our Team
-                                                          lastUpdated: '2024-01-15T10:35:00.000Z'
-                                                          children: []
-                                                        - url: https://example.com/about/history
-                                                          name: Company History
-                                                          lastUpdated: '2024-01-15T10:36:00.000Z'
-                                                          children:
-                                                            - url: >-
-                                                                https://example.com/about/history/founding
-                                                              name: Company Founding
-                                                              lastUpdated: '2024-01-15T10:37:00.000Z'
-                                                              children: []
+                                                  anyOf:
+                                                    - {}
+                                                    - type: 'null'
                                                 title: LinksTree
                                                 description: >-
                                                   Array of child LinksTree nodes, each
@@ -20038,103 +18260,18 @@ paths:
                                               items:
                                                 type: object
                                                 properties:
-                                                  url:
-                                                    type: string
-                                                    description: The URL of this page
-                                                    examples:
-                                                      - https://example.com/about
-                                                  rootUrl:
-                                                    type: string
-                                                    description: >-
-                                                      The root URL of the website being
-                                                      crawled
-                                                    examples:
-                                                      - https://example.com
-                                                  name:
-                                                    type: string
-                                                    description: The display name or title of this page
-                                                    examples:
-                                                      - About Us
-                                                  totalUrls:
-                                                    type: number
-                                                    description: >-
-                                                      Total number of URLs discovered in the
-                                                      entire tree
-                                                    examples:
-                                                      - 150
-                                                  lastUpdated:
-                                                    type: string
-                                                    description: >-
-                                                      ISO timestamp when this page was last
-                                                      crawled
-                                                    examples:
-                                                      - '2024-01-15T10:30:00.000Z'
-                                                  lastVisited:
-                                                    anyOf:
-                                                      - type: string
-                                                      - type: 'null'
-                                                    description: >-
-                                                      ISO timestamp when this page was last
-                                                      visited (null if never visited)
-                                                    examples:
-                                                      - '2024-01-15T10:30:00.000Z'
-                                                  error:
-                                                    type: string
-                                                    description: >-
-                                                      Error message if there was an issue
-                                                      processing this page
-                                                    examples:
-                                                      - 'Failed to fetch: 404 Not Found'
-                                                  metadata:
-                                                    $ref: '#/components/schemas/PageMetadata'
-                                                    title: PageMetadata
-                                                    description: >-
-                                                      Extracted metadata from the page (title,
-                                                      description, etc.)
-                                                  cleanedHtml:
-                                                    type: string
-                                                    description: Cleaned HTML content of the page
-                                                  extractedLinks:
-                                                    $ref: '#/components/schemas/ExtractedLinks'
-                                                    title: ExtractedLinks
-                                                    description: >-
-                                                      Links found on this page, categorized by
-                                                      type
-                                                  skippedUrls:
-                                                    $ref: '#/components/schemas/SkippedLinks'
-                                                    title: SkippedLinks
-                                                    description: >-
-                                                      URLs that were skipped during processing
-                                                      with reasons
-                                                  children:
-                                                    type: array
-                                                    items:
-                                                      anyOf:
-                                                        - {}
-                                                        - type: 'null'
-                                                    title: LinksTree
-                                                    description: >-
-                                                      Array of child LinksTree nodes, each
-                                                      representing a page found under this
-                                                      URL. This creates a recursive tree
-                                                      structure for the entire website
-                                                      hierarchy.
-                                                    examples:
-                                                      - url: https://example.com/about/team
-                                                        name: Team
-                                                        lastUpdated: '2024-01-15T10:35:00.000Z'
-                                                        children: []
-                                                      - url: https://example.com/about/history
-                                                        name: History
-                                                        lastUpdated: '2024-01-15T10:36:00.000Z'
-                                                        children:
-                                                          - url: >-
-                                                              https://example.com/about/history/founding
-                                                            name: Company Founding
-                                                            lastUpdated: '2024-01-15T10:37:00.000Z'
-                                                required:
-                                                  - url
-                                                  - lastUpdated
+                                                  url: {}
+                                                  rootUrl: {}
+                                                  name: {}
+                                                  totalUrls: {}
+                                                  lastUpdated: {}
+                                                  lastVisited: {}
+                                                  error: {}
+                                                  metadata: {}
+                                                  cleanedHtml: {}
+                                                  extractedLinks: {}
+                                                  skippedUrls: {}
+                                                  children: {}
                                                 title: LinksTree
                                                 description: >-
                                                   A node in the site map tree representing
@@ -20911,103 +19048,18 @@ paths:
                                               items:
                                                 type: object
                                                 properties:
-                                                  url:
-                                                    type: string
-                                                    description: The URL of this page
-                                                    examples:
-                                                      - https://example.com/about
-                                                  rootUrl:
-                                                    type: string
-                                                    description: >-
-                                                      The root URL of the website being
-                                                      crawled
-                                                    examples:
-                                                      - https://example.com
-                                                  name:
-                                                    type: string
-                                                    description: The display name or title of this page
-                                                    examples:
-                                                      - About Us
-                                                  totalUrls:
-                                                    type: number
-                                                    description: >-
-                                                      Total number of URLs discovered in the
-                                                      entire tree
-                                                    examples:
-                                                      - 150
-                                                  lastUpdated:
-                                                    type: string
-                                                    description: >-
-                                                      ISO timestamp when this page was last
-                                                      crawled
-                                                    examples:
-                                                      - '2024-01-15T10:30:00.000Z'
-                                                  lastVisited:
-                                                    anyOf:
-                                                      - type: string
-                                                      - type: 'null'
-                                                    description: >-
-                                                      ISO timestamp when this page was last
-                                                      visited (null if never visited)
-                                                    examples:
-                                                      - '2024-01-15T10:30:00.000Z'
-                                                  error:
-                                                    type: string
-                                                    description: >-
-                                                      Error message if there was an issue
-                                                      processing this page
-                                                    examples:
-                                                      - 'Failed to fetch: 404 Not Found'
-                                                  metadata:
-                                                    $ref: '#/components/schemas/PageMetadata'
-                                                    title: PageMetadata
-                                                    description: >-
-                                                      Extracted metadata from the page (title,
-                                                      description, etc.)
-                                                  cleanedHtml:
-                                                    type: string
-                                                    description: Cleaned HTML content of the page
-                                                  extractedLinks:
-                                                    $ref: '#/components/schemas/ExtractedLinks'
-                                                    title: ExtractedLinks
-                                                    description: >-
-                                                      Links found on this page, categorized by
-                                                      type
-                                                  skippedUrls:
-                                                    $ref: '#/components/schemas/SkippedLinks'
-                                                    title: SkippedLinks
-                                                    description: >-
-                                                      URLs that were skipped during processing
-                                                      with reasons
-                                                  children:
-                                                    type: array
-                                                    items:
-                                                      anyOf:
-                                                        - {}
-                                                        - type: 'null'
-                                                    title: LinksTree
-                                                    description: >-
-                                                      Array of child LinksTree nodes, each
-                                                      representing a page found under this
-                                                      URL. This creates a recursive tree
-                                                      structure for the entire website
-                                                      hierarchy.
-                                                    examples:
-                                                      - url: https://example.com/about/team
-                                                        name: Team
-                                                        lastUpdated: '2024-01-15T10:35:00.000Z'
-                                                        children: []
-                                                      - url: https://example.com/about/history
-                                                        name: History
-                                                        lastUpdated: '2024-01-15T10:36:00.000Z'
-                                                        children:
-                                                          - url: >-
-                                                              https://example.com/about/history/founding
-                                                            name: Company Founding
-                                                            lastUpdated: '2024-01-15T10:37:00.000Z'
-                                                required:
-                                                  - url
-                                                  - lastUpdated
+                                                  url: {}
+                                                  rootUrl: {}
+                                                  name: {}
+                                                  totalUrls: {}
+                                                  lastUpdated: {}
+                                                  lastVisited: {}
+                                                  error: {}
+                                                  metadata: {}
+                                                  cleanedHtml: {}
+                                                  extractedLinks: {}
+                                                  skippedUrls: {}
+                                                  children: {}
                                                 title: LinksTree
                                                 description: >-
                                                   A node in the site map tree representing

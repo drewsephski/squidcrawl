@@ -84,6 +84,6 @@ export default function PasswordReset({
 // Preview props for development server
 PasswordReset.PreviewProps = {
   username: 'Jane Smith',
-  resetUrl: 'https://auth.deepcrawl.dev/reset-password?token=xyz789abc123',
+  resetUrl: 'https://auth.squidcrawl.dev/reset-password?token=xyz789abc123',
   brandName: 'Deepcrawl',
 } as PasswordResetProps;

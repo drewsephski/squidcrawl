@@ -1,15 +1,15 @@
 ---
 title: Next.js AI Agents
-description: Build a Next.js 16 agent with ai-sdk Agent and Deepcrawl schemas.
+description: Build a Next.js 16 agent with ai-sdk Agent and Squidcrawl schemas.
 ---
 
 This walkthrough assumes a **Next.js 16 App Router** project using the latest ai-sdk `Agent` class. The agent will:
 
-- Map a domain with Deepcrawl `extractLinks`.
+- Map a domain with Squidcrawl `extractLinks`.
 - Pull markdown via `getMarkdown` when a lightweight summary is enough.
 - Fall back to `readUrl` for full metadata, cleaned HTML, and metrics when deeper context is required.
 
-The example targets `https://hono.dev` (the framework powering Deepcrawl's backend), but you can change the URL per request.
+The example targets `https://hono.dev` (the framework powering Squidcrawl's backend), but you can change the URL per request.
 
 ## Prerequisites
 - Node.js 20 or newer (native `fetch`, top-level `await`).
@@ -22,7 +22,7 @@ pnpm add deepcrawl ai @ai-sdk/openai @ai-sdk/react zod
 
 > Add `dotenv` if you prefer loading secrets from a `.env` file and call `import 'dotenv/config'` where appropriate.
 
-## 1. Shared Deepcrawl client
+## 1. Shared Squidcrawl client
 
 ```ts title="src/lib/deepcrawl.ts"
 import { DeepcrawlApp } from 'deepcrawl';
@@ -34,7 +34,7 @@ export const deepcrawl = new DeepcrawlApp({
 
 Keep this module server-only.
 
-## 2. Tools using Deepcrawl schemas
+## 2. Tools using Squidcrawl schemas
 
 ```ts title="src/tools/deepcrawl-tools.ts"
 import { tool } from 'ai';
@@ -49,7 +49,7 @@ import {
 import { deepcrawl } from '../lib/deepcrawl';
 
 export const extractLinks = tool({
-  description: 'Build a site map for a domain using Deepcrawl extractLinks.',
+  description: 'Build a site map for a domain using Squidcrawl extractLinks.',
   parameters: ExtractLinksOptionsSchema,
   async execute({ url, tree, ...options }) {
     const response = await deepcrawl.extractLinks({
@@ -64,7 +64,7 @@ export const extractLinks = tool({
 
 export const getMarkdown = tool({
   description:
-    'Convert a public page into clean markdown using Deepcrawl getMarkdown.',
+    'Convert a public page into clean markdown using Squidcrawl getMarkdown.',
   parameters: GetMarkdownOptionsSchema,
   async execute({ url, ...options }) {
     const markdown = await deepcrawl.getMarkdown(url, options);
@@ -74,7 +74,7 @@ export const getMarkdown = tool({
 
 export const readUrl = tool({
   description:
-    'Fetch metadata, markdown, and optional cleaned HTML via Deepcrawl readUrl.',
+    'Fetch metadata, markdown, and optional cleaned HTML via Squidcrawl readUrl.',
   parameters: ReadUrlOptionsSchema,
   async execute({ url, ...options }) {
     const response = await deepcrawl.readUrl({
@@ -192,4 +192,4 @@ The agent typically:
 - **Prototype first**: Validate tool options in the [online playground](/docs/usage/playground) before exposing them to agents.
 - **Caching**: Cache is enabled by default. Pass a `expirationTtl` or `enabled` to customize the cache behavior.
 - **Safety**: Always validate user-provided URLs if the agent runs in a public setting.
-- **Retry strategy**: Deepcrawl already retries transient failures; avoid wrapping tools with extra retry loops unless required.
+- **Retry strategy**: Squidcrawl already retries transient failures; avoid wrapping tools with extra retry loops unless required.

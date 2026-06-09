@@ -1,13 +1,13 @@
 ---
 title: Quick Start - How to use
-description: Fetch clean markdown from any site with Deepcrawl in minutes.
+description: Fetch clean markdown from any site with Squidcrawl in minutes.
 ---
 
-This guide shows the fastest way to turn a page into markdown with Deepcrawl. The platform exposes many endpoints—markdown extraction, link trees, logs, exports, and more—but we will focus on `getMarkdown()` so you can experience the basics first. Explore the navigation to dive into the rest of the API afterwards.
+This guide shows the fastest way to turn a page into markdown with Squidcrawl. The platform exposes many endpoints—markdown extraction, link trees, logs, exports, and more—but we will focus on `getMarkdown()` so you can experience the basics first. Explore the navigation to dive into the rest of the API afterwards.
 
-## Choose how you want to use Deepcrawl
+## Choose how you want to use Squidcrawl
 - <Link href="/docs/usage/playground">Online Playground:</Link> Perfect for experimenting, no-code usage, testing options, and validating operations before integrating into your code. See the <Link href="/docs/usage/playground">guide</Link> for details.
-- **REST API:** Ideal when you need Deepcrawl from any environment (CLI, Zapier, Python scripts, internal tools) with zero setup.
+- **REST API:** Ideal when you need Squidcrawl from any environment (CLI, Zapier, Python scripts, internal tools) with zero setup.
 - **JavaScript/TypeScript SDK:** Great for Node.js or server-side frameworks that want first-class typings, zod4-schemas, retries, and deeper integration.
 
 Pick the option that matches your workflow and follow the steps below.
@@ -16,10 +16,10 @@ Pick the option that matches your workflow and follow the steps below.
 
 <Steps>
   <Step>
-    Visit the <Link href="https://deepcrawl.dev/app">Deepcrawl dashboard</Link> and sign in with your account.
+    Visit the <Link href="https://squidcrawl.dev/app">Squidcrawl dashboard</Link> and sign in with your account.
   </Step>
   <Step>
-    Open <Link href="https://deepcrawl.dev/app/api-keys">API Keys</Link> page and generate a new key.
+    Open <Link href="https://squidcrawl.dev/app/api-keys">API Keys</Link> page and generate a new key.
   </Step>
   <Step>
     Copy the key and store it securely for the method you plan to use.
@@ -36,7 +36,7 @@ Pick the option that matches your workflow and follow the steps below.
 export DEEPCRAWL_API_KEY="dc-your-generated-key"
 ```
 
-Run this before invoking the CLI or scripts that call Deepcrawl.
+Run this before invoking the CLI or scripts that call Squidcrawl.
 
   </Tab>
   <Tab>
@@ -59,7 +59,7 @@ Keep the key in the secret manager your platform provides (for example, Vercel, 
 Once the key is available to your environment, follow the path that fits your workflow.
 
 ## Option A. Call the REST endpoint
-Use `GET https://api.deepcrawl.dev/read` to fetch markdown anywhere. Provide either a bearer token **or** an `x-api-key` header—one is enough.
+Use `GET https://api.squidcrawl.dev/read` to fetch markdown anywhere. Provide either a bearer token **or** an `x-api-key` header—one is enough.
 
 <Tabs items={['curl', 'PowerShell', 'Python']}>
   <Tab>
@@ -67,7 +67,7 @@ Use `GET https://api.deepcrawl.dev/read` to fetch markdown anywhere. Provide eit
 ```bash
 curl \
   -H "Authorization: Bearer $DEEPCRAWL_API_KEY" \
-  "https://api.deepcrawl.dev/read?url=https://example.com"
+  "https://api.squidcrawl.dev/read?url=https://example.com"
 ```
 
   </Tab>
@@ -77,7 +77,7 @@ curl \
 $apiKey = $env:DEEPCRAWL_API_KEY
 
 $response = Invoke-RestMethod `
-  -Uri "https://api.deepcrawl.dev/read?url=https://example.com" `
+  -Uri "https://api.squidcrawl.dev/read?url=https://example.com" `
   -Headers @{ "Authorization" = "Bearer $apiKey" } `
   -Method Get
 
@@ -95,7 +95,7 @@ import requests
 
 api_key = os.environ["DEEPCRAWL_API_KEY"]
 response = requests.get(
-    "https://api.deepcrawl.dev/read",
+    "https://api.squidcrawl.dev/read",
     params={"url": "https://example.com"},
     headers={"Authorization": f"Bearer {api_key}"},
     timeout=30,
@@ -116,7 +116,7 @@ print(response.text[:400])
 This domain is for use in illustrative examples in documents.
 ```
 
-Need more control? Switch to `POST https://api.deepcrawl.dev/read` for additional rich options. Other endpoints—link extraction, logs, exports—are documented in the API docs.
+Need more control? Switch to `POST https://api.squidcrawl.dev/read` for additional rich options. Other endpoints—link extraction, logs, exports—are documented in the API docs.
 
 ## Option B. Use the TypeScript(JavaScript) SDK
 Install the `deepcrawl` package when you want typed helpers and automatic retries in Node.js or edge/server runtimes.
@@ -167,7 +167,7 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error('Deepcrawl request failed', error);
+  console.error('Squidcrawl request failed', error);
   process.exit(1);
 });
 ```

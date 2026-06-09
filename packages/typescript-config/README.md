@@ -1,6 +1,6 @@
 # @deepcrawl/typescript-config
 
-**Shared TypeScript configurations** for the Deepcrawl monorepo workspace.
+**Shared TypeScript configurations** for the Squidcrawl monorepo workspace.
 
 ## Features
 

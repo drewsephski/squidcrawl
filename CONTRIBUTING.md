@@ -1,4 +1,4 @@
-# Contributing to Deepcrawl
+# Contributing to Squidcrawl
 
 Thank you for contributing! This guide covers the essential workflows and conventions.
 
@@ -11,7 +11,7 @@ Thank you for contributing! This guide covers the essential workflows and conven
 ## Quick Setup
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/deepcrawl.git
+git clone https://github.com/drewsephski/squidcrawl.git
 cd deepcrawl
 pnpm install
 git checkout -b feature/your-feature-name

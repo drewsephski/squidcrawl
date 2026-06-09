@@ -30,7 +30,7 @@ export default async function LandingLayout({
             <Link
               aria-label="GitHub"
               className="mr-1 inline-flex items-center justify-center rounded-md p-2"
-              href="https://github.com/lumpinif/deepcrawl"
+              href="https://github.com/drewsephski/squidcrawl"
               rel="noopener noreferrer"
               target="_blank"
             >

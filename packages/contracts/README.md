@@ -1,6 +1,6 @@
 # @deepcrawl/contracts
 
-API contract definitions for oRPC endpoints in the Deepcrawl ecosystem.
+API contract definitions for oRPC endpoints in the Squidcrawl ecosystem.
 
 ## Features
 
@@ -8,7 +8,7 @@ API contract definitions for oRPC endpoints in the Deepcrawl ecosystem.
 - ✅ **Shared Interfaces** - Consistent contracts between client and server
 - ✅ **Error Definitions** - Standardized error types and responses
 - ✅ **Input/Output Schemas** - Request and response validation schemas
-- ✅ **Universal Types** - Works across all Deepcrawl services
+- ✅ **Universal Types** - Works across all Squidcrawl services
 
 ## Package Structure
 

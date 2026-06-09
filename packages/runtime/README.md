@@ -1,6 +1,6 @@
 # @deepcrawl/runtime
 
-Centralized runtime configuration for the Deepcrawl monorepo.
+Centralized runtime configuration for the Squidcrawl monorepo.
 
 This package is intentionally small and boring:
 
@@ -56,7 +56,7 @@ Exports:
 - `OFFICIAL_API_URL`
 - `ensureAbsoluteUrl(raw)`
 
-This keeps Deepcrawl's official URL fallbacks in one place, so runtime code can
+This keeps Squidcrawl's official URL fallbacks in one place, so runtime code can
 stay env-driven while still having a safe default for the official deployment.
 
 ## Common Usage

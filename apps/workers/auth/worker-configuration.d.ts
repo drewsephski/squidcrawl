@@ -7,12 +7,12 @@ declare namespace Cloudflare {
 	}
 	interface ProductionEnv {
 		DEEPCRAWL_AUTH_KV: KVNamespace;
-		NEXT_PUBLIC_APP_URL: "https://deepcrawl.dev";
-		BETTER_AUTH_URL: "https://auth.deepcrawl.dev";
+		NEXT_PUBLIC_APP_URL: "https://squidcrawl.dev";
+		BETTER_AUTH_URL: "https://auth.squidcrawl.dev";
 		AUTH_WORKER_NODE_ENV: "production";
 		GITHUB_CLIENT_ID: "Ov23litNP2YxhipDUMUJ";
 		NEXT_PUBLIC_GOOGLE_CLIENT_ID: "292200252097-jtgcuinknei9vol7bb7qc7eu8pn44ogk.apps.googleusercontent.com";
-		FROM_EMAIL: "Deepcrawl <noreply@deepcrawl.dev>";
+		FROM_EMAIL: "Squidcrawl <noreply@squidcrawl.dev>";
 		BETTER_AUTH_SECRET: string;
 		DATABASE_URL: string;
 		GITHUB_CLIENT_SECRET: string;
@@ -26,12 +26,12 @@ declare namespace Cloudflare {
 		GOOGLE_CLIENT_SECRET: string;
 		RESEND_API_KEY: string;
 		DEEPCRAWL_AUTH_KV: KVNamespace;
-		NEXT_PUBLIC_APP_URL: "https://deepcrawl.dev" | "http://localhost:3000";
-		BETTER_AUTH_URL: "https://auth.deepcrawl.dev" | "http://localhost:8787";
+		NEXT_PUBLIC_APP_URL: "https://squidcrawl.dev" | "http://localhost:3000";
+		BETTER_AUTH_URL: "https://auth.squidcrawl.dev" | "http://localhost:8787";
 		AUTH_WORKER_NODE_ENV: "production" | "development";
 		GITHUB_CLIENT_ID: "Ov23litNP2YxhipDUMUJ";
 		NEXT_PUBLIC_GOOGLE_CLIENT_ID: "292200252097-jtgcuinknei9vol7bb7qc7eu8pn44ogk.apps.googleusercontent.com";
-		FROM_EMAIL: "Deepcrawl <noreply@deepcrawl.dev>";
+		FROM_EMAIL: "Squidcrawl <noreply@squidcrawl.dev>";
 	}
 }
 interface CloudflareBindings extends Cloudflare.Env {}

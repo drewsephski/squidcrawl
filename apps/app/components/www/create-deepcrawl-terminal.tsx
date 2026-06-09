@@ -18,7 +18,7 @@ type CreateDeepcrawlTerminalProps = {
   onReplay?: () => void;
 };
 
-const COMMAND = 'npm create deepcrawl';
+const COMMAND = 'npm create squidcrawl';
 const LIFT_DURATION_SECONDS = 1.48;
 const LIFT_DURATION_MS = LIFT_DURATION_SECONDS * 1000;
 // With an ease-out curve, this starts typing when the card is visually
@@ -46,13 +46,13 @@ const TERMINAL_LINES: TerminalLine[] = [
   },
   { text: '', delay: 100 },
   {
-    text: '◇ What should we call your Deepcrawl project?',
+    text: '◇ What should we call your Squidcrawl project?',
     delay: 120,
     tone: 'default',
   },
-  // "Faircrawl" is intentional here. This demo deliberately leans into a
+  // "Squidcrawl" is intentional here. This demo deliberately leans into a
   // Firecrawl-adjacent naming joke for the terminal sequence.
-  { text: '│ Faircrawl', delay: 140, tone: 'accent' },
+  { text: '│ Squidcrawl', delay: 140, tone: 'accent' },
   { text: '', delay: 90 },
   { text: '◇ Choose what to deploy', delay: 120, tone: 'default' },
   { text: '│ V0 API Worker only', delay: 140, tone: 'accent' },
@@ -62,8 +62,8 @@ const TERMINAL_LINES: TerminalLine[] = [
   { text: '', delay: 90 },
   { text: 'wait... creating your project', delay: 180, tone: 'muted' },
   {
-    // Keep the product name aligned with the intentional "Faircrawl" demo copy above.
-    text: '🎉 Your Faircrawl is ready. Do you want to test your API now?',
+    // Keep the product name aligned with the intentional "Squidcrawl" demo copy above.
+    text: '🎉 Your Squidcrawl is ready. Do you want to test your API now?',
     delay: 120,
     tone: 'accent',
   },
@@ -216,7 +216,7 @@ function CreateDeepcrawlTerminalCard({ onReplay }: TerminalCardProps) {
                   <span className="size-2.5 rounded-full bg-emerald-400" />
                 </div>
                 <span className="font-mono text-muted-foreground text-xs">
-                  create-deepcrawl
+                  create-squidcrawl
                 </span>
               </div>
 

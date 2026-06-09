@@ -78,7 +78,7 @@ export const COMMON_HEADERS = {
 
   /** Minimal bot headers */
   botFriendly: {
-    'User-Agent': 'Deepcrawl-Bot/1.0 (+https://deepcrawl.dev)',
+    'User-Agent': 'Squidcrawl-Bot/1.0 (+https://squidcrawl.dev)',
     Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
     'Accept-Language': 'en-US,en;q=0.5',
   },

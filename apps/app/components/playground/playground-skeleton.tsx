@@ -14,7 +14,7 @@ export function PlaygroundSkeleton() {
         titleSize="3xl"
       >
         <span className="text-muted-foreground">
-          API Playground for Deepcrawl
+          API Playground for Squidcrawl
         </span>
       </PageTitle>
     </PageContainer>
@@ -27,7 +27,7 @@ export function DashboardLayoutSkeleton() {
       <div className="flex w-full flex-col items-center justify-center gap-4 max-sm:mb-16">
         <LoadingSpinner size={25} />
         <DeepcrawlLogoText className="animate-pulse text-center text-lg sm:text-2xl">
-          Deepcrawl Playground & Dashboard is loading
+          Squidcrawl Playground & Dashboard is loading
         </DeepcrawlLogoText>
       </div>
     </div>

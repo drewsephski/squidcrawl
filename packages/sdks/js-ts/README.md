@@ -1,12 +1,12 @@
-# Deepcrawl SDK
+# Squidcrawl SDK
 
-TypeScript SDK for the Deepcrawl API - Web scraping and crawling with comprehensive error handling.
+TypeScript SDK for the Squidcrawl API - Web scraping and crawling with comprehensive error handling.
 
 [![npm version](https://badge.fury.io/js/deepcrawl.svg)](https://www.npmjs.com/package/deepcrawl)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org)
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-## ⚡ **Why Deepcrawl SDK?**
+## ⚡ **Why Squidcrawl SDK?**
 
 - 🏗️ **oRPC-Powered**: Built on oRPC framework for type-safe RPC
 - 🔒 **Type-Safe**: End-to-end TypeScript with error handling
@@ -515,7 +515,7 @@ import type { DeepcrawlConfig } from 'deepcrawl/types';
 
 const deepcrawl = new DeepcrawlApp({
   apiKey: process.env.DEEPCRAWL_API_KEY,
-  baseUrl: "https://api.deepcrawl.dev",
+  baseUrl: "https://api.squidcrawl.dev",
   headers: {
     'User-Agent': 'MyApp/1.0'
   },
@@ -606,7 +606,7 @@ export function BadComponent() {
 
 ## 🌍 **Environment Support**
 
-**⚠️ Server-Side Only**: The Deepcrawl SDK is designed for server-side use:
+**⚠️ Server-Side Only**: The Squidcrawl SDK is designed for server-side use:
 
 - ✅ Node.js (18+) with connection pooling
 - ✅ Cloudflare Workers
@@ -621,9 +621,8 @@ MIT - see [LICENSE](LICENSE) for details.
 
 ## 🤝 **Support**
 
-- 📖 [Documentation](https://docs.deepcrawl.dev)
-- 🐛 [Issues](https://github.com/deepcrawl/deepcrawl/issues)
-- 💬 [Community Discord](https://discord.gg/deepcrawl)
+- 📖 [Documentation](https://docs.squidcrawl.dev)
+- 🐛 [Issues](https://github.com/drewsephski/squidcrawl/issues)
 
 ---
 

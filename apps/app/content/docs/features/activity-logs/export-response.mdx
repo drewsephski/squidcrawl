@@ -9,7 +9,7 @@ format for reports or debugging.
 
 ## Endpoint
 
-- `GET https://api.deepcrawl.dev/logs/export?id={requestId}&format={format}`
+- `GET https://api.squidcrawl.dev/logs/export?id={requestId}&format={format}`
 - Requires authentication (same as the other logs endpoints).
 
 ## Formats
@@ -36,7 +36,7 @@ format for reports or debugging.
 ## Example Request
 
 ```bash
-curl "https://api.deepcrawl.dev/logs/export?id=log_456&format=markdown" \
+curl "https://api.squidcrawl.dev/logs/export?id=log_456&format=markdown" \
   -H "Authorization: Bearer $DEEPCRAWL_API_KEY"
 ```
 
@@ -92,7 +92,7 @@ console.log(result);
   ```markdown
   # Example Page
 
-  Deepcrawl extracted this markdown from https://example.com.
+  Squidcrawl extracted this markdown from https://example.com.
   ```
 
 ## Errors

@@ -119,7 +119,7 @@ function inferCookieDomain(params: {
 
   if (useAuthWorker) {
     // Safe default: only infer when the app host is a suffix of the auth host
-    // Example: auth.deepcrawl.dev + deepcrawl.dev => deepcrawl.dev
+    // Example: auth.squidcrawl.dev + squidcrawl.dev => squidcrawl.dev
     return isCookieDomainSuffixOfHost(appHostNoWww, authHost)
       ? appHostNoWww
       : null;
@@ -291,7 +291,7 @@ export function createAuthConfig(env: Env) {
           defaultPermissions: async (userId, ctx) => {
             // Fetch user role or other data to determine permissions
             return {
-              // api.deepcrawl.dev services endpoints
+              // api.squidcrawl.dev services endpoints
               // Permissions follow a resource-based structure
               read: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
               links: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],

@@ -1,4 +1,4 @@
-# Deepcrawl API Worker
+# Squidcrawl API Worker
 
 Web scraping and reading APIs powered by Cloudflare Workers with enterprise-grade features.
 
@@ -96,9 +96,9 @@ pnpm preview
 
 ## 🌍 Production
 
-- **URL**: `https://api.deepcrawl.dev`
-- **Documentation**: `https://api.deepcrawl.dev/docs`
-- **OpenAPI Spec**: `https://api.deepcrawl.dev/openapi`
+- **URL**: `https://api.squidcrawl.dev`
+- **Documentation**: `https://api.squidcrawl.dev/docs`
+- **OpenAPI Spec**: `https://api.squidcrawl.dev/openapi`
 
 ## 🛠️ Configuration
 
@@ -112,11 +112,11 @@ The worker is configured via `wrangler.jsonc` with:
 - **Node.js Compatibility** - Full Node.js API support
 - **Service Bindings** - Inter-worker communication
 - **KV Storage** - Caching and data persistence
-- **Custom Domain** - `api.deepcrawl.dev`
+- **Custom Domain** - `api.squidcrawl.dev`
 
 ### Authentication Modes
 
-Deepcrawl supports multiple authentication modes. Default is `better-auth`.
+Squidcrawl supports multiple authentication modes. Default is `better-auth`.
 
 ```bash
 # Auth mode: better-auth (default) | jwt | none
@@ -151,8 +151,8 @@ JWT_SECRET=your_jwt_secret
 Optional (only if you want to enforce `iss` / `aud` claims):
 
 ```bash
-JWT_ISSUER=deepcrawl
-JWT_AUDIENCE=deepcrawl-api
+JWT_ISSUER=squidcrawl
+JWT_AUDIENCE=squidcrawl-api
 ```
 
 ### Activity Logs
@@ -171,7 +171,7 @@ Set this to `false` to skip writing activity logs.
 
 ### API Rate Limiting (Upstash)
 
-Deepcrawl uses **Upstash Redis** (via `@upstash/ratelimit`) to enforce rate
+Squidcrawl uses **Upstash Redis** (via `@upstash/ratelimit`) to enforce rate
 limits on **API Worker (v0)** endpoints.
 
 Enable/disable via Wrangler vars:
@@ -209,8 +209,8 @@ JWT_SECRET=your_jwt_secret
 Optional Wrangler vars (synced into `wrangler.jsonc` vars by `pnpm env:bootstrap`):
 
 ```bash
-JWT_ISSUER=deepcrawl            # optional
-JWT_AUDIENCE=deepcrawl-api      # optional
+JWT_ISSUER=squidcrawl            # optional
+JWT_AUDIENCE=squidcrawl-api      # optional
 ```
 
 JWT payload expectations:
@@ -254,8 +254,8 @@ const token = jwt.sign(
   process.env.JWT_SECRET as string,
   {
     expiresIn: '24h',
-    issuer: 'deepcrawl',
-    audience: 'deepcrawl-api',
+    issuer: 'squidcrawl',
+    audience: 'squidcrawl-api',
   },
 );
 

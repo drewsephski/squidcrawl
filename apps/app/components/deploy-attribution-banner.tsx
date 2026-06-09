@@ -11,10 +11,10 @@ import Link from 'next/link';
 import { useEffect, useSyncExternalStore } from 'react';
 
 // Versioned so we can safely change behavior/style in the future.
-const DISMISS_KEY = 'deepcrawl.deployAttributionBanner.dismissed.v1';
+const DISMISS_KEY = 'squidcrawl.deployAttributionBanner.dismissed.v1';
 const TOP_OFFSET_CSS_VAR = '--dc-top-banner-offset';
 export const BANNER_HEIGHT_PX = 40;
-const GITHUB_REPO_URL = 'https://github.com/lumpinif/deepcrawl';
+const GITHUB_REPO_URL = 'https://github.com/drewsephski/squidcrawl';
 
 const OFFICIAL_APEX_DOMAIN = getApexDomainFromUrl(OFFICIAL_APP_URL);
 
@@ -24,7 +24,7 @@ export interface DeployAttributionBannerState {
   isRendered: boolean;
 }
 
-const BANNER_STATE_EVENT = 'deepcrawl:deploy-attribution-banner:state';
+const BANNER_STATE_EVENT = 'squidcrawl:deploy-attribution-banner:state';
 
 type StoreListener = () => void;
 
@@ -275,7 +275,7 @@ export function DeployAttributionBanner({ className }: { className?: string }) {
           <span className="truncate">
             This app may be deployed with{' '}
             <code className="rounded-sm bg-muted px-2 py-1 font-mono font-semibold text-foreground text-xs">
-              npm create deepcrawl@latest
+              npm create squidcrawl@latest
             </code>
           </span>
           <span className="text-muted-foreground/50">·</span>
@@ -294,7 +294,7 @@ export function DeployAttributionBanner({ className }: { className?: string }) {
             rel="noopener noreferrer"
             target="_blank"
           >
-            deepcrawl.dev is free and open source.
+            squidcrawl.dev is free and open source.
           </Link>
         </div>
 

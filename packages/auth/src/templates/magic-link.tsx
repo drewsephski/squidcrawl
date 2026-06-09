@@ -85,6 +85,6 @@ export default function MagicLink({
 MagicLink.PreviewProps = {
   username: 'John Doe',
   magicLinkUrl:
-    'https://auth.deepcrawl.dev/api/auth/magic-link/verify?token=abc123def456&callbackURL=https%3A%2F%2Fdeepcrawl.dev%2Fapp',
+    'https://auth.squidcrawl.dev/api/auth/magic-link/verify?token=abc123def456&callbackURL=https%3A%2F%2Fsquidcrawl.dev%2Fapp',
   brandName: 'Deepcrawl',
 } as MagicLinkProps;

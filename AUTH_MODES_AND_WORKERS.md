@@ -57,8 +57,8 @@ Prefer an origin-level `BETTER_AUTH_URL` (no `/api/auth`):
 
 - `http://localhost:8787` (Cloudflare Auth Worker dev)
 - `http://localhost:3000` (Next.js integrated dev)
-- `https://auth.deepcrawl.dev` (Cloudflare Auth Worker prod)
-- `https://deepcrawl.dev` (Next.js integrated prod)
+- `https://auth.squidcrawl.dev` (Cloudflare Auth Worker prod)
+- `https://squidcrawl.dev` (Next.js integrated prod)
 
 Notes:
 

@@ -6,13 +6,13 @@ description: Crawl a page and return a structured site map with metadata via POS
 `extractLinks` is the deep, configurable crawl endpoint. It builds a hierarchical links tree site map, optionally enriches each node with metadata, and exports performance metrics—ideal for agents that need to understand a domain before planning actions.
 
 <Callout type="success" title="No prerequisites required">
-Link extraction works by parsing the actual HTML content of your target page—no sitemap.xml, robots.txt, or other configuration files needed. Deepcrawl intelligently discovers links by analyzing the page structure, making it work on any website regardless of their SEO setup.
+Link extraction works by parsing the actual HTML content of your target page—no sitemap.xml, robots.txt, or other configuration files needed. Squidcrawl intelligently discovers links by analyzing the page structure, making it work on any website regardless of their SEO setup.
 </Callout>
 
 
 ## How does `Links Tree` look like in real usage?
 
-This abbreviated snapshot comes from a real crawl of `hono.dev`, if you are logged into the dashboard already [click this url](https://api.deepcrawl.dev/links?url=hono.dev) from your browser to see the raw response, or you can try it out from [here in playground](http://deepcrawl.dev/app?op=extractLinks&url=hono.dev).
+This abbreviated snapshot comes from a real crawl of `hono.dev`, if you are logged into the dashboard already [click this url](https://api.squidcrawl.dev/links?url=hono.dev) from your browser to see the raw response, or you can try it out from [here in playground](http://squidcrawl.dev/app?op=extractLinks&url=hono.dev).
 
 ```files
 hono.dev
@@ -47,7 +47,7 @@ For lighter GET-only usage (no request body), see [`getLinks`](/docs/features/li
 curl \
   -H "Authorization: Bearer $DEEPCRAWL_API_KEY" \
   -H "Content-Type: application/json" \
-  -X POST "https://api.deepcrawl.dev/links" \
+  -X POST "https://api.squidcrawl.dev/links" \
   -d '{
     "url": "https://example.com",
     ...extractLinksOptions, // see below

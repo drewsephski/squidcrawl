@@ -31,7 +31,7 @@ test('prepareV0LocalProject aligns local wrangler config and JWT secret files', 
 
   const result = await prepareV0LocalProject({
     projectDir,
-    projectName: 'My Deepcrawl',
+    projectName: 'My Squidcrawl',
     authMode: 'jwt',
     enableActivityLogs: false,
     jwtIssuer: 'issuer-1',
@@ -56,7 +56,7 @@ test('prepareV0LocalProject aligns local wrangler config and JWT secret files', 
     };
   };
 
-  assert.equal(data.name, 'my-deepcrawl-api-worker');
+  assert.equal(data.name, 'my-squidcrawl-api-worker');
   assert.equal(data.routes, undefined);
   assert.equal(data.services, undefined);
   assert.equal(data.env?.production?.services, undefined);
@@ -94,7 +94,7 @@ test('prepareV0LocalProject keeps no-auth local config aligned without secret fi
 
   const result = await prepareV0LocalProject({
     projectDir,
-    projectName: 'My Deepcrawl',
+    projectName: 'My Squidcrawl',
     authMode: 'none',
     enableActivityLogs: true,
   });
@@ -138,7 +138,7 @@ test('prepareV0LocalProject rejects jwt mode without a secret', async () => {
   await assert.rejects(
     prepareV0LocalProject({
       projectDir,
-      projectName: 'My Deepcrawl',
+      projectName: 'My Squidcrawl',
       authMode: 'jwt',
       enableActivityLogs: false,
     }),

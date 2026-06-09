@@ -9,13 +9,13 @@
 //   openapi: '3.1.0',
 //   info: {
 //     version: packageJSON.version,
-//     title: 'DeepcrawlApp',
+//     title: 'SquidcrawlApp',
 //   },
 //   servers: [
 //     {
 //       // static url for openapi.yaml generation
-//       url: 'https://api.deepcrawl.dev',
-//       description: 'Deepcrawl Official API server',
+//       url: 'https://api.squidcrawl.dev',
+//       description: 'Squidcrawl Official API server',
 //     },
 //   ],
 //   security: [

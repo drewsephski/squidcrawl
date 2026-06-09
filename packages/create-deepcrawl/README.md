@@ -1,6 +1,6 @@
-# create-deepcrawl
+# create-squidcrawl
 
-Bootstrap and deploy a Deepcrawl stack from your terminal.
+Bootstrap and deploy a Squidcrawl stack from your terminal.
 
 Status: early MVP (v0-only).
 
@@ -13,6 +13,6 @@ Deployment targets:
 
 Quick start:
 
-- Interactive location prompts: `npm create deepcrawl`
-- Skip the location prompts: `npm create deepcrawl ../my-app`
+- Interactive location prompts: `npm create squidcrawl`
+- Skip the location prompts: `npm create squidcrawl ../my-app`
 - Local package dev mode: `pnpm -C packages/create-deepcrawl dev -- ../my-app`

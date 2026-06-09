@@ -10,7 +10,7 @@ The `getMarkdown` endpoint converts a single web page into markdown that Large L
 
 ## When to use this endpoint
 - You only need the markdown representation of a page (no metadata or link tree).
-- The page is public and can be handled by Deepcrawl’s scraping pipeline.
+- The page is public and can be handled by Squidcrawl’s scraping pipeline.
 - You want cached requests to return quickly on repeated calls.
 
 For richer page context (metadata, cleaned HTML, robots, metrics), use [`readUrl`](/docs/features/read/readUrl). For multi-page link maps, see [links endpoints](/docs/features/links).
@@ -22,7 +22,7 @@ For richer page context (metadata, cleaned HTML, robots, metrics), use [`readUrl
 ```bash
 curl \
   -H "Authorization: Bearer $DEEPCRAWL_API_KEY" \
-  "https://api.deepcrawl.dev/read?url=https://example.com&...getMarkdownOptions" // see below
+  "https://api.squidcrawl.dev/read?url=https://example.com&...getMarkdownOptions" // see below
 ```
 
 - Authenticate with an API key header or dashboard session cookies.

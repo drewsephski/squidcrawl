@@ -21,7 +21,7 @@
 //   const clientConfig = useMemo(
 //     () => ({
 //       apiKey,
-//       baseUrl: baseUrl || 'https://api.deepcrawl.dev',
+//       baseUrl: baseUrl || 'https://api.squidcrawl.dev',
 //     }),
 //     [apiKey, baseUrl],
 //   );
