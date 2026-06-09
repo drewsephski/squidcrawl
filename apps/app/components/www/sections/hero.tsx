@@ -26,15 +26,15 @@ export const Hero = () => (
         <div className="absolute inset-0 z-10 bg-gradient-to-t from-30% from-transparent to-background" />
         <Suspense fallback={<div className="h-full w-full" />}>
           <FlickeringGrid
-            className="h-full w-full"
+            className="h-full"
             color="#6B7280"
             flickerChance={0.18}
             fontSize={100}
-            gridGap={8}
+            gridGap={6}
             maxOpacity={0.2}
-            squareSize={3}
+            squareSize={2}
             text="npm i squidcrawl"
-            textOffsetY={260}
+            textOffsetY={60}
           />
         </Suspense>
       </div>

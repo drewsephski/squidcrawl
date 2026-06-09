@@ -4,7 +4,7 @@ export function Banner({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        '!border-b-0 !border-none h-12 w-full md:h-16 lg:h-18',
+        '!border-b-0 !border-none h-2 w-full md:h-6 lg:h-8',
         className,
       )}
     />

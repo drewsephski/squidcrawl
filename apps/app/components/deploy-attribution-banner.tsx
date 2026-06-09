@@ -275,7 +275,7 @@ export function DeployAttributionBanner({ className }: { className?: string }) {
           <span className="truncate">
             This app may be deployed with{' '}
             <code className="rounded-sm bg-muted px-2 py-1 font-mono font-semibold text-foreground text-xs">
-              npm create squidcrawl@latest
+              npx create-squidcrawl
             </code>
           </span>
           <span className="text-muted-foreground/50">·</span>
