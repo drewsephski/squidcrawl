@@ -24,7 +24,7 @@ const getBearerToken = (authHeader?: string | null) => {
   }
 
   const [scheme, token] = authHeader.split(' ');
-  if (!scheme || scheme.toLowerCase() !== 'bearer' || !token) {
+  if (scheme?.toLowerCase() !== 'bearer' || !token) {
     return null;
   }
 

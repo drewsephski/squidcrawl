@@ -312,7 +312,7 @@ export class DeepcrawlApp {
       typeof document !== 'undefined';
 
     this.nodeEnv =
-      typeof process !== 'undefined' && !!process.versions?.node && !isBrowser
+      typeof process !== 'undefined' && process.versions?.node && !isBrowser
         ? 'nodeJs'
         : typeof globalThis.caches !== 'undefined' &&
             typeof (globalThis as { EdgeRuntime?: unknown }).EdgeRuntime ===

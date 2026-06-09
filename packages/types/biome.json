@@ -13,7 +13,8 @@
           }
         }
       },
-      "nursery": {
+      "nursery": {},
+      "suspicious": {
         "noImportCycles": {
           "level": "error"
         }
