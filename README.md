@@ -1,31 +1,56 @@
-# Squidcrawl
+<div align="center">
 
-**100% free and open-source Firecrawl alternative with better performance and flexibility.**
+# 🦑 Squidcrawl
 
-Ask DeepWiki about this repo
-
-[![Ask DeepWiki about this repo](https://deepwiki.com/badge.svg)](https://deepwiki.com/drewsephski/squidcrawl)  
-
-![shots](./public/image.png)
-
-> NOTE: Squidcrawl doesn’t target anti-scraping or anti-bot purposes. It’s optimized for high‑frequency agent workloads that scrape public pages to extract cleaned Markdown and a hierarchical links tree.
-
-Squidcrawl is an agent-oriented website data context extraction platform. It extracts cleaned markdown of page content, agent-favoured hierarchical links tree, and metadata that LLMs can digest with minimal token cost to reduce context switching and hallucination.
-
-![shots](./public/scrape.png)
-
-> Full Platform (Nextjs Dashboard, API Workers, Auth Workers, and Database) is open and transparent.
-
-## Documentation
-
-Visit https://squidcrawl.dev/docs to view the documentation.
-
-## Contributing
-
-Please read the [contributing guide](./CONTRIBUTING.md).
-
-## License
+**The 100% free and open-source Firecrawl alternative — faster, leaner, and built for AI agents.**
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![GitHub stars](https://img.shields.io/github/stars/drewsephski/squidcrawl?style=flat&logo=github)](https://github.com/drewsephski/squidcrawl)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/drewsephski/squidcrawl)
 
-Open Source. Built by [Drew Sepeczi](https://instagram.com/drew.sepeczi).
+![Squidcrawl Dashboard](./public/image.png)
+
+</div>
+
+> **Note:** Squidcrawl doesn't target anti-scraping or anti-bot purposes. It's optimized for high-frequency agent workloads that scrape public pages to extract cleaned Markdown and a hierarchical links tree.
+
+---
+
+## ✨ Why Squidcrawl?
+
+Squidcrawl is an **agent-oriented** website data extraction platform. It turns raw web pages into LLM-ready context — cleaned markdown, a hierarchical links tree, and metadata — so your agents spend less time parsing and more time reasoning.
+
+- **🧠 Agent-first** — outputs structured data that LLMs digest with minimal token cost, reducing context switching and hallucination.
+- **⚡ Blazing fast** — optimized for high-frequency scraping workloads with better performance than the alternatives.
+- **🔓 100% open source** — full platform transparency: Next.js dashboard, API Workers, Auth Workers, and Database are all public.
+- **🛠️ SDK included** — first-class TypeScript/JavaScript SDK for seamless integration.
+
+---
+
+## 🖼️ See It In Action
+
+<div align="center">
+
+![Squidcrawl scrape result — clean markdown extraction](./public/scrape.png)
+
+*Clean, structured markdown extraction from any public URL.*
+
+</div>
+
+---
+
+## 📖 Documentation
+
+Full docs, API reference, and guides at **[squidcrawl.dev/docs](https://squidcrawl.dev/docs)**.
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! See the [contributing guide](./CONTRIBUTING.md) to get started.
+
+---
+
+## 📄 License
+
+[MIT](https://opensource.org/licenses/MIT) — open source. Built by [Drew Sepeczi](https://instagram.com/drew.sepeczi).
