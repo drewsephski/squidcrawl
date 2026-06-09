@@ -301,13 +301,13 @@ export function ApiKeysTable({ apiKeys }: ApiKeysTableProps) {
                     </TableCell>
                     <TableCell>{formatLastUsed(apiKey.lastRequest)}</TableCell>
                     <TableCell>
-                      {apiKey.remaining !== null ? (
-                        <span className="text-sm">
-                          {apiKey.remaining} remaining
-                        </span>
-                      ) : (
+                      {apiKey.remaining === null ? (
                         <span className="text-muted-foreground text-sm">
                           Unlimited
+                        </span>
+                      ) : (
+                        <span className="text-sm">
+                          {apiKey.remaining} remaining
                         </span>
                       )}
                     </TableCell>
@@ -531,12 +531,12 @@ export function ApiKeysTable({ apiKeys }: ApiKeysTableProps) {
                         Usage
                       </p>
                       <p className="text-xs">
-                        {apiKey.remaining !== null ? (
-                          <span>{apiKey.remaining} remaining</span>
-                        ) : (
+                        {apiKey.remaining === null ? (
                           <span className="text-muted-foreground">
                             Unlimited
                           </span>
+                        ) : (
+                          <span>{apiKey.remaining} remaining</span>
                         )}
                       </p>
                     </div>

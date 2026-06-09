@@ -23,4 +23,4 @@ const createContext = <T>(defaultValue: T) => {
   return [Context.Provider, useContext] as const;
 };
 
-export { createContextHook, createContext };
+export { createContext, createContextHook };

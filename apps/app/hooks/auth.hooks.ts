@@ -930,11 +930,11 @@ export function useAuthRedirect(redirectTo?: string) {
       // Get the current frontend origin (where the Next.js app is running)
       // Callback URLs should ALWAYS point to the frontend app, never to the auth service
       const frontendOrigin =
-        typeof window !== 'undefined'
-          ? window.location.origin
-          : process.env.NODE_ENV === 'production'
+        typeof window === 'undefined'
+          ? process.env.NODE_ENV === 'production'
             ? (process.env.NEXT_PUBLIC_APP_URL as string) // Always use frontend app URL
-            : 'http://localhost:3000'; // Development frontend URL
+            : 'http://localhost:3000'
+          : window.location.origin; // Development frontend URL
 
       // Use URL constructor for robust URL construction
       try {

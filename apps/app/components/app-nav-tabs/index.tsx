@@ -125,7 +125,7 @@ export default function AppNavTabs({
   const computedHoverStyle = useMemo(
     () => ({
       ...hoverStyle,
-      opacity: hoveredIndex !== null ? 1 : 0,
+      opacity: hoveredIndex === null ? 0 : 1,
     }),
     [hoverStyle, hoveredIndex],
   );

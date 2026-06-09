@@ -89,7 +89,7 @@ export function Globe({
   const updatePointerInteraction = (value: number | null) => {
     pointerInteracting.current = value;
     if (canvasRef.current) {
-      canvasRef.current.style.cursor = value !== null ? 'grabbing' : 'grab';
+      canvasRef.current.style.cursor = value === null ? 'grab' : 'grabbing';
     }
   };
 

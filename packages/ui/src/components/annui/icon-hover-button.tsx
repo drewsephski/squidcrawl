@@ -106,5 +106,9 @@ const [IconHoverButtonProvider, useIconHoverButtonContext] =
     isHover: false,
   });
 
-export { IconHoverButton, IconHoverButtonIcon, IconHoverButtonText };
-export { useIconHoverButtonContext };
+export {
+  IconHoverButton,
+  IconHoverButtonIcon,
+  IconHoverButtonText,
+  useIconHoverButtonContext,
+};

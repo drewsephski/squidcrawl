@@ -156,11 +156,11 @@ const [TabProvider, useTabContext] = createContext<TabContextValue>({
 
 export {
   Tabs,
-  TabsList,
   TabsContent,
+  TabsList,
   TabsTrigger,
-  TabsTriggerText,
   TabsTriggerIcon,
+  TabsTriggerText,
+  useTabContext,
+  useTabsContext,
 };
-
-export { useTabsContext, useTabContext };

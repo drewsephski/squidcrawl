@@ -214,9 +214,9 @@ export function buildSdkSnippet({
   const identifier = RESULT_IDENTIFIER[operation];
 
   const callLine =
-    diff !== undefined
-      ? `const ${identifier} = await deepcrawl.${operation}(${urlLiteral}, ${formatValue(diff)});`
-      : `const ${identifier} = await deepcrawl.${operation}(${urlLiteral});`;
+    diff === undefined
+      ? `const ${identifier} = await deepcrawl.${operation}(${urlLiteral});`
+      : `const ${identifier} = await deepcrawl.${operation}(${urlLiteral}, ${formatValue(diff)});`;
 
   const lines = [
     "import { DeepcrawlApp } from 'deepcrawl';",

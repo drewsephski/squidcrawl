@@ -181,9 +181,9 @@ const MotionGrid = ({
 };
 
 export {
+  type Frame,
+  type FrameDot,
+  type Frames,
   MotionGrid,
   type MotionGridProps,
-  type FrameDot,
-  type Frame,
-  type Frames,
 };

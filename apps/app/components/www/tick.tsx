@@ -157,7 +157,7 @@ function buildLineProps(
   };
 
   const md =
-    lengths.md !== undefined ? Math.max(0, Math.round(lengths.md)) : undefined;
+    lengths.md === undefined ? undefined : Math.max(0, Math.round(lengths.md));
 
   if (md !== undefined) {
     baselineClasses.push(

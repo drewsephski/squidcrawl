@@ -98,10 +98,10 @@ const renderVarsSourceExample = (headerLines: string[]) => {
       }
 
       lines.push(
-        `${v.key}=${v.localDefault !== undefined ? formatDotenvValue(v.localDefault) : ''}`,
+        `${v.key}=${v.localDefault === undefined ? '' : formatDotenvValue(v.localDefault)}`,
       );
       lines.push(
-        `${PRODUCTION_VARS_PREFIX}${v.key}=${v.productionDefault !== undefined ? formatDotenvValue(v.productionDefault) : ''}`,
+        `${PRODUCTION_VARS_PREFIX}${v.key}=${v.productionDefault === undefined ? '' : formatDotenvValue(v.productionDefault)}`,
       );
       lines.push('');
     }

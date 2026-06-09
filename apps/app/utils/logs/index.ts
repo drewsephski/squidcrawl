@@ -163,9 +163,9 @@ export function createLogsDateRangeFromPreset(
   referenceDate = new Date(),
 ): LogsDateRange {
   const resolvedPreset =
-    LOGS_DATE_RANGE_PRESET_IN_DAYS[preset] !== undefined
-      ? preset
-      : DEFAULT_LOGS_DATE_RANGE_PRESET;
+    LOGS_DATE_RANGE_PRESET_IN_DAYS[preset] === undefined
+      ? DEFAULT_LOGS_DATE_RANGE_PRESET
+      : preset;
   const days = LOGS_DATE_RANGE_PRESET_IN_DAYS[resolvedPreset];
   return createDefaultLogsDateRange(referenceDate, days);
 }

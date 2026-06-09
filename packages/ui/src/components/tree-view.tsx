@@ -518,4 +518,4 @@ const TreeActions = ({
   );
 };
 
-export { TreeView, type TreeDataItem };
+export { type TreeDataItem, TreeView };

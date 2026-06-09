@@ -40,10 +40,10 @@ export function useOnSuccessTransition({
 
         // Production fix: Add delay for cookie propagation
         setTimeout(() => {
-          if (typeof window !== 'undefined') {
-            window.location.href = fallbackPath;
-          } else {
+          if (typeof window === 'undefined') {
             router.push(fallbackPath);
+          } else {
+            window.location.href = fallbackPath;
           }
         }, 100);
         return;
@@ -65,10 +65,10 @@ export function useOnSuccessTransition({
 
         // Production fix: Add delay to allow cookies to propagate before navigation
         setTimeout(() => {
-          if (typeof window !== 'undefined') {
-            window.location.href = cleanPath;
-          } else {
+          if (typeof window === 'undefined') {
             router.push(cleanPath);
+          } else {
+            window.location.href = cleanPath;
           }
         }, 100);
       } catch (error) {
@@ -86,10 +86,10 @@ export function useOnSuccessTransition({
 
         // Production fix: Add delay for fallback navigation
         setTimeout(() => {
-          if (typeof window !== 'undefined') {
-            window.location.href = cleanPath;
-          } else {
+          if (typeof window === 'undefined') {
             router.push(cleanPath);
+          } else {
+            window.location.href = cleanPath;
           }
         }, 100);
       }
