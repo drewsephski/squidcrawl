@@ -43,8 +43,8 @@
     "API_URL": "http://localhost:8080",
     "ENABLE_ACTIVITY_LOGS": true,
     "WORKER_NODE_ENV": "development",
-    "GITHUB_CLIENT_ID": "Ov23litNP2YxhipDUMUJ",
-    "NEXT_PUBLIC_GOOGLE_CLIENT_ID": "292200252097-jtgcuinknei9vol7bb7qc7eu8pn44ogk.apps.googleusercontent.com",
+    "GITHUB_CLIENT_ID": "Ov23li68xhO1Oja1NKta",
+    "NEXT_PUBLIC_GOOGLE_CLIENT_ID": "745832861542-911j8besnibd3rsahipjdgv6d3dg7lv1.apps.googleusercontent.com",
     // JWT_* are only needed when AUTH_MODE=jwt, JWT_ISSUER and JWT_AUDIENCE are optional.
     // Don't put JWT_SECRET here. Use Wrangler secrets for JWT_SECRET in production. Or add it to .dev.vars for local development.
     "JWT_ISSUER": "",
@@ -83,8 +83,8 @@
         "API_URL": "https://api.squidcrawl.dev",
         "ENABLE_ACTIVITY_LOGS": true,
         "WORKER_NODE_ENV": "production",
-        "GITHUB_CLIENT_ID": "Ov23litNP2YxhipDUMUJ",
-        "NEXT_PUBLIC_GOOGLE_CLIENT_ID": "292200252097-jtgcuinknei9vol7bb7qc7eu8pn44ogk.apps.googleusercontent.com",
+        "GITHUB_CLIENT_ID": "Ov23li68xhO1Oja1NKta",
+        "NEXT_PUBLIC_GOOGLE_CLIENT_ID": "745832861542-911j8besnibd3rsahipjdgv6d3dg7lv1.apps.googleusercontent.com",
         // JWT_* are only needed when AUTH_MODE=jwt, JWT_ISSUER and JWT_AUDIENCE are optional.
         // Don't put JWT_SECRET here. Use Wrangler secrets for JWT_SECRET in production. Or add it to .dev.vars.production for production secrets.
         "JWT_ISSUER": "",

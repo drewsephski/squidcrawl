@@ -76,10 +76,7 @@ export function SiteHeader({
               className="mr-1 data-[orientation=vertical]:h-4 md:hidden"
               orientation="vertical"
             />
-            <DeepcrawlLogo
-              className="font-semibold text-base tracking-tighter md:hidden"
-              href="/"
-            />
+            <DeepcrawlLogo className="md:hidden" href="/" />
           </>
         )}
 
@@ -95,7 +92,6 @@ export function SiteHeader({
               href="/"
               style={{
                 transformOrigin: 'center center',
-                fontSize: isMobile ? '16px' : `calc(16px * ${logoScale})`,
               }}
             />
           </div>

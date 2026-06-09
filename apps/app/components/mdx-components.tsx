@@ -20,7 +20,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     ...defaultMdxComponents,
     LogoText: ({ description }: { description?: string }) => (
       <div className="mx-auto mb-14 flex h-52 w-full flex-col items-center justify-center gap-4 rounded-md lg:h-56 xl:h-64 2xl:h-72">
-        <DeepcrawlLogoText className="!text-5xl 2xl:!text-6xl" />
+        <DeepcrawlLogoText className="h-auto max-h-full w-auto max-w-[40%] object-contain" />
         {description && (
           <span className="mx-auto max-w-lg text-pretty text-center font-medium text-muted-foreground">
             {description}

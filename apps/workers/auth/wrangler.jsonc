@@ -34,8 +34,8 @@
     "NEXT_PUBLIC_APP_URL": "http://localhost:3000",
     "BETTER_AUTH_URL": "http://localhost:8787",
     "AUTH_WORKER_NODE_ENV": "development",
-    "GITHUB_CLIENT_ID": "Ov23litNP2YxhipDUMUJ",
-    "NEXT_PUBLIC_GOOGLE_CLIENT_ID": "292200252097-jtgcuinknei9vol7bb7qc7eu8pn44ogk.apps.googleusercontent.com",
+    "GITHUB_CLIENT_ID": "Ov23li68xhO1Oja1NKta",
+    "NEXT_PUBLIC_GOOGLE_CLIENT_ID": "745832861542-911j8besnibd3rsahipjdgv6d3dg7lv1.apps.googleusercontent.com",
     "FROM_EMAIL": "Squidcrawl <noreply@squidcrawl.dev>"
   },
   "kv_namespaces": [
@@ -51,8 +51,8 @@
         "NEXT_PUBLIC_APP_URL": "https://squidcrawl.dev",
         "BETTER_AUTH_URL": "https://auth.squidcrawl.dev",
         "AUTH_WORKER_NODE_ENV": "production",
-        "GITHUB_CLIENT_ID": "Ov23litNP2YxhipDUMUJ",
-        "NEXT_PUBLIC_GOOGLE_CLIENT_ID": "292200252097-jtgcuinknei9vol7bb7qc7eu8pn44ogk.apps.googleusercontent.com",
+        "GITHUB_CLIENT_ID": "Ov23li68xhO1Oja1NKta",
+        "NEXT_PUBLIC_GOOGLE_CLIENT_ID": "745832861542-911j8besnibd3rsahipjdgv6d3dg7lv1.apps.googleusercontent.com",
         "FROM_EMAIL": "Squidcrawl <noreply@squidcrawl.dev>"
       },
       "kv_namespaces": [
