@@ -40,3 +40,4 @@ Open Source. Open Code - built with ❤️ by [@felixLu](https://x.com/felixlu10
    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=lumpinif/deepcrawl&type=date&legend=top-left" />
  </picture>
 </a>
+# squidcrawl
