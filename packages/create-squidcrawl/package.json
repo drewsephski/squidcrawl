@@ -1,6 +1,6 @@
 {
   "name": "create-squidcrawl",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "description": "Bootstrap and deploy a Squidcrawl stack from your terminal.",
   "license": "MIT",
   "type": "module",

@@ -1,18 +1,18 @@
 import { dimText } from './dim.js';
 
-const DEEPCRAWL_LOGO = [
-  '╔╦╗╔═╗╔═╗╔═╗╔═╗╦═╗╔═╗╦ ╦╦',
-  ' ║║║╣ ║╣ ╠═╝║  ╠╦╝╠═╣║║║║',
-  '═╩╝╚═╝╚═╝╩  ╚═╝╩╚═╩ ╩╚╩╝╩═╝',
+const SQUIDCRAWL_LOGO = [
+  '╔══╗╦═╗╦ ╦║║╦═╗╔═╗╔═╗╔═╗╦ ╦╦',
+  '║ ═╣╠╦╝║ ║║║╠╦╝║ ║╠═╝╠═╣╠ ╣║',
+  '╚══╝╩╚═╚═╝╩╩╩╚═╚═╝║ ║╩ ╩╩ ╩╩',
 ].join('\n');
 
-export function renderDeepcrawlLogo(): string {
-  return DEEPCRAWL_LOGO;
+export function renderSquidcrawlLogo(): string {
+  return SQUIDCRAWL_LOGO;
 }
 
-export function renderDeepcrawlHeader(): string {
+export function renderSquidcrawlHeader(): string {
   return [
-    renderDeepcrawlLogo(),
+    renderSquidcrawlLogo(),
     '',
     'squidcrawl.dev',
     dimText('one command to deploy squidcrawl fullstack yourself'),

@@ -1,7 +1,7 @@
 import { parseCliArgs } from './lib/cli-args.js';
 import { isUserAbortError } from './lib/user-abort.js';
 import { run } from './run.js';
-import { renderDeepcrawlHeader } from './ui/brand.js';
+import { renderSquidcrawlHeader } from './ui/brand.js';
 import { getCancelMessage } from './ui/messages.js';
 
 const args = parseCliArgs(process.argv.slice(2));
@@ -9,7 +9,7 @@ const args = parseCliArgs(process.argv.slice(2));
 process.stdout.write(
   [
     '',
-    renderDeepcrawlHeader(),
+    renderSquidcrawlHeader(),
     '',
     'Create and deploy Squidcrawl from your terminal.',
     'Tip: run npm create squidcrawl ../my-app to skip the folder questions.',
