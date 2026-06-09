@@ -2,6 +2,6 @@
   "outputDirectory": ".next",
   "regions": ["sfo1"],
   "framework": "nextjs",
-  "installCommand": "cd ../.. && pnpm install",
+  "installCommand": "cd ../.. && pnpm install --filter=dashboard...",
   "buildCommand": "next build"
 }
