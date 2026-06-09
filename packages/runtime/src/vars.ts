@@ -125,6 +125,25 @@ export const WRANGLER_VARS: readonly WranglerVar[] = [
     description: 'Google OAuth client id (public).',
   },
   {
+    key: 'AUTH_COOKIE_DOMAIN',
+    type: 'string',
+    group: 'Auth',
+    targets: ['worker-auth'],
+    description: 'Cookie domain for cross-subdomain sessions (optional).',
+    localDefault: 'squidcrawl.dev',
+    productionDefault: 'squidcrawl.dev',
+  },
+  {
+    key: 'PASSKEY_RP_ID',
+    type: 'string',
+    group: 'Auth',
+    targets: ['worker-auth'],
+    description:
+      'WebAuthn passkey rpID override (optional). Defaults to AUTH_COOKIE_DOMAIN or APP_URL hostname.',
+    localDefault: 'localhost',
+    productionDefault: 'squidcrawl.dev',
+  },
+  {
     key: 'FROM_EMAIL',
     type: 'string',
     group: 'Email',

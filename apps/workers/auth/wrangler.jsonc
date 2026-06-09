@@ -28,7 +28,9 @@
     "AUTH_WORKER_NODE_ENV": "development",
     "GITHUB_CLIENT_ID": "Ov23li68xhO1Oja1NKta",
     "NEXT_PUBLIC_GOOGLE_CLIENT_ID": "745832861542-911j8besnibd3rsahipjdgv6d3dg7lv1.apps.googleusercontent.com",
-    "FROM_EMAIL": "Squidcrawl <noreply@squidcrawl.dev>"
+    "FROM_EMAIL": "Squidcrawl <noreply@squidcrawl.dev>",
+    "AUTH_COOKIE_DOMAIN": "squidcrawl.dev",
+    "PASSKEY_RP_ID": "localhost"
   },
   "kv_namespaces": [
     {
@@ -44,7 +46,9 @@
         "AUTH_WORKER_NODE_ENV": "production",
         "GITHUB_CLIENT_ID": "Ov23li68xhO1Oja1NKta",
         "NEXT_PUBLIC_GOOGLE_CLIENT_ID": "745832861542-911j8besnibd3rsahipjdgv6d3dg7lv1.apps.googleusercontent.com",
-        "FROM_EMAIL": "Squidcrawl <noreply@squidcrawl.dev>"
+        "FROM_EMAIL": "Squidcrawl <noreply@squidcrawl.dev>",
+        "AUTH_COOKIE_DOMAIN": "squidcrawl.dev",
+        "PASSKEY_RP_ID": "squidcrawl.dev"
       },
       "kv_namespaces": [
         {

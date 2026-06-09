@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.3.14/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.4.16/schema.json",
   "root": true,
   "files": {
     "ignoreUnknown": true,
@@ -51,8 +51,7 @@
           "options": {
             "functions": ["cn", "clsx", "cva", "tw", "tw.*"]
           }
-        },
-        "noUselessUndefined": "error"
+        }
       },
       "a11y": {
         "noStaticElementInteractions": "error",
@@ -97,7 +96,8 @@
       "complexity": {
         "noForEach": "warn",
         "noVoid": "off",
-        "useSimplifiedLogicExpression": "warn"
+        "useSimplifiedLogicExpression": "warn",
+        "noUselessUndefined": "error"
       },
       "suspicious": {
         "noConsole": "off",
