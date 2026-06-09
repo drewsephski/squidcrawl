@@ -8,7 +8,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/drewsephski/squidcrawl?style=flat&logo=github)](https://github.com/drewsephski/squidcrawl)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/drewsephski/squidcrawl)
 
-![Squidcrawl Dashboard](./public/image.png)
+![Squidcrawl](./public/image.png)
 
 </div>
 
@@ -24,18 +24,6 @@ Squidcrawl is an **agent-oriented** website data extraction platform. It turns r
 - **⚡ Blazing fast** — optimized for high-frequency scraping workloads with better performance than the alternatives.
 - **🔓 100% open source** — full platform transparency: Next.js dashboard, API Workers, Auth Workers, and Database are all public.
 - **🛠️ SDK included** — first-class TypeScript/JavaScript SDK for seamless integration.
-
----
-
-## 🖼️ See It In Action
-
-<div align="center">
-
-![Squidcrawl scrape result — clean markdown extraction](./public/scrape.png)
-
-*Clean, structured markdown extraction from any public URL.*
-
-</div>
 
 ---
 
