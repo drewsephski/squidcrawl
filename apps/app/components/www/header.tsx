@@ -18,7 +18,7 @@ export const Header = () => {
           gridGap={isMobile ? 1 : 6.5}
           maxOpacity={0.25}
           squareSize={isMobile ? 1 : 1.5}
-          text="npm i deepcrawl"
+          text="npm i squidcrawl"
           textOffsetY={isMobile ? 0 : 10}
         />
       </div>

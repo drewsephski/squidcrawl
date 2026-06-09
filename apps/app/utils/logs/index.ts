@@ -4,8 +4,8 @@ import {
   resolveListLogsOptions,
   toISOStringBoundary,
 } from '@deepcrawl/contracts/logs';
-import { ListLogsOptionsSchema } from 'deepcrawl/schemas';
-import { normalizeListLogsPagination } from 'deepcrawl/types/utils';
+import { ListLogsOptionsSchema } from 'squidcrawl/schemas';
+import { normalizeListLogsPagination } from 'squidcrawl/types/utils';
 import type { z } from 'zod/v4';
 import {
   DEFAULT_LOGS_DATE_RANGE_PRESET,

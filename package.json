@@ -1,5 +1,5 @@
 {
-  "name": "deepcrawl",
+  "name": "squidcrawl",
   "version": "0.0.1",
   "private": true,
   "license": "MIT",
@@ -24,7 +24,7 @@
     "biome:ci": "biome ci .",
     "check": "pnpm install && pnpm typecheck && pnpm sherif && biome check . && turbo check",
     "fix": "biome check . --write && turbo fix && pnpm sherif:fix",
-    "check:ci": "pnpm biome:ci && pnpm turbo check --no-daemon && pnpm --filter deepcrawl test -- --run && pnpm sdk-ts:build",
+    "check:ci": "pnpm biome:ci && pnpm turbo check --no-daemon && pnpm --filter squidcrawl test -- --run && pnpm sdk-ts:build",
     "clean": "cd scripts && npx tsx clean.ts",
     "clean:install": "cd scripts && npx tsx clean.ts && pnpm install",
     "jwt:mint": "pnpm exec tsx scripts/jwt-mint.ts",

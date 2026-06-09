@@ -50,14 +50,6 @@ import {
 } from '@deepcrawl/ui/components/ui/tooltip';
 import { useMediaQuery } from '@deepcrawl/ui/hooks/use-media-query';
 import { cn } from '@deepcrawl/ui/lib/utils';
-import type {
-  LinksOptions,
-  MarkdownConverterOptions,
-  MetadataOptions,
-  ReadOptions,
-  ScrapeOptions,
-  TreeOptions,
-} from 'deepcrawl/types';
 import {
   Bot,
   FileCheck2,
@@ -76,6 +68,14 @@ import {
   useRef,
   useState,
 } from 'react';
+import type {
+  LinksOptions,
+  MarkdownConverterOptions,
+  MetadataOptions,
+  ReadOptions,
+  ScrapeOptions,
+  TreeOptions,
+} from 'squidcrawl/types';
 import {
   usePlaygroundCoreSelector,
   usePlaygroundOptionsSelector,

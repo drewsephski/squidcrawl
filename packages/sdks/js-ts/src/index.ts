@@ -1,15 +1,15 @@
 /**
- * @deepcrawl/sdks/js-ts
+ * @squidcrawl/sdks/js-ts
  *
- * This is the root entry point for the Deepcrawl SDK.
+ * This is the root entry point for the Squidcrawl SDK.
  * For more specific exports, consider importing directly from subpaths:
  *
  *  For types, utils and schemas, consider importing directly from subpaths:
- *  import { GetMarkdownOptions } from 'deepcrawl/types';
- *  import { GetMarkdownOptionsSchema } from 'deepcrawl/schemas';
+ *  import { GetMarkdownOptions } from 'squidcrawl/types';
+ *  import { GetMarkdownOptionsSchema } from 'squidcrawl/schemas';
  *
  * @example
- * import { DeepcrawlApp } from 'deepcrawl';
+ * import { DeepcrawlApp } from 'squidcrawl';
  *
  *
  */

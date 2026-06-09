@@ -8,7 +8,7 @@ This package is intentionally small and boring:
 - Tiny helpers for common runtime config parsing.
 
 It exists to reduce drift across apps/workers, make local development easier,
-and give future automation (e.g. `create-deepcrawl`) an authoritative list of
+and give future automation (e.g. `create-squidcrawl`) an authoritative list of
 what to ask users for and where to inject it.
 
 ## What's Inside

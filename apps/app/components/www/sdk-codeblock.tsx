@@ -1,13 +1,13 @@
 import { CodeBlock } from '@deepcrawl/ui/components/ai-elements/code-block';
 import { cn } from '@deepcrawl/ui/lib/utils';
 
-const SDK_CODE = `import { DeepcrawlApp } from 'deepcrawl';
+const SDK_CODE = `import { DeepcrawlApp } from 'squidcrawl';
 
-const deepcrawl = new DeepcrawlApp({
+const squidcrawl = new DeepcrawlApp({
   apiKey: 'dc_your-api-key',
 });
 
-console.log(deepcrawl.readUrl('https://example.com'));
+console.log(squidcrawl.readUrl('https://example.com'));
 `;
 
 export function SDKCodeblock({

@@ -57,13 +57,13 @@ curl \
 ### Node SDK - `extractLinks()`
 
 ```ts
-import { DeepcrawlApp } from 'deepcrawl';
+import { DeepcrawlApp } from 'squidcrawl';
 
-const deepcrawl = new DeepcrawlApp({
+const squidcrawl = new DeepcrawlApp({
   apiKey: process.env.DEEPCRAWL_API_KEY as string,
 });
 
-const tree = await deepcrawl.extractLinks('https://example.com', {
+const tree = await squidcrawl.extractLinks('https://example.com', {
   ...extractLinksOptions,
 });
 

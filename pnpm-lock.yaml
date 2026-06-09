@@ -455,9 +455,6 @@ importers:
       date-fns:
         specifier: 'catalog:'
         version: 4.1.0
-      deepcrawl:
-        specifier: workspace:*
-        version: link:../../packages/sdks/js-ts
       deepmerge-ts:
         specifier: ^7.1.5
         version: 7.1.5
@@ -539,6 +536,9 @@ importers:
       sonner:
         specifier: 'catalog:'
         version: 2.0.7(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      squidcrawl:
+        specifier: workspace:*
+        version: link:../../packages/sdks/js-ts
       ua-parser-js:
         specifier: ^2.0.9
         version: 2.0.9
@@ -775,7 +775,7 @@ importers:
         specifier: workspace:*
         version: link:../typescript-config
 
-  packages/create-deepcrawl:
+  packages/create-squidcrawl:
     dependencies:
       '@clack/core':
         specifier: ^0.3.5

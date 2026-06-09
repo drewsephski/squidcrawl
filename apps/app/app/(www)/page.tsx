@@ -1,5 +1,5 @@
 import { Banner } from '@/components/www/banner';
-import { CreateDeepcrawlCliSection } from '@/components/www/sections/create-deepcrawl-cli';
+import { CreateDeepcrawlCliSection } from '@/components/www/sections/create-squidcrawl-cli';
 import { Faq } from '@/components/www/sections/faq';
 import { Footer } from '@/components/www/sections/footer';
 import { Hero } from '@/components/www/sections/hero';

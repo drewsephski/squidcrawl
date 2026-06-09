@@ -5,14 +5,14 @@ description: TypeScript types overview and cheat sheet for the Squidcrawl API.
 
 ## Guides
 
-- **Install the TypeScript SDK**: Add `deepcrawl` to your project with `pnpm add deepcrawl`, then import `DeepcrawlApp` to start making typed API calls.
+- **Install the TypeScript SDK**: Add `squidcrawl` to your project with `pnpm add squidcrawl`, then import `DeepcrawlApp` to start making typed API calls.
 - **Configure a typed client**: Create a single server-side client with your API key and reuse it across Server Actions, Workers, or backend services.
-- **Use generated schemas**: Import schema exports from `deepcrawl/schemas` to validate request payloads and response data with Zod.
-- **Share contract types**: Reuse the definitions in `deepcrawl/types` to keep front-end and worker code in sync without duplicating interfaces.
+- **Use generated schemas**: Import schema exports from `squidcrawl/schemas` to validate request payloads and response data with Zod.
+- **Share contract types**: Reuse the definitions in `squidcrawl/types` to keep front-end and worker code in sync without duplicating interfaces.
 
 ## Import Cheat Sheet
 
-The `deepcrawl/types` entry point mirrors the package layout under
+The `squidcrawl/types` entry point mirrors the package layout under
 `packages/types`. Import the groups you need and let TypeScript guide you.
 
 ### Routers (API Endpoints) Types
@@ -24,7 +24,7 @@ import type {
   GetMarkdownResponse,
   ReadUrlOptions,
   ReadUrlResponse,
-} from 'deepcrawl/types';
+} from 'squidcrawl/types';
 
 /* Links endpoints */
 import type {
@@ -32,7 +32,7 @@ import type {
   GetLinksResponse,
   ExtractLinksOptions,
   ExtractLinksResponse,
-} from 'deepcrawl/types';
+} from 'squidcrawl/types';
 
 /* Logs endpoints */
 import type {
@@ -42,7 +42,7 @@ import type {
   GetOneLogResponse,
   ExportResponseOptions,
   ExportResponseOutput,
-} from 'deepcrawl/types';
+} from 'squidcrawl/types';
 
 ```
 
@@ -55,14 +55,14 @@ import type {
   MarkdownConverterOptions,
   LinkExtractionOptions,
   MetadataOptions,
-} from 'deepcrawl/types';
+} from 'squidcrawl/types';
 ```
 
 ### Metrics Types
 
 ```ts
 // Metrics
-import type { MetricsOptions, Metrics } from 'deepcrawl/types';
+import type { MetricsOptions, Metrics } from 'squidcrawl/types';
 ```
 
 ### Common Helpers Types
@@ -74,7 +74,7 @@ import type {
   JoinedRequestPath,
   LinksTree,
   BaseSuccessResponse,
-} from 'deepcrawl/types';
+} from 'squidcrawl/types';
 ```
 
 ### Utilities
@@ -84,7 +84,7 @@ import type {
 import {
   normalizeListLogsPagination,
   OptionalBoolWithDefault,
-} from 'deepcrawl/types/utils';
+} from 'squidcrawl/types/utils';
 
 const pagination = normalizeListLogsPagination({ limit: 150, offset: -5 });
 const optionalFlagSchema = OptionalBoolWithDefault(true);

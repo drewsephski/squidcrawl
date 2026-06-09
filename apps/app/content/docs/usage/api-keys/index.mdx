@@ -88,14 +88,14 @@ Add the key as a secret (e.g., `DEEPCRAWL_API_KEY`) inside GitHub Actions, Verce
 ## Using API keys in code
 
 ```ts
-import { DeepcrawlApp } from 'deepcrawl';
+import { DeepcrawlApp } from 'squidcrawl';
 
-const deepcrawl = new DeepcrawlApp({
+const squidcrawl = new DeepcrawlApp({
   apiKey: process.env.DEEPCRAWL_API_KEY as string,
 });
 
 export async function run() {
-  const markdown = await deepcrawl.getMarkdown('https://example.com');
+  const markdown = await squidcrawl.getMarkdown('https://example.com');
   return markdown;
 }
 ```

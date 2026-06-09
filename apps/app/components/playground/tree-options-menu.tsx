@@ -26,8 +26,8 @@ import {
   TooltipTrigger,
 } from '@deepcrawl/ui/components/ui/tooltip';
 import { cn } from '@deepcrawl/ui/lib/utils';
-import type { TreeOptions } from 'deepcrawl/types';
 import { useRef, useState } from 'react';
+import type { TreeOptions } from 'squidcrawl/types';
 
 interface TreeOptionsMenuProps {
   treeOptions: TreeOptions | undefined;

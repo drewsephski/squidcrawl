@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { type KeyboardEvent, useState } from 'react';
 import { copyToClipboard } from '@/utils';
 
-const CODE = 'npm i deepcrawl';
+const CODE = 'npm i squidcrawl';
 const TIMEOUT = 2000;
 
 type CommandInstallerProps = {

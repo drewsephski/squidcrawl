@@ -13,19 +13,19 @@ Yes. Squidcrawl is 100% free and open for anyone to deploy. Follow the self-host
 
 ### How do I install the SDK?
 
-Run `pnpm add deepcrawl` (or `npm install` / `yarn add`). Then create a server-side client:
+Run `pnpm add squidcrawl` (or `npm install` / `yarn add`). Then create a server-side client:
 
 ```typescript
-import { DeepcrawlApp } from 'deepcrawl';
+import { DeepcrawlApp } from 'squidcrawl';
 
-export const deepcrawl = new DeepcrawlApp({
+export const squidcrawl = new DeepcrawlApp({
   apiKey: process.env.DEEPCRAWL_API_KEY
 });
 ```
 
 ### Where do I find the latest types and schemas?
 
-Types live under `deepcrawl/types`, Zod schemas under `deepcrawl/schemas`, and the raw oRPC contracts in `packages/contracts`. The TypeScript reference docs walk through each export.
+Types live under `squidcrawl/types`, Zod schemas under `squidcrawl/schemas`, and the raw oRPC contracts in `packages/contracts`. The TypeScript reference docs walk through each export.
 
 ### Why do requests fail in the browser?
 

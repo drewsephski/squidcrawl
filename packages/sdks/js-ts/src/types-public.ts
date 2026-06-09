@@ -1,6 +1,6 @@
 /**
- * Public type and utility exports for the Deepcrawl SDK.
- * Enables importing from `deepcrawl/types` without relying on internal packages.
+ * Public type and utility exports for the Squidcrawl SDK.
+ * Enables importing from `squidcrawl/types` without relying on internal packages.
  */
 
 /* Links */

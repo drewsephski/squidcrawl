@@ -215,13 +215,13 @@ export function buildSdkSnippet({
 
   const callLine =
     diff === undefined
-      ? `const ${identifier} = await deepcrawl.${operation}(${urlLiteral});`
-      : `const ${identifier} = await deepcrawl.${operation}(${urlLiteral}, ${formatValue(diff)});`;
+      ? `const ${identifier} = await squidcrawl.${operation}(${urlLiteral});`
+      : `const ${identifier} = await squidcrawl.${operation}(${urlLiteral}, ${formatValue(diff)});`;
 
   const lines = [
-    "import { DeepcrawlApp } from 'deepcrawl';",
+    "import { DeepcrawlApp } from 'squidcrawl';",
     '',
-    'const deepcrawl = new DeepcrawlApp({',
+    'const squidcrawl = new DeepcrawlApp({',
     '  apiKey: process.env.DEEPCRAWL_API_KEY as string,',
     '});',
     '',

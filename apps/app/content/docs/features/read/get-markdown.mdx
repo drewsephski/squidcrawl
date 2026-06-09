@@ -32,13 +32,13 @@ curl \
 ### Node SDK - `getMarkdown()`
 
 ```ts
-import { DeepcrawlApp } from 'deepcrawl';
+import { DeepcrawlApp } from 'squidcrawl';
 
-const deepcrawl = new DeepcrawlApp({
+const squidcrawl = new DeepcrawlApp({
   apiKey: process.env.DEEPCRAWL_API_KEY as string,
 });
 
-const markdown = await deepcrawl.getMarkdown('https://example.com', {
+const markdown = await squidcrawl.getMarkdown('https://example.com', {
  ...getMarkdownOptions,
 });
 ```

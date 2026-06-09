@@ -16,7 +16,6 @@ import {
   ChartTooltipContent,
 } from '@deepcrawl/ui/components/ui/chart';
 import { formatDate } from 'date-fns';
-import type { ActivityLogEntry } from 'deepcrawl/types';
 import { useMemo } from 'react';
 import {
   Area,
@@ -29,6 +28,7 @@ import {
   RadialBarChart,
   XAxis,
 } from 'recharts';
+import type { ActivityLogEntry } from 'squidcrawl/types';
 import { useLogsData } from '@/hooks/use-logs-data';
 import { useLogsDateRange } from '@/hooks/use-logs-date-range';
 import { useLogsFilters } from '@/hooks/use-logs-filters';

@@ -2,9 +2,13 @@
 
 TypeScript SDK for the Squidcrawl API - Web scraping and crawling with comprehensive error handling.
 
-[![npm version](https://badge.fury.io/js/deepcrawl.svg)](https://www.npmjs.com/package/deepcrawl)
+[![npm version](https://badge.fury.io/js/squidcrawl.svg)](https://www.npmjs.com/package/squidcrawl)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org)
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+
+<p align="center">
+  <img src="./scrape.png" alt="Squidcrawl SDK" width="800" />
+</p>
 
 ## ⚡ **Why Squidcrawl SDK?**
 
@@ -19,11 +23,11 @@ TypeScript SDK for the Squidcrawl API - Web scraping and crawling with comprehen
 ## 📦 **Installation**
 
 ```bash
-npm install deepcrawl
+npm install squidcrawl
 # or
-yarn add deepcrawl
+yarn add squidcrawl
 # or
-pnpm add deepcrawl
+pnpm add squidcrawl
 ```
 
 > Zod v4 ships with the SDK as a runtime dependency and is mirrored as a peer dependency.
@@ -33,13 +37,13 @@ pnpm add deepcrawl
 ## 🚀 **Quick Start**
 
 ```typescript
-import { DeepcrawlApp } from 'deepcrawl';
+import { DeepcrawlApp } from 'squidcrawl';
 
-const deepcrawl = new DeepcrawlApp({
-  apiKey: process.env.DEEPCRAWL_API_KEY
+const squidcrawl = new DeepcrawlApp({
+  apiKey: process.env.SQUIDCRAWL_API_KEY
 });
 
-const result = await deepcrawl.readUrl('https://example.com');
+const result = await squidcrawl.readUrl('https://example.com');
 console.log(result.markdown);
 ```
 
@@ -50,7 +54,7 @@ The SDK uses dedicated export paths for better tree-shaking and organization:
 ### **Main Export (SDK Client)**
 
 ```typescript
-import { DeepcrawlApp } from 'deepcrawl';
+import { DeepcrawlApp } from 'squidcrawl';
 ```
 
 ### **Types Export**
@@ -96,7 +100,7 @@ import type {
   DeepcrawlNotFoundError,
   DeepcrawlServerError,
   DeepcrawlNetworkError,
-} from 'deepcrawl/types';
+} from 'squidcrawl/types';
 ```
 
 ### **Schemas Export**
@@ -129,18 +133,18 @@ import {
 
   // services
   CacheOptionsSchema
-} from 'deepcrawl/schemas';
+} from 'squidcrawl/schemas';
 ```
 
-> Importing `z` from `deepcrawl/zod/v4` (or from `deepcrawl/schemas`) reuses the
+> Importing `z` from `squidcrawl/zod/v4` (or from `squidcrawl/schemas`) reuses the
 > SDK's Zod runtime so schema composition works even if your app already has its
 > own Zod installation.
 
 ### **Zod Helper**
 
 ```typescript
-import { z } from 'deepcrawl/zod/v4';
-import { ReadUrlOptionsSchema } from 'deepcrawl/schemas';
+import { z } from 'squidcrawl/zod/v4';
+import { ReadUrlOptionsSchema } from 'squidcrawl/schemas';
 
 const CustomSchema = ReadUrlOptionsSchema.extend({
   customFlag: z.boolean().default(false),
@@ -160,7 +164,7 @@ import {
 
   // Pagination normalization
   normalizeListLogsPagination
-} from 'deepcrawl/types/utils';
+} from 'squidcrawl/types/utils';
 
 // Example: Create optional boolean schema with default
 const schema = OptionalBoolWithDefault(true);
@@ -177,12 +181,12 @@ const normalized = normalizeListLogsPagination({ limit: 150, offset: -5 });
 Extract clean content and metadata from any URL.
 
 ```typescript
-import { DeepcrawlApp } from 'deepcrawl';
-import type { ReadUrlOptions } from 'deepcrawl/types';
+import { DeepcrawlApp } from 'squidcrawl';
+import type { ReadUrlOptions } from 'squidcrawl/types';
 
-const deepcrawl = new DeepcrawlApp({ apiKey: process.env.DEEPCRAWL_API_KEY });
+const squidcrawl = new DeepcrawlApp({ apiKey: process.env.SQUIDCRAWL_API_KEY });
 
-const result = await deepcrawl.readUrl('https://example.com', {
+const result = await squidcrawl.readUrl('https://example.com', {
   metadata: true,
   markdown: true,
   cleanedHtml: true,
@@ -199,11 +203,11 @@ console.log(result.metrics?.readableDuration);
 Simplified method to get just markdown content.
 
 ```typescript
-import { DeepcrawlApp } from 'deepcrawl';
+import { DeepcrawlApp } from 'squidcrawl';
 
-const deepcrawl = new DeepcrawlApp({ apiKey: process.env.DEEPCRAWL_API_KEY });
+const squidcrawl = new DeepcrawlApp({ apiKey: process.env.SQUIDCRAWL_API_KEY });
 
-const result = await deepcrawl.getMarkdown('https://example.com', {
+const result = await squidcrawl.getMarkdown('https://example.com', {
   metricsOptions: { enable: true }
 });
 
@@ -215,12 +219,12 @@ console.log(result.markdown);
 Extract all links from a page with powerful filtering options.
 
 ```typescript
-import { DeepcrawlApp } from 'deepcrawl';
-import type { ExtractLinksOptions } from 'deepcrawl/types';
+import { DeepcrawlApp } from 'squidcrawl';
+import type { ExtractLinksOptions } from 'squidcrawl/types';
 
-const deepcrawl = new DeepcrawlApp({ apiKey: process.env.DEEPCRAWL_API_KEY });
+const squidcrawl = new DeepcrawlApp({ apiKey: process.env.SQUIDCRAWL_API_KEY });
 
-const result = await deepcrawl.extractLinks('https://example.com', {
+const result = await squidcrawl.extractLinks('https://example.com', {
   includeInternal: true,
   includeExternal: false,
   includeEmails: false,
@@ -238,12 +242,12 @@ console.log(result.tree.socialMedia);
 Retrieve activity logs with paginated results and filtering.
 
 ```typescript
-import { DeepcrawlApp } from 'deepcrawl';
-import type { ListLogsOptions } from 'deepcrawl/types';
+import { DeepcrawlApp } from 'squidcrawl';
+import type { ListLogsOptions } from 'squidcrawl/types';
 
-const deepcrawl = new DeepcrawlApp({ apiKey: process.env.DEEPCRAWL_API_KEY });
+const squidcrawl = new DeepcrawlApp({ apiKey: process.env.SQUIDCRAWL_API_KEY });
 
-const result = await deepcrawl.listLogs({
+const result = await squidcrawl.listLogs({
   limit: 50,
   offset: 0,
   path: 'read-getMarkdown',
@@ -263,12 +267,12 @@ console.log(result.meta.hasMore);
 Get a single activity log entry by ID.
 
 ```typescript
-import { DeepcrawlApp } from 'deepcrawl';
-import type { GetOneLogOptions } from 'deepcrawl/types';
+import { DeepcrawlApp } from 'squidcrawl';
+import type { GetOneLogOptions } from 'squidcrawl/types';
 
-const deepcrawl = new DeepcrawlApp({ apiKey: process.env.DEEPCRAWL_API_KEY });
+const squidcrawl = new DeepcrawlApp({ apiKey: process.env.SQUIDCRAWL_API_KEY });
 
-const log = await deepcrawl.getOneLog({ id: 'request-id-123' });
+const log = await squidcrawl.getOneLog({ id: 'request-id-123' });
 
 console.log(log.path);
 console.log(log.response);
@@ -279,14 +283,14 @@ console.log(log.response);
 ### **E-commerce Product Monitoring**
 
 ```typescript
-import { DeepcrawlApp } from 'deepcrawl';
-import type { ReadUrlOptions } from 'deepcrawl/types';
+import { DeepcrawlApp } from 'squidcrawl';
+import type { ReadUrlOptions } from 'squidcrawl/types';
 
-const deepcrawl = new DeepcrawlApp({ apiKey: process.env.DEEPCRAWL_API_KEY });
+const squidcrawl = new DeepcrawlApp({ apiKey: process.env.SQUIDCRAWL_API_KEY });
 
 async function monitorProduct(productUrl: string) {
   try {
-    const result = await deepcrawl.readUrl(productUrl, {
+    const result = await squidcrawl.readUrl(productUrl, {
       metadata: true,
       cleanedHtml: true
     });
@@ -309,14 +313,14 @@ async function monitorProduct(productUrl: string) {
 ### **Content Aggregation Pipeline**
 
 ```typescript
-import { DeepcrawlApp } from 'deepcrawl';
-import type { ReadUrlResponse } from 'deepcrawl/types';
+import { DeepcrawlApp } from 'squidcrawl';
+import type { ReadUrlResponse } from 'squidcrawl/types';
 
-const deepcrawl = new DeepcrawlApp({ apiKey: process.env.DEEPCRAWL_API_KEY });
+const squidcrawl = new DeepcrawlApp({ apiKey: process.env.SQUIDCRAWL_API_KEY });
 
 async function aggregateArticles(urls: string[]) {
   const results = await Promise.allSettled(
-    urls.map(url => deepcrawl.readUrl(url, {
+    urls.map(url => squidcrawl.readUrl(url, {
       metadata: true,
       markdown: true
     }))
@@ -337,18 +341,18 @@ async function aggregateArticles(urls: string[]) {
 // app/actions/scrape.ts
 'use server'
 
-import { DeepcrawlApp } from 'deepcrawl';
+import { DeepcrawlApp } from 'squidcrawl';
 import { headers } from 'next/headers';
 import { revalidatePath } from 'next/cache';
 
 export async function scrapeUrlAction(url: string) {
-  const deepcrawl = new DeepcrawlApp({
-    apiKey: process.env.DEEPCRAWL_API_KEY,
+  const squidcrawl = new DeepcrawlApp({
+    apiKey: process.env.SQUIDCRAWL_API_KEY,
     headers: await headers(),
   });
 
   try {
-    const result = await deepcrawl.readUrl(url, {
+    const result = await squidcrawl.readUrl(url, {
       metadata: true,
       markdown: true,
     });
@@ -378,29 +382,29 @@ export async function scrapeUrlAction(url: string) {
 
 ```typescript
 import { useState, useCallback } from 'react';
-import { DeepcrawlApp } from 'deepcrawl';
-import type { ReadUrlResponse } from 'deepcrawl/types';
+import { DeepcrawlApp } from 'squidcrawl';
+import type { ReadUrlResponse } from 'squidcrawl/types';
 
 export function useScraping(apiKey: string) {
   const [data, setData] = useState<ReadUrlResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const deepcrawl = new DeepcrawlApp({ apiKey });
+  const squidcrawl = new DeepcrawlApp({ apiKey });
 
   const scrape = useCallback(async (url: string) => {
     setLoading(true);
     setError(null);
 
     try {
-      const result = await deepcrawl.readUrl(url, { metadata: true });
+      const result = await squidcrawl.readUrl(url, { metadata: true });
       setData(result);
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
-  }, [deepcrawl]);
+  }, [squidcrawl]);
 
   return { data, loading, error, scrape };
 }
@@ -412,14 +416,14 @@ export function useScraping(apiKey: string) {
 // app/actions/logs.ts
 'use server';
 
-import { DeepcrawlApp } from 'deepcrawl';
-import type { ListLogsResponse } from 'deepcrawl/types';
+import { DeepcrawlApp } from 'squidcrawl';
+import type { ListLogsResponse } from 'squidcrawl/types';
 
-const deepcrawl = new DeepcrawlApp({ apiKey: process.env.DEEPCRAWL_API_KEY });
+const squidcrawl = new DeepcrawlApp({ apiKey: process.env.SQUIDCRAWL_API_KEY });
 
 export async function getActivityLogs() {
   try {
-    const logs = await deepcrawl.listLogs({
+    const logs = await squidcrawl.listLogs({
       limit: 50,
       offset: 0
     });
@@ -448,18 +452,18 @@ import type {
   DeepcrawlNotFoundError,
   DeepcrawlServerError,
   DeepcrawlNetworkError,
-} from 'deepcrawl/types';
+} from 'squidcrawl/types';
 ```
 
 ### **Try/Catch Pattern**
 
 ```typescript
-import { DeepcrawlApp } from 'deepcrawl';
+import { DeepcrawlApp } from 'squidcrawl';
 
-const deepcrawl = new DeepcrawlApp({ apiKey: process.env.DEEPCRAWL_API_KEY });
+const squidcrawl = new DeepcrawlApp({ apiKey: process.env.SQUIDCRAWL_API_KEY });
 
 try {
-  const result = await deepcrawl.readUrl(url);
+  const result = await squidcrawl.readUrl(url);
 } catch (error) {
   if (error.isRateLimit?.()) {
     console.log(`Retry after ${error.retryAfter}s`);
@@ -472,12 +476,12 @@ try {
 ### **Instance Type Checking**
 
 ```typescript
-import { DeepcrawlApp } from 'deepcrawl';
+import { DeepcrawlApp } from 'squidcrawl';
 
-const deepcrawl = new DeepcrawlApp({ apiKey: process.env.DEEPCRAWL_API_KEY });
+const squidcrawl = new DeepcrawlApp({ apiKey: process.env.SQUIDCRAWL_API_KEY });
 
 try {
-  const result = await deepcrawl.readUrl(url);
+  const result = await squidcrawl.readUrl(url);
 } catch (error) {
   // Check error type using instance methods
   if (error.isAuth?.()) {
@@ -510,11 +514,11 @@ Read/Links errors include:
 ## 🔧 **Configuration**
 
 ```typescript
-import { DeepcrawlApp } from 'deepcrawl';
-import type { DeepcrawlConfig } from 'deepcrawl/types';
+import { DeepcrawlApp } from 'squidcrawl';
+import type { DeepcrawlConfig } from 'squidcrawl/types';
 
-const deepcrawl = new DeepcrawlApp({
-  apiKey: process.env.DEEPCRAWL_API_KEY,
+const squidcrawl = new DeepcrawlApp({
+  apiKey: process.env.SQUIDCRAWL_API_KEY,
   baseUrl: "https://api.squidcrawl.dev",
   headers: {
     'User-Agent': 'MyApp/1.0'
@@ -552,13 +556,13 @@ Benefits:
 ### **Next.js Server Actions (Recommended)**
 
 ```typescript
-// ✅ SECURE: lib/deepcrawl.ts
+// ✅ SECURE: lib/squidcrawl.ts
 'use server';
 
-import { DeepcrawlApp } from 'deepcrawl';
+import { DeepcrawlApp } from 'squidcrawl';
 
-export const deepcrawlClient = new DeepcrawlApp({
-  apiKey: process.env.DEEPCRAWL_API_KEY
+export const squidcrawlClient = new DeepcrawlApp({
+  apiKey: process.env.SQUIDCRAWL_API_KEY
 });
 ```
 
@@ -566,10 +570,10 @@ export const deepcrawlClient = new DeepcrawlApp({
 // ✅ SECURE: app/actions/scrape.ts
 'use server';
 
-import { deepcrawlClient } from '@/lib/deepcrawl';
+import { squidcrawlClient } from '@/lib/squidcrawl';
 
 export async function scrapeAction(url: string) {
-  return deepcrawlClient.readUrl(url);
+  return squidcrawlClient.readUrl(url);
 }
 ```
 
@@ -595,11 +599,11 @@ export function ScrapeButton() {
 // ❌ INSECURE: Direct SDK usage in client components
 'use client';
 
-import { DeepcrawlApp } from 'deepcrawl';
+import { DeepcrawlApp } from 'squidcrawl';
 
 export function BadComponent() {
-  const deepcrawl = new DeepcrawlApp({
-    apiKey: process.env.DEEPCRAWL_API_KEY // ❌ Exposes API key!
+  const squidcrawl = new DeepcrawlApp({
+    apiKey: process.env.SQUIDCRAWL_API_KEY // ❌ Exposes API key!
   });
 }
 ```

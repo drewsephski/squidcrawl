@@ -2,7 +2,7 @@ export const PLAYGROUND_API_KEY_NAME = 'PLAYGROUND_API_KEY';
 
 // Local storage key for the system-managed playground API key.
 // Versioned so we can change the shape safely in the future.
-const PLAYGROUND_API_KEY_STORAGE_KEY = 'deepcrawl.playgroundApiKey.v1';
+const PLAYGROUND_API_KEY_STORAGE_KEY = 'squidcrawl.playgroundApiKey.v1';
 
 export type StoredPlaygroundApiKey = {
   key: string;

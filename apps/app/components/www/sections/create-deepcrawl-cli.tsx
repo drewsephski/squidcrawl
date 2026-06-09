@@ -6,7 +6,7 @@ import { ArrowRight } from 'lucide-react';
 import { motion, useReducedMotion } from 'motion/react';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { CreateDeepcrawlTerminal } from '../create-deepcrawl-terminal';
+import { CreateDeepcrawlTerminal } from '../create-squidcrawl-terminal';
 import { H2 } from '../h2';
 import { CommandInstaller } from '../installer';
 import { Tick } from '../tick';
@@ -49,7 +49,7 @@ export function CreateDeepcrawlCliSection() {
   }, [isVisible]);
 
   return (
-    <section className="relative" id="create-deepcrawl" ref={rootRef}>
+    <section className="relative" id="create-squidcrawl" ref={rootRef}>
       <Tick position={['top-right']} />
       <Badge
         className="absolute top-4 left-4 border-cyan-300/30 md:hidden"

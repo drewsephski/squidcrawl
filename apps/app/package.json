@@ -64,7 +64,7 @@
     "cobe": "^0.6.5",
     "color-bits": "^1.1.1",
     "date-fns": "catalog:",
-    "deepcrawl": "workspace:*",
+    "squidcrawl": "workspace:*",
     "deepmerge-ts": "^7.1.5",
     "dotted-map": "^2.2.3",
     "drizzle-orm": "catalog:",

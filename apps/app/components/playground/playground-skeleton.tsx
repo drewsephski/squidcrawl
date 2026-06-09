@@ -1,6 +1,6 @@
-import { DeepcrawlLogoText } from '../deepcrawl-logo';
 import { LoadingSpinner } from '../loading-spinner';
 import { PageContainer, PageTitle } from '../page-elements';
+import { DeepcrawlLogoText } from '../squidcrawl-logo';
 
 export function PlaygroundSkeleton() {
   return (

@@ -11,7 +11,7 @@
  *
  * // Pagination normalization
  * normalizeListLogsPagination
- * } from 'deepcrawl/types/utils';
+ * } from 'squidcrawl/types/utils';
  *
  * // Example: Create optional boolean schema with default
  * const schema = OptionalBoolWithDefault(true);

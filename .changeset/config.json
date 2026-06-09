@@ -15,7 +15,7 @@
   "ignore": [
     "workers",
     "dashboard",
-    "create-deepcrawl",
+    "create-squidcrawl",
     "deepcrawl-worker-auth",
     "deepcrawl-worker-v0",
     "@deepcrawl/auth",

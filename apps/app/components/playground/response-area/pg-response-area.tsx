@@ -8,14 +8,14 @@ import {
 } from '@deepcrawl/ui/components/annui/icon-hover-button';
 import { Badge } from '@deepcrawl/ui/components/ui/badge';
 import { cn } from '@deepcrawl/ui/lib/utils';
+import { ChevronUp, ExternalLink, Share } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 import type {
   ExtractLinksResponse,
   GetMarkdownResponse,
   ReadUrlResponse,
-} from 'deepcrawl/types';
-import { ChevronUp, ExternalLink, Share } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
+} from 'squidcrawl/types';
 import {
   usePlaygroundActionsSelector,
   usePlaygroundCoreSelector,

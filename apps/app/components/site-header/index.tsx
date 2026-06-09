@@ -17,9 +17,9 @@ import { IconBook } from '@tabler/icons-react';
 import Link from 'next/link';
 import type { NavigationMode } from '@/components/providers';
 import type { AuthMode } from '@/lib/auth-mode';
-import { DeepcrawlLogo } from '../deepcrawl-logo';
 import { LayoutToggle } from '../layout-toggle';
 import { SearchTrigger } from '../search-trigger';
+import { DeepcrawlLogo } from '../squidcrawl-logo';
 import { UserDropdown } from '../user/user-dropdown';
 
 export interface SiteHeaderProps {

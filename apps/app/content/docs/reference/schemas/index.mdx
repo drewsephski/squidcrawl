@@ -5,9 +5,9 @@ description: Zod schemas overview and cheat sheet for the Squidcrawl API.
 
 ## Guides
 
-- **Load schemas from one place**: `deepcrawl/schemas` aggregates every Zod
+- **Load schemas from one place**: `squidcrawl/schemas` aggregates every Zod
   definition so downstream apps, Workers, and SDKs stay in sync.
-- **Validate requests and responses**: Pair these schemas with `deepcrawl/types`
+- **Validate requests and responses**: Pair these schemas with `squidcrawl/types`
   to guarantee runtime validation matches TypeScript expectations.
 - **Avoid circular imports internally**: Inside `packages/types`, use relative
   paths as documented in `schemas.ts`. External consumers should use the barrel.
@@ -20,7 +20,7 @@ description: Zod schemas overview and cheat sheet for the Squidcrawl API.
 import {
   BaseErrorResponseSchema,
   BaseSuccessResponseSchema,
-} from 'deepcrawl/schemas';
+} from 'squidcrawl/schemas';
 ```
 
 ### Router Schemas
@@ -34,7 +34,7 @@ import {
   ReadUrlResponseSchema,
   ReadSuccessResponseSchema,
   ReadErrorResponseSchema,
-} from 'deepcrawl/schemas';
+} from 'squidcrawl/schemas';
 
 // Links endpoints
 import {
@@ -52,7 +52,7 @@ import {
   LinksSuccessResponseWithoutTreeSchema,
   LinksErrorResponseSchema,
   LinksTreeSchema,
-} from 'deepcrawl/schemas';
+} from 'squidcrawl/schemas';
 
 // Logs endpoints
 import {
@@ -63,7 +63,7 @@ import {
   ExportResponseOptionsSchema,
   ExportResponseOutputSchema,
   JoinedRequestPathSchema,
-} from 'deepcrawl/schemas';
+} from 'squidcrawl/schemas';
 ```
 
 ### Metrics Schemas
@@ -72,7 +72,7 @@ import {
 import {
   MetricsOptionsSchema,
   MetricsSchema,
-} from 'deepcrawl/schemas';
+} from 'squidcrawl/schemas';
 ```
 
 ### Service Schemas
@@ -86,5 +86,5 @@ import {
   PageMetadataSchema,
   ScrapeOptionsSchema,
   ScrapedDataSchema,
-} from 'deepcrawl/schemas';
+} from 'squidcrawl/schemas';
 ```

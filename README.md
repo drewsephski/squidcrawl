@@ -1,7 +1,5 @@
 # Squidcrawl
 
-> WARNING: DO NOT USE SQUIDCRAWL IN PRODUCTION RIGHT NOW AS IT IS SUBJECT TO CHANGE AND STILL UNDER RAPID DEVELOPMENT. USE AT YOUR OWN RISK!
-
 **100% free and open-source Firecrawl alternative with better performance and flexibility.**
 
 Ask DeepWiki about this repo
@@ -29,15 +27,4 @@ Please read the [contributing guide](./CONTRIBUTING.md).
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-Open Source. Open Code - built with ❤️ by [Drew Sepeczi](https://instagram.com/drew.sepeczi).
-
-## Star History
-
-<a href="https://www.star-history.com/#drewsephski/squidcrawl&type=date&legend=top-left">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=drewsephski/squidcrawl&type=date&theme=dark&legend=top-left" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=drewsephski/squidcrawl&type=date&legend=top-left" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=drewsephski/squidcrawl&type=date&legend=top-left" />
- </picture>
-</a>
-# squidcrawl
+Open Source. Built by [Drew Sepeczi](https://instagram.com/drew.sepeczi).

@@ -17,10 +17,10 @@ import {
 import { Skeleton } from '@deepcrawl/ui/components/ui/skeleton';
 import type { ColumnDef, Row } from '@tanstack/react-table';
 import { formatDate } from 'date-fns';
-import type { ExportFormat } from 'deepcrawl/types';
 import { Download, Ellipsis } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import type { ExportFormat } from 'squidcrawl/types';
 import { exportLogResponse } from '@/query/logs-query.client';
 import { copyToClipboard } from '@/utils/clipboard';
 

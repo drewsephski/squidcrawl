@@ -20,9 +20,9 @@ Follow these steps to give your agent a precise site map without downloading who
 1. **Share a Squidcrawl client.**
 
    ```ts title="lib/deepcrawl.ts"
-   import { DeepcrawlApp } from 'deepcrawl';
+   import { DeepcrawlApp } from 'squidcrawl';
 
-   export const deepcrawl = new DeepcrawlApp({
+   export const squidcrawl = new DeepcrawlApp({
      apiKey: process.env.DEEPCRAWL_API_KEY!,
    });
    ```
@@ -35,7 +35,7 @@ Follow these steps to give your agent a precise site map without downloading who
    export const runtime = 'edge';
 
    export async function GET() {
-     const result = await deepcrawl.extractLinks({
+     const result = await squidcrawl.extractLinks({
        url: 'https://example.com',
        tree: true,
        depth: 2,
@@ -65,7 +65,7 @@ Follow these steps to give your agent a precise site map without downloading who
    import { deepcrawl } from '@/lib/deepcrawl';
 
    export async function fetchPageSummary(url: string) {
-     const { tree } = await deepcrawl.extractLinks({ url, tree: true, depth: 1 });
+     const { tree } = await squidcrawl.extractLinks({ url, tree: true, depth: 1 });
      const docsLink = tree.children?.find((child) =>
        child.url.includes('/docs/')
      );
@@ -74,7 +74,7 @@ Follow these steps to give your agent a precise site map without downloading who
        return { url, note: 'No docs section found' };
      }
 
-     const page = await deepcrawl.readUrl({
+     const page = await squidcrawl.readUrl({
        url: docsLink.url,
        markdown: true,
        metadata: true,

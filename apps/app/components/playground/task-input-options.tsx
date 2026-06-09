@@ -9,7 +9,7 @@
 //   ExtractLinksOptions,
 //   GetMarkdownOptions,
 //   ReadUrlOptions,
-// } from 'deepcrawl';
+// } from 'squidcrawl';
 // import type { DeepcrawlOperations } from '@/hooks/playground/use-task-input-state';
 // import { OptionsPanel } from './options-panel';
 

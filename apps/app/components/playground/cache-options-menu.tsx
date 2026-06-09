@@ -18,8 +18,8 @@ import {
   TooltipTrigger,
 } from '@deepcrawl/ui/components/ui/tooltip';
 import { cn } from '@deepcrawl/ui/lib/utils';
-import type { CacheOptions } from 'deepcrawl/types';
 import { useCallback, useRef, useState } from 'react';
+import type { CacheOptions } from 'squidcrawl/types';
 import { usePlaygroundOptionsSelector } from '@/contexts/playground-context';
 import type { PlaygroundOptionsContextValue } from '@/hooks/playground/types';
 import { formatDaysFromSeconds } from '@/utils/playground/formatter';

@@ -3,11 +3,11 @@ import {
   LIST_LOGS_DEFAULT_SORT_DIRECTION,
 } from '@deepcrawl/types/configs/default';
 import type { SortingState } from '@tanstack/react-table';
+import { useMemo, useState } from 'react';
 import type {
   ListLogsSortColumn,
   ListLogsSortDirection,
-} from 'deepcrawl/types';
-import { useMemo, useState } from 'react';
+} from 'squidcrawl/types';
 
 const COLUMN_TO_SORT_COLUMN: Record<string, ListLogsSortColumn> = {
   timestamp: 'requestTimestamp',

@@ -1,4 +1,4 @@
-name: Release Deepcrawl JS-TS SDK
+name: Release Squidcrawl JS-TS SDK
 
 on:
   push:
@@ -59,15 +59,15 @@ jobs:
           TURBO_TEAM: ${{ vars.TURBO_TEAM }}
 
       - name: Test typescript sdk
-        run: pnpm --filter deepcrawl test -- --run
+        run: pnpm --filter squidcrawl test -- --run
         continue-on-error: false
 
       - name: Create release PR or publish
         id: changesets
         uses: changesets/action@v1
         with:
-          commit: "chore:release: deepcrawl sdk-ts"
-          title: "chore:release: deepcrawl sdk-ts"
+          commit: "chore:release: squidcrawl sdk-ts"
+          title: "chore:release: squidcrawl sdk-ts"
           version: node .github/changeset-version.js
           publish: npx changeset publish
           createGithubReleases: true

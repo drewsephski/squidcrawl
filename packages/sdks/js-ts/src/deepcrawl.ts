@@ -468,7 +468,7 @@ export class DeepcrawlApp {
    *
    * @example
    * ```typescript
-   * import { DeepcrawlApp, GetMarkdownResponse } from 'deepcrawl';
+   * import { DeepcrawlApp, GetMarkdownResponse } from 'squidcrawl';
    *
    * const dc = new DeepcrawlApp({ apiKey: 'your-api-key' });
    *
@@ -502,7 +502,7 @@ export class DeepcrawlApp {
    *
    * @example
    * ```typescript
-   * import { DeepcrawlApp, GetMarkdownOptions, GetMarkdownResponse } from 'deepcrawl';
+   * import { DeepcrawlApp, GetMarkdownOptions, GetMarkdownResponse } from 'squidcrawl';
    *
    * const dc = new DeepcrawlApp({ apiKey: 'your-api-key' });
    *
@@ -573,7 +573,7 @@ export class DeepcrawlApp {
    *
    * @example
    * ```typescript
-   * import { DeepcrawlApp, ReadUrlResponse } from 'deepcrawl';
+   * import { DeepcrawlApp, ReadUrlResponse } from 'squidcrawl';
    *
    * const dc = new DeepcrawlApp({ apiKey: 'your-api-key' });
    *
@@ -606,7 +606,7 @@ export class DeepcrawlApp {
    *
    * @example
    * ```typescript
-   * import { DeepcrawlApp, ReadUrlOptions, ReadUrlResponse } from 'deepcrawl';
+   * import { DeepcrawlApp, ReadUrlOptions, ReadUrlResponse } from 'squidcrawl';
    *
    * const dc = new DeepcrawlApp({ apiKey: 'your-api-key' });
    *
@@ -667,7 +667,7 @@ export class DeepcrawlApp {
    *
    * @example
    * ```typescript
-   * import { DeepcrawlApp, ExtractLinksResponse } from 'deepcrawl';
+   * import { DeepcrawlApp, ExtractLinksResponse } from 'squidcrawl';
    *
    * const dc = new DeepcrawlApp({ apiKey: 'your-api-key' });
    *
@@ -700,7 +700,7 @@ export class DeepcrawlApp {
    *
    * @example
    * ```typescript
-   * import { DeepcrawlApp, ExtractLinksOptions, ExtractLinksResponse } from 'deepcrawl';
+   * import { DeepcrawlApp, ExtractLinksOptions, ExtractLinksResponse } from 'squidcrawl';
    *
    * const dc = new DeepcrawlApp({ apiKey: 'your-api-key' });
    *
@@ -778,7 +778,7 @@ export class DeepcrawlApp {
    *
    * @example Basic usage
    * ```typescript
-   * import { DeepcrawlApp, ListLogsResponse } from 'deepcrawl';
+   * import { DeepcrawlApp, ListLogsResponse } from 'squidcrawl';
    *
    * const dc = new DeepcrawlApp({ apiKey: 'your-api-key' });
    *
@@ -856,7 +856,7 @@ export class DeepcrawlApp {
    *
    * @example Basic usage
    * ```typescript
-   * import { DeepcrawlApp, GetOneLogResponse } from 'deepcrawl';
+   * import { DeepcrawlApp, GetOneLogResponse } from 'squidcrawl';
    *
    * const dc = new DeepcrawlApp({ apiKey: 'your-api-key' });
    *
@@ -922,7 +922,7 @@ export class DeepcrawlApp {
    *
    * @example Export as JSON
    * ```typescript
-   * import { DeepcrawlApp, ExportResponseOutput } from 'deepcrawl';
+   * import { DeepcrawlApp, ExportResponseOutput } from 'squidcrawl';
    *
    * const dc = new DeepcrawlApp({ apiKey: 'your-api-key' });
    *

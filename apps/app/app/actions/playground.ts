@@ -8,15 +8,15 @@ import type {
   ReadUrlOptions,
   ReadUrlResponse,
 } from '@deepcrawl/contracts';
-import { DeepcrawlApp } from 'deepcrawl';
+import { headers } from 'next/headers';
+import { DeepcrawlApp } from 'squidcrawl';
 import {
   DeepcrawlAuthError,
   DeepcrawlError,
   DeepcrawlLinksError,
   DeepcrawlNetworkError,
   DeepcrawlReadError,
-} from 'deepcrawl/types';
-import { headers } from 'next/headers';
+} from 'squidcrawl/types';
 import type { PlaygroundResponse } from '@/hooks/playground/types';
 import { buildDeepcrawlHeaders } from '@/lib/auth-mode';
 

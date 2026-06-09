@@ -18,8 +18,8 @@ import {
   TooltipTrigger,
 } from '@deepcrawl/ui/components/ui/tooltip';
 import { cn } from '@deepcrawl/ui/lib/utils';
-import type { ExtractLinksOptions } from 'deepcrawl/types';
 import { useCallback, useRef, useState } from 'react';
+import type { ExtractLinksOptions } from 'squidcrawl/types';
 import {
   usePlaygroundCoreSelector,
   usePlaygroundOptionsSelector,

@@ -15,7 +15,7 @@ import {
 import * as React from 'react';
 import { NavMain } from '@/components/sidebar/nav-main';
 import { getNavigationItems } from '@/lib/navigation-config';
-import { DeepcrawlLogo } from '../deepcrawl-logo';
+import { DeepcrawlLogo } from '../squidcrawl-logo';
 
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   session?: Session;

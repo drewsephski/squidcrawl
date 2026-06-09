@@ -1,9 +1,9 @@
 import { APP_COOKIE_PREFIX } from '@deepcrawl/auth/configs/constants';
 import { getSessionCookie } from 'better-auth/cookies';
-import { DeepcrawlApp } from 'deepcrawl';
-import { DeepcrawlError } from 'deepcrawl/types';
 import { headers } from 'next/headers';
 import { type NextRequest, NextResponse } from 'next/server';
+import { DeepcrawlApp } from 'squidcrawl';
+import { DeepcrawlError } from 'squidcrawl/types';
 import { z } from 'zod';
 import { buildDeepcrawlHeaders, isBetterAuthMode } from '@/lib/auth-mode';
 import { parseListLogsSearchParams } from '@/utils/logs';

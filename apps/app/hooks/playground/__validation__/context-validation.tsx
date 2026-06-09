@@ -9,8 +9,8 @@
 
 'use client';
 
-import type { CacheOptions } from 'deepcrawl/types';
 import { useEffect } from 'react';
+import type { CacheOptions } from 'squidcrawl/types';
 import {
   PlaygroundProvider,
   usePlayground,

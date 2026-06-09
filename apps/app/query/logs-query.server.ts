@@ -2,9 +2,9 @@
 
 import type { ListLogsOptions, ListLogsResponse } from '@deepcrawl/contracts';
 import { resolveListLogsOptions } from '@deepcrawl/contracts';
-import { DeepcrawlApp } from 'deepcrawl';
-import { normalizeListLogsPagination } from 'deepcrawl/types';
 import { headers } from 'next/headers';
+import { DeepcrawlApp } from 'squidcrawl';
+import { normalizeListLogsPagination } from 'squidcrawl/types';
 import { buildDeepcrawlHeaders } from '@/lib/auth-mode';
 
 // import { z } from 'zod/v4';

@@ -14,7 +14,7 @@
 //   GetMarkdownResponse,
 //   ReadUrlOptions,
 //   ReadUrlResponse,
-// } from 'deepcrawl';
+// } from 'squidcrawl';
 // import {
 //   parseAsJson,
 //   parseAsString,

@@ -37,13 +37,13 @@ curl \
 ### Node SDK - `readUrl()`
 
 ```ts
-import { DeepcrawlApp } from 'deepcrawl';
+import { DeepcrawlApp } from 'squidcrawl';
 
-const deepcrawl = new DeepcrawlApp({
+const squidcrawl = new DeepcrawlApp({
   apiKey: process.env.DEEPCRAWL_API_KEY as string,
 });
 
-const result = await deepcrawl.readUrl('https://example.com', {
+const result = await squidcrawl.readUrl('https://example.com', {
   ...readUrlOptions,
 });
 

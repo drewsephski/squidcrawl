@@ -1,11 +1,11 @@
 import { resolveListLogsOptions } from '@deepcrawl/contracts';
+import { useMemo } from 'react';
 import type {
   ActivityLogEntry,
   ListLogsResponseMeta,
   ListLogsSortColumn,
   ListLogsSortDirection,
-} from 'deepcrawl/types';
-import { useMemo } from 'react';
+} from 'squidcrawl/types';
 import { getLogStatus } from '@/components/logs/logs-columns';
 import type { FilterOption } from '@/components/logs/logs-filter-popover';
 import { useSuspenseListLogs } from '@/hooks/logs.hooks';

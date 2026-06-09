@@ -11,7 +11,7 @@ Cron jobs let you run Squidcrawl tasks on a schedule so you can keep data fresh 
 ## Before you start
 - Next.js 16 App Router project deployed to Vercel.
 - A `DEEPCRAWL_API_KEY` in your Vercel environment variables.
-- `deepcrawl` npm package installed (`pnpm add deepcrawl`).
+- `squidcrawl` npm package installed (`pnpm add squidcrawl`).
 
 ## Step-by-step: schedule a Squidcrawl task
 1. **Describe the schedule in `vercel.json`.** This example runs every week on Sunday at midnight (UTC).
@@ -30,9 +30,9 @@ Cron jobs let you run Squidcrawl tasks on a schedule so you can keep data fresh 
 2. **Create a shared Squidcrawl client.** Keep the client server-only so your API key never reaches the browser.
 
    ```ts title="lib/deepcrawl.ts"
-   import { DeepcrawlApp } from 'deepcrawl';
+   import { DeepcrawlApp } from 'squidcrawl';
 
-   export const deepcrawl = new DeepcrawlApp({
+   export const squidcrawl = new DeepcrawlApp({
      apiKey: process.env.DEEPCRAWL_API_KEY as string,
    });
    ```
@@ -45,7 +45,7 @@ Cron jobs let you run Squidcrawl tasks on a schedule so you can keep data fresh 
    export const runtime = 'edge'; // optional, works with serverless too
 
    export async function GET() {
-     const response = await deepcrawl.readUrl({
+     const response = await squidcrawl.readUrl({
        url: 'https://example.com/docs',
        markdown: true,
        metadata: true,

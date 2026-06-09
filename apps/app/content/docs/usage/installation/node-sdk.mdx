@@ -20,28 +20,28 @@ Squidcrawl’s SDK wraps every API endpoint with typed methods, retry helpers, a
   <Tab>
 
 ```bash
-pnpm add deepcrawl
+pnpm add squidcrawl
 ```
 
   </Tab>
   <Tab>
 
 ```bash
-npm install deepcrawl
+npm install squidcrawl
 ```
 
   </Tab>
   <Tab>
 
 ```bash
-yarn add deepcrawl
+yarn add squidcrawl
 ```
 
   </Tab>
   <Tab>
 
 ```bash
-bun add deepcrawl
+bun add squidcrawl
 ```
 
   </Tab>
@@ -73,9 +73,9 @@ DEEPCRAWL_API_URL=https://your-worker.example.com
 
 ```ts
 // src/lib/deepcrawl.ts
-import { DeepcrawlApp } from 'deepcrawl';
+import { DeepcrawlApp } from 'squidcrawl';
 
-export const deepcrawl = new DeepcrawlApp({
+export const squidcrawl = new DeepcrawlApp({
   apiKey: process.env.DEEPCRAWL_API_KEY as string,
   baseUrl: process.env.DEEPCRAWL_API_URL, // Optional for self-hosted API deployment
 });
@@ -94,7 +94,7 @@ The constructor automatically sets headers (`Authorization`, `x-api-key`, `User-
 import { deepcrawl } from '@/lib/deepcrawl';
 
 export async function getMarkdown(url: string) {
-  const markdown = await deepcrawl.getMarkdown(url);
+  const markdown = await squidcrawl.getMarkdown(url);
   // const markdown = await deepcrawl.getMarkdown(url, {...options}); // with more options
 
   return markdown; // string (clean markdown)
@@ -108,7 +108,7 @@ export async function getMarkdown(url: string) {
 import { deepcrawl } from '@/lib/deepcrawl';
 
 export async function readUrl(url: string) {
-  const result = await deepcrawl.readUrl(url);
+  const result = await squidcrawl.readUrl(url);
   // const result = await deepcrawl.readUrl(url, {...options}); // with more options
 
   return result;
@@ -122,7 +122,7 @@ export async function readUrl(url: string) {
 import { deepcrawl } from '@/lib/deepcrawl';
 
 export async function extractLinks(url: string) {
-  const result = await deepcrawl.extractLinks(url);
+  const result = await squidcrawl.extractLinks(url);
   // const tree = await deepcrawl.extractLinks(url, {...options}); // with more options
 
   if ('tree' in result && result.tree) {
@@ -151,12 +151,12 @@ import {
   DeepcrawlAuthError,
   DeepcrawlRateLimitError,
   DeepcrawlReadError,
-} from 'deepcrawl';
+} from 'squidcrawl';
 import { deepcrawl } from '@/lib/deepcrawl';
 
 export async function safeGetMarkdown(url: string) {
   try {
-    return await deepcrawl.getMarkdown(url);
+    return await squidcrawl.getMarkdown(url);
   } catch (error) {
     if (error instanceof DeepcrawlAuthError) {
       // Missing/invalid API key
@@ -183,7 +183,7 @@ export async function safeGetMarkdown(url: string) {
 
 ## Framework examples
 
-If you want provide `deepcrawl` as your service in your system, you can use the following examples.
+If you want provide `squidcrawl` as your service in your system, you can use the following examples.
 
 <Tabs items={['Next.js Route Handler', 'Cloudflare Workers (Hono)', 'Cloudflare Workers (Vanilla)', 'Express']}>
   <Tab>
@@ -195,7 +195,7 @@ import { deepcrawl } from '@/lib/deepcrawl';
 
 export async function POST(req: Request) {
   const { url } = await req.json();
-  const markdown = await deepcrawl.getMarkdown(url);
+  const markdown = await squidcrawl.getMarkdown(url);
   return NextResponse.json({ markdown });
 }
 ```
@@ -206,7 +206,7 @@ export async function POST(req: Request) {
 ```ts
 // src/index.ts
 import { Hono } from 'hono';
-import { DeepcrawlApp } from 'deepcrawl';
+import { DeepcrawlApp } from 'squidcrawl';
 
 type Bindings = {
   DEEPCRAWL_API_KEY: string;
@@ -215,14 +215,14 @@ type Bindings = {
 const app = new Hono<{ Bindings: Bindings }>();
 
 app.post('/read', async (c) => {
-  const deepcrawl = new DeepcrawlApp({
+  const squidcrawl = new DeepcrawlApp({
     apiKey: c.env.DEEPCRAWL_API_KEY,
   });
 
   const { url } = await c.req.json();
 
   try {
-    const result = await deepcrawl.readUrl(url);
+    const result = await squidcrawl.readUrl(url);
     return c.json(result);
   } catch (error) {
     return c.json({ error: (error as Error).message }, 500);
@@ -237,7 +237,7 @@ export default app;
 
 ```ts
 // src/index.ts
-import { DeepcrawlApp } from 'deepcrawl';
+import { DeepcrawlApp } from 'squidcrawl';
 
 interface Env {
   DEEPCRAWL_API_KEY: string;
@@ -249,13 +249,13 @@ export default {
       return new Response('Method not allowed', { status: 405 });
     }
 
-    const deepcrawl = new DeepcrawlApp({
+    const squidcrawl = new DeepcrawlApp({
       apiKey: env.DEEPCRAWL_API_KEY,
     });
 
     try {
       const { url } = await request.json();
-      const markdown = await deepcrawl.getMarkdown(url);
+      const markdown = await squidcrawl.getMarkdown(url);
 
       return new Response(JSON.stringify({ markdown }), {
         headers: { 'Content-Type': 'application/json' },
@@ -282,7 +282,7 @@ app.use(express.json());
 
 app.post('/api/read', async (req, res) => {
   try {
-    const result = await deepcrawl.readUrl({
+    const result = await squidcrawl.readUrl({
       url: req.body.url,
       metadata: true,
     });
@@ -303,9 +303,9 @@ app.listen(3000);
 
 
 ```ts
-import { DeepcrawlApp } from 'deepcrawl';
+import { DeepcrawlApp } from 'squidcrawl';
 
-export const deepcrawl = new DeepcrawlApp({
+export const squidcrawl = new DeepcrawlApp({
   apiKey: process.env.DEEPCRAWL_API_KEY as string,
   baseUrl: process.env.DEEPCRAWL_API_URL, // optional self-hosted origin
   ...deepcrawlConfig, // see below

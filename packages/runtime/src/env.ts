@@ -27,7 +27,7 @@ export interface EnvVar {
 }
 
 // Single source of truth for env keys used across the monorepo.
-// Used by local tooling and future deployment automation (create-deepcrawl).
+// Used by local tooling and future deployment automation (create-squidcrawl).
 //
 // IMPORTANT:
 // - Only include variables that are meant to be managed as environment variables.

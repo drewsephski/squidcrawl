@@ -27,12 +27,6 @@ import {
   TooltipTrigger,
 } from '@deepcrawl/ui/components/ui/tooltip';
 import { cn } from '@deepcrawl/ui/lib/utils';
-// import { ScrollArea } from '@deepcrawl/ui/components/ui/scroll-area';
-import type {
-  ExtractLinksResponse,
-  LinksTree,
-  ReadUrlResponse,
-} from 'deepcrawl/types';
 import {
   Code2,
   Copy,
@@ -44,6 +38,12 @@ import {
 } from 'lucide-react';
 import React from 'react';
 import { toast } from 'sonner';
+// import { ScrollArea } from '@deepcrawl/ui/components/ui/scroll-area';
+import type {
+  ExtractLinksResponse,
+  LinksTree,
+  ReadUrlResponse,
+} from 'squidcrawl/types';
 import type {
   DeepcrawlOperations,
   PlaygroundActions,

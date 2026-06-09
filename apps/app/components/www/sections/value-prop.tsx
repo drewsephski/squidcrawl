@@ -1,8 +1,8 @@
 'use client';
 
 import { Label } from '@deepcrawl/ui/components/ui/label';
-import type { LinksTree } from 'deepcrawl/types';
 import { useState } from 'react';
+import type { LinksTree } from 'squidcrawl/types';
 import { brandName } from '@/lib/brand';
 import { extractLinksResponseSample } from '@/lib/response-samples';
 import { TreeViewCard } from '../../playground/response-area/content-tabs';

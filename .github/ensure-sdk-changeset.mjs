@@ -79,7 +79,7 @@ if (!(touchedTypes || touchedContracts)) {
 }
 
 const declaredPackages = collectChangesetPackages();
-const requiredPackages = new Set(['deepcrawl']);
+const requiredPackages = new Set(['squidcrawl']);
 if (touchedTypes) {
   requiredPackages.add('@deepcrawl/types');
 }
@@ -106,7 +106,7 @@ if (missing.length > 0) {
       '',
       '💡 Example:',
       'pnpm changeset',
-      '...select deepcrawl along with any updated internal packages.',
+      '...select squidcrawl along with any updated internal packages.',
     ]
       .filter(Boolean)
       .join('\n'),

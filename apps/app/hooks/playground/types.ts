@@ -5,17 +5,17 @@
  * ensuring proper type safety while handling URL separately in the main hook.
  */
 
+import type { UseQueryStateOptions } from 'nuqs';
 import {
   GetMarkdownOptionsSchema,
   LinksOptionsSchema,
   ReadOptionsSchema,
-} from 'deepcrawl/schemas';
+} from 'squidcrawl/schemas';
 import type {
   ExtractLinksResponse,
   GetMarkdownResponse,
   ReadUrlResponse,
-} from 'deepcrawl/types';
-import type { UseQueryStateOptions } from 'nuqs';
+} from 'squidcrawl/types';
 import type z from 'zod/v4';
 
 // The default configs already don't include URL, but the SDK types do

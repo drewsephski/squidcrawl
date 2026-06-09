@@ -7,8 +7,8 @@ import {
   EmptyTitle,
 } from '@deepcrawl/ui/components/ui/empty';
 import Link from 'next/link';
-import { DeepcrawlLogo } from '@/components/deepcrawl-logo';
 import { SearchTrigger } from '@/components/search-trigger';
+import { DeepcrawlLogo } from '@/components/squidcrawl-logo';
 
 export default function NotFound() {
   return (

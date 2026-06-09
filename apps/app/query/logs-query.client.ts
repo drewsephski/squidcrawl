@@ -15,8 +15,8 @@ import { ensurePlaygroundApiKey } from '@/lib/playground-api-key.client';
 import { shouldUsePlaygroundApiKey } from '@/lib/playground-api-key-policy';
 import { serializeListLogsOptions } from '@/utils/logs';
 
-const LOGS_ENDPOINT = '/api/deepcrawl/logs';
-const LOGS_EXPORT_ENDPOINT = '/api/deepcrawl/logs/export';
+const LOGS_ENDPOINT = '/api/squidcrawl/logs';
+const LOGS_EXPORT_ENDPOINT = '/api/squidcrawl/logs/export';
 
 function resolveAppOrigin(): string {
   if (typeof window !== 'undefined' && window.location?.origin) {

@@ -119,34 +119,34 @@ This domain is for use in illustrative examples in documents.
 Need more control? Switch to `POST https://api.squidcrawl.dev/read` for additional rich options. Other endpoints—link extraction, logs, exports—are documented in the API docs.
 
 ## Option B. Use the TypeScript(JavaScript) SDK
-Install the `deepcrawl` package when you want typed helpers and automatic retries in Node.js or edge/server runtimes.
+Install the `squidcrawl` package when you want typed helpers and automatic retries in Node.js or edge/server runtimes.
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
 
 ```bash
-pnpm add deepcrawl
+pnpm add squidcrawl
 ```
 
   </Tab>
   <Tab>
 
 ```bash
-npm install deepcrawl
+npm install squidcrawl
 ```
 
   </Tab>
   <Tab>
 
 ```bash
-yarn add deepcrawl
+yarn add squidcrawl
 ```
 
   </Tab>
   <Tab>
 
 ```bash
-bun add deepcrawl
+bun add squidcrawl
 ```
 
   </Tab>
@@ -155,7 +155,7 @@ bun add deepcrawl
 ### Minimal Node.js example
 
 ```ts
-import { DeepcrawlApp } from 'deepcrawl';
+import { DeepcrawlApp } from 'squidcrawl';
 
 const client = new DeepcrawlApp({
   apiKey: process.env.DEEPCRAWL_API_KEY!,

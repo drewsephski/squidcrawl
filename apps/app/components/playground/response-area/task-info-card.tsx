@@ -8,10 +8,10 @@ import {
 } from '@deepcrawl/ui/components/ui/tooltip';
 import { cn } from '@deepcrawl/ui/lib/utils';
 import { format, formatDistanceToNow } from 'date-fns';
-import type { ExtractLinksResponse, ReadUrlResponse } from 'deepcrawl/types';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
 import { useInView } from 'motion/react';
 import { memo, useEffect, useRef, useState } from 'react';
+import type { ExtractLinksResponse, ReadUrlResponse } from 'squidcrawl/types';
 import type {
   PlaygroundActions,
   PlaygroundOperationResponse,

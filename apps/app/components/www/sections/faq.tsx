@@ -42,16 +42,16 @@ const CONTENT = [
     title: 'How do I install the SDK?',
     value: 'install-sdk',
     content:
-      'Run `pnpm add deepcrawl` (or `npm install` / `bun install`). Then create a server-side client. Check the documentation for more details.',
+      'Run `pnpm add squidcrawl` (or `npm install` / `bun install`). Then create a server-side client. Check the documentation for more details.',
   },
   {
     title: `How do I learn to use ${brandName}?`,
-    value: 'learn-to-use-deepcrawl',
+    value: 'learn-to-use-squidcrawl',
     content: 'Visit the documentation to learn how to use the SDK and API.',
   },
   {
     title: `How can I contribute to ${brandName}?`,
-    value: 'contribute-to-deepcrawl',
+    value: 'contribute-to-squidcrawl',
     content:
       'Visit the documentation to learn how to contribute to the project. Contributions are welcome! Please read the CONTRIBUTING.md file for details.',
   },

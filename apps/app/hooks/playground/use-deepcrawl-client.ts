@@ -1,5 +1,5 @@
 // @deprecated AS OF 2025-10-06, DEEPRAWLAPP IS SERVER-ONLY
-// import { DeepcrawlApp } from 'deepcrawl';
+// import { DeepcrawlApp } from 'squidcrawl';
 // import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 // interface UseDeepcrawlClientOptions {
