@@ -1,0 +1,46 @@
+{
+  "decision": "submitted",
+  "stage": "interview",
+  "result": {
+    "stage": "interview",
+    "title": "Next.js + Squidcrawl Quickstart Template",
+    "goalSlug": "nextjs-squidcrawl-template",
+    "answers": [
+      {
+        "questionId": "location",
+        "selectedOptionIds": ["examples"],
+        "customAnswer": "",
+        "answer": "examples/nextjs-quickstart/",
+        "completed": true
+      },
+      {
+        "questionId": "features",
+        "selectedOptionIds": [
+          "readUrl",
+          "getMarkdown",
+          "extractLinks",
+          "listLogs",
+          "getOneLog",
+          "exportResponse"
+        ],
+        "customAnswer": "",
+        "answer": "readUrl (structured page content)\ngetMarkdown (clean markdown)\nextractLinks (link tree)\nlistLogs (activity log)\ngetOneLog (single log detail)\nexportResponse (export formats)",
+        "completed": true
+      },
+      {
+        "questionId": "uiDepth",
+        "selectedOptionIds": ["polished"],
+        "customAnswer": "",
+        "answer": "Polished: sectioned layout with cards, loading/error states",
+        "completed": true
+      },
+      {
+        "questionId": "styling",
+        "selectedOptionIds": ["tailwind-shadcn"],
+        "customAnswer": "",
+        "answer": "Tailwind + shadcn/ui (matches main app)",
+        "completed": true
+      }
+    ]
+  }
+}

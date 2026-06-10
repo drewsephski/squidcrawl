@@ -1,0 +1,148 @@
+{
+  "decision": "submitted",
+  "stage": "facts",
+  "result": {
+    "stage": "facts",
+    "title": "Next.js + Squidcrawl Quickstart Template - Facts",
+    "goalSlug": "nextjs-squidcrawl-template",
+    "facts": [
+      {
+        "id": "fact-location",
+        "text": "Template lives at examples/nextjs-quickstart/ in the repo root.",
+        "accepted": true,
+        "removed": false,
+        "automatedVerification": true,
+        "recommendedAutomatedVerification": true
+      },
+      {
+        "id": "fact-nextjs-app-router",
+        "text": "It is a standard Next.js App Router project with TypeScript.",
+        "accepted": true,
+        "removed": false,
+        "automatedVerification": true,
+        "recommendedAutomatedVerification": true
+      },
+      {
+        "id": "fact-api-key-auth",
+        "text": "Authentication is API-key only — no Clerk, Better Auth, or session auth. The API key is set via SQUIDCRAWL_API_KEY environment variable.",
+        "accepted": true,
+        "removed": false,
+        "automatedVerification": true,
+        "recommendedAutomatedVerification": false
+      },
+      {
+        "id": "fact-sdk-instance",
+        "text": "A shared SDK client module (lib/squidcrawl.ts) creates and exports a DeepcrawlApp instance configured with the API key and base URL from environment variables.",
+        "accepted": true,
+        "removed": false,
+        "automatedVerification": true,
+        "recommendedAutomatedVerification": false
+      },
+      {
+        "id": "fact-route-handlers",
+        "text": "Route Handlers (app/api/squidcrawl/*/route.ts) expose each SDK method as a POST endpoint that the frontend calls.",
+        "accepted": true,
+        "removed": false,
+        "automatedVerification": true,
+        "recommendedAutomatedVerification": true
+      },
+      {
+        "id": "fact-readUrl",
+        "text": "A /url section on the demo page takes a URL + options and calls readUrl — displaying title, cleaned HTML, metadata.",
+        "accepted": true,
+        "removed": false,
+        "automatedVerification": true,
+        "recommendedAutomatedVerification": false
+      },
+      {
+        "id": "fact-getMarkdown",
+        "text": "A /markdown section takes a URL and displays the raw markdown output from getMarkdown in a code block.",
+        "accepted": true,
+        "removed": false,
+        "automatedVerification": true,
+        "recommendedAutomatedVerification": false
+      },
+      {
+        "id": "fact-extractLinks",
+        "text": "A /links section takes a URL, calls extractLinks, and renders the hierarchical link tree and total count.",
+        "accepted": true,
+        "removed": false,
+        "automatedVerification": true,
+        "recommendedAutomatedVerification": false
+      },
+      {
+        "id": "fact-listLogs",
+        "text": "A /logs section fetches recent activity logs via listLogs and displays them in a paginated table.",
+        "accepted": true,
+        "removed": false,
+        "automatedVerification": true,
+        "recommendedAutomatedVerification": false
+      },
+      {
+        "id": "fact-getOneLog",
+        "text": "A /log-detail section takes a log ID, calls getOneLog, and shows the full request/response details.",
+        "accepted": true,
+        "removed": false,
+        "automatedVerification": true,
+        "recommendedAutomatedVerification": false
+      },
+      {
+        "id": "fact-exportResponse",
+        "text": "A /export section takes a log ID and format (json/markdown/links), calls exportResponse, and displays the exported result.",
+        "accepted": true,
+        "removed": false,
+        "automatedVerification": true,
+        "recommendedAutomatedVerification": false
+      },
+      {
+        "id": "fact-ui-polished",
+        "text": "The demo page uses Tailwind CSS for layout and shadcn/ui components (Button, Input, Card, Tabs, Badge) with loading spinners and error boundaries.",
+        "accepted": true,
+        "removed": false,
+        "automatedVerification": false,
+        "recommendedAutomatedVerification": false
+      },
+      {
+        "id": "fact-ui-layout",
+        "text": "The page is a single-page demo with a header, tab/section navigation for each SDK feature, and a results area per section.",
+        "accepted": true,
+        "removed": false,
+        "automatedVerification": false,
+        "recommendedAutomatedVerification": false
+      },
+      {
+        "id": "fact-readme",
+        "text": "A README.md explains prerequisites (Node 20+, API key), setup steps, available features, and links to full docs.",
+        "accepted": true,
+        "removed": false,
+        "automatedVerification": true,
+        "recommendedAutomatedVerification": true
+      },
+      {
+        "id": "fact-env-template",
+        "text": "A .env.example file documents the required SQUIDCRAWL_API_KEY and optional NEXT_PUBLIC_SQUIDCRAWL_API_URL variables.",
+        "accepted": true,
+        "removed": false,
+        "automatedVerification": true,
+        "recommendedAutomatedVerification": true
+      },
+      {
+        "id": "fact-standalone",
+        "text": "The template can be run standalone (cd examples/nextjs-quickstart && pnpm install && pnpm dev) without the rest of the monorepo.",
+        "accepted": true,
+        "removed": false,
+        "automatedVerification": false,
+        "recommendedAutomatedVerification": false
+      },
+      {
+        "id": "fact-docs-annotated",
+        "text": "Source files are heavily commented to serve as documentation — each Route Handler and component explains the SDK method being used.",
+        "accepted": true,
+        "removed": false,
+        "automatedVerification": false,
+        "recommendedAutomatedVerification": false
+      }
+    ],
+    "factsMarkdown": "# Facts\n\n- Template lives at examples/nextjs-quickstart/ in the repo root.\n- It is a standard Next.js App Router project with TypeScript.\n- Authentication is API-key only — no Clerk, Better Auth, or session auth. The API key is set via SQUIDCRAWL_API_KEY environment variable.\n- A shared SDK client module (lib/squidcrawl.ts) creates and exports a DeepcrawlApp instance configured with the API key and base URL from environment variables.\n- Route Handlers (app/api/squidcrawl/*/route.ts) expose each SDK method as a POST endpoint that the frontend calls.\n- A /url section on the demo page takes a URL + options and calls readUrl — displaying title, cleaned HTML, metadata.\n- A /markdown section takes a URL and displays the raw markdown output from getMarkdown in a code block.\n- A /links section takes a URL, calls extractLinks, and renders the hierarchical link tree and total count.\n- A /logs section fetches recent activity logs via listLogs and displays them in a paginated table.\n- A /log-detail section takes a log ID, calls getOneLog, and shows the full request/response details.\n- A /export section takes a log ID and format (json/markdown/links), calls exportResponse, and displays the exported result.\n- The demo page uses Tailwind CSS for layout and shadcn/ui components (Button, Input, Card, Tabs, Badge) with loading spinners and error boundaries.\n- The page is a single-page demo with a header, tab/section navigation for each SDK feature, and a results area per section.\n- A README.md explains prerequisites (Node 20+, API key), setup steps, available features, and links to full docs.\n- A .env.example file documents the required SQUIDCRAWL_API_KEY and optional NEXT_PUBLIC_SQUIDCRAWL_API_URL variables.\n- The template can be run standalone (cd examples/nextjs-quickstart && pnpm install && pnpm dev) without the rest of the monorepo.\n- Source files are heavily commented to serve as documentation — each Route Handler and component explains the SDK method being used."
+  }
+}

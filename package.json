@@ -13,7 +13,8 @@
     "packages/*",
     "packages/db/db-auth",
     "packages/db/db-d1",
-    "packages/sdks/js-ts"
+    "packages/sdks/js-ts",
+    "examples/*"
   ],
   "scripts": {
     "build": "turbo build",

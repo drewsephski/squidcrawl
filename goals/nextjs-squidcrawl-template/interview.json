@@ -1,0 +1,77 @@
+{
+  "stage": "interview",
+  "title": "Next.js + Squidcrawl Quickstart Template",
+  "goalSlug": "nextjs-squidcrawl-template",
+  "questions": [
+    {
+      "id": "location",
+      "prompt": "Where should the template live in the repo?",
+      "description": "Pick a directory for the standalone template app.",
+      "answerMode": "single-custom",
+      "recommendedAnswer": "examples/nextjs-quickstart/",
+      "recommendedOptionIds": ["examples"],
+      "options": [
+        { "id": "examples", "label": "examples/nextjs-quickstart/" },
+        { "id": "templates", "label": "templates/nextjs-quickstart/" },
+        { "id": "apps", "label": "apps/template-app/" }
+      ],
+      "required": true
+    },
+    {
+      "id": "features",
+      "prompt": "Which SDK methods should the demo highlight?",
+      "description": "All six are confirmed — select any to exclude.",
+      "answerMode": "multi-custom",
+      "recommendedAnswer": "All six methods: readUrl, getMarkdown, extractLinks, listLogs, getOneLog, exportResponse",
+      "recommendedOptionIds": [
+        "readUrl",
+        "getMarkdown",
+        "extractLinks",
+        "listLogs",
+        "getOneLog",
+        "exportResponse"
+      ],
+      "options": [
+        { "id": "readUrl", "label": "readUrl (structured page content)" },
+        { "id": "getMarkdown", "label": "getMarkdown (clean markdown)" },
+        { "id": "extractLinks", "label": "extractLinks (link tree)" },
+        { "id": "listLogs", "label": "listLogs (activity log)" },
+        { "id": "getOneLog", "label": "getOneLog (single log detail)" },
+        { "id": "exportResponse", "label": "exportResponse (export formats)" }
+      ],
+      "required": true
+    },
+    {
+      "id": "uiDepth",
+      "prompt": "How polished should the demo UI be?",
+      "description": "Minimal = single page with forms/buttons. Polished = multi-page with tabs/sections, loading states, error displays.",
+      "answerMode": "single",
+      "recommendedAnswer": "Polished multi-section single page — a dashboard-like page with cards for each SDK method, loading states, copy-able results.",
+      "recommendedOptionIds": ["polished"],
+      "options": [
+        { "id": "minimal", "label": "Minimal: one page, simple forms" },
+        {
+          "id": "polished",
+          "label": "Polished: sectioned layout with cards, loading/error states"
+        }
+      ],
+      "required": true
+    },
+    {
+      "id": "styling",
+      "prompt": "How should the template be styled?",
+      "description": "Squidcrawl uses shadcn/ui and Tailwind. The template could use plain Tailwind to keep deps minimal.",
+      "answerMode": "single",
+      "recommendedAnswer": "Tailwind CSS only — lightweight, no extra component library dependency",
+      "recommendedOptionIds": ["tailwind"],
+      "options": [
+        { "id": "tailwind", "label": "Tailwind CSS only (lightest)" },
+        {
+          "id": "tailwind-shadcn",
+          "label": "Tailwind + shadcn/ui (matches main app)"
+        }
+      ],
+      "required": true
+    }
+  ]
+}
