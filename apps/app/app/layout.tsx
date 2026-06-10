@@ -48,6 +48,10 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     creator: '@drew.sepeczi',
   },
+  icons: {
+    icon: '/squidcrawl-logo.png',
+    apple: '/squidcrawl-logo.png',
+  },
 };
 
 /** TODO: FIX THIS
