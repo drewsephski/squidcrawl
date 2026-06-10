@@ -81,7 +81,7 @@ export function CreateDeepcrawlCliSection() {
             </div>
 
             <p className="text-base text-muted-foreground md:text-lg">
-              Imagine deploying a fullstack Squidcrawl like adding a{' '}
+              Imagine deploying a fullstack AI Scraper Agent API like adding a{' '}
               <span className="relative isolate mx-0.5 inline-flex px-1">
                 <span className="relative z-10 text-foreground">shadcn/ui</span>
                 {highlightPlaybackId > 0 ? (

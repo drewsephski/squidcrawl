@@ -26,7 +26,7 @@ export const Hero = () => (
         <div className="absolute inset-0 z-10 bg-gradient-to-t from-30% from-transparent to-background" />
         <Suspense fallback={<div className="h-full w-full" />}>
           <FlickeringGrid
-            className="h-full"
+            className="mt-24 h-full"
             color="#6B7280"
             flickerChance={0.18}
             fontSize={100}
