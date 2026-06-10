@@ -34,7 +34,7 @@ export const Hero = () => (
             maxOpacity={0.2}
             squareSize={2}
             text="npm i squidcrawl"
-            textOffsetY={200}
+            textOffsetY={70}
           />
         </Suspense>
       </div>
