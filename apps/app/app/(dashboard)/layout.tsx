@@ -23,24 +23,8 @@ const description = `Dashboard & Playground for ${siteConfig.name}`;
 export const metadata: Metadata = {
   title,
   description,
-  // openGraph: {
-  //   images: [
-  //     {
-  //       url: `/og?title=${encodeURIComponent(
-  //         title
-  //       )}&description=${encodeURIComponent(description)}`,
-  //     },
-  //   ],
-  // },
   twitter: {
     card: 'summary_large_image',
-    // images: [
-    //   {
-    //     url: `/og?title=${encodeURIComponent(
-    //       title
-    //     )}&description=${encodeURIComponent(description)}`,
-    //   },
-    // ],
   },
 };
 
