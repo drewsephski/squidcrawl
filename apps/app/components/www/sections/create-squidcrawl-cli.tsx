@@ -69,7 +69,7 @@ export function CreateDeepcrawlCliSection() {
             <div className="flex justify-start pt-2">
               <CommandInstaller
                 className="w-fit max-w-full"
-                code="npm create squidcrawl"
+                code="npx create-squidcrawl"
                 compact
               />
             </div>

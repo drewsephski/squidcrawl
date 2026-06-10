@@ -18,7 +18,7 @@ type CreateDeepcrawlTerminalProps = {
   onReplay?: () => void;
 };
 
-const COMMAND = 'npm create squidcrawl';
+const COMMAND = 'npx create-squidcrawl';
 const LIFT_DURATION_SECONDS = 1.48;
 const LIFT_DURATION_MS = LIFT_DURATION_SECONDS * 1000;
 // With an ease-out curve, this starts typing when the card is visually
